@@ -3,6 +3,8 @@ XL-mHG
 
 This is an efficient Python/Cython implementation of the nonparametric XL-mHG test for enrichment in ranked binary lists. The XL-mHG test is an extension of the mHG test, which was developed by `Dr. Zohar Yakhini <http://bioinfo.cs.technion.ac.il/people/zohar>`_ and colleagues.
 
+If you use the XL-mHG in your research, please cite `Eden et al. (2007) <http://dx.doi.org/10.1371/journal.pcbi.0030039>`_ and `Wagner (2015) <http://dx.doi.org/10.1101/018705>`_.
+
 Installation
 ------------
 

@@ -47,6 +47,7 @@ here = path.abspath(path.dirname(__file__))
 description = 'XL-mHG: A Nonparametric Test For Enrichment in Ranked Binary Lists.'
 
 # Get the long description from the relevant file
+long_description = ''
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
@@ -63,7 +64,6 @@ setup(
     version='1.0.3',
 
     description=description,
-    #long_description=long_description,
     long_description=long_description,
 
     # The project's main homepage.

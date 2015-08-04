@@ -27,4 +27,4 @@ Where ``v`` is a NumPy array of type \"np.uint8\" containing only zeros and ones
 Background
 ----------
 
-For a discussion of the statistical background and implementation of this test, please see my `arXiv paper <http://arxiv.org/abs/1507.07905>`_.
+For a discussion of the statistical background and implementation of this test, please see my `Technical Report on arXiv <http://arxiv.org/abs/1507.07905>`_.

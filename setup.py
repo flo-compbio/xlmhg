@@ -29,7 +29,7 @@ from setuptools import setup, find_packages, Extension
 from codecs import open
 from os import path
 
-root = 'xlmhg' + os.sep
+root = 'xlmhg'
 
 try:
 	import numpy as np # numpy is required
@@ -52,7 +52,7 @@ library_dirs = []
 
 # extensions
 ext_modules = []
-ext_modules.append(Extension(root + 'xlmhg/xlmHG_cython', sources= [root + 'xlmHG_cython.pyx'], include_dirs = [np.get_include()]))
+ext_modules.append(Extension(root + '.' + 'xlmHG_cython', sources= [root + os.sep + 'xlmHG_cython.pyx'], include_dirs = [np.get_include()]))
 
 # Get the long description from the relevant file
 #with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
@@ -64,7 +64,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.1',
+    version='1.0.2',
 
     description=description,
     #long_description=long_description,

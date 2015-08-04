@@ -45,18 +45,14 @@ except ImportError:
 
 here = path.abspath(path.dirname(__file__))
 description = 'XL-mHG: A Nonparametric Test For Enrichment in Ranked Binary Lists.'
-long_description = description
 
-include_dirs = []
-library_dirs = []
+# Get the long description from the relevant file
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 # extensions
 ext_modules = []
 ext_modules.append(Extension(root + '.' + 'xlmHG_cython', sources= [root + os.sep + 'xlmHG_cython.pyx'], include_dirs = [np.get_include()]))
-
-# Get the long description from the relevant file
-#with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
-#    long_description = f.read()
 
 setup(
     name='xlmhg',

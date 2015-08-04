@@ -1,3 +1,6 @@
+# project-specific files
+xlmhg/xlmHG_cython.c
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

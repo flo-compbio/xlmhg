@@ -1,7 +1,8 @@
-# Cython implementation of the XL-mHG test
 # Copyright (c) 2015 Florian Wagner
 #
-# This program is free software: you can redistribute it and/or modify
+# This file is part of XL-mHG.
+#
+# XL-mHG is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, Version 3,
 # as published by the Free Software Foundation.
 #
@@ -13,10 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#cython: profile=False
-#cython: wraparound=False
-#cython: boundscheck=False
-#cython: cdivision=True
+#cython: profile=False, wraparound=False, boundscheck=False, cdivision=True
 
 cimport cython
 
@@ -24,6 +22,8 @@ import numpy as np
 cimport numpy as np
 
 np.import_array()
+
+import sys
 
 cdef extern from "math.h":
 	long double fabsl(long double x)
@@ -43,15 +43,15 @@ cdef long double get_hypergeometric_pvalue(\
 		long double p, int k, int N, int K, int n):
 	# calculates hypergeometric p-value when P(k | N,K,n) is already known
 	cdef long double pval = p
-	cdef int i
-	for i in range(k,min(K,n)):
-		p *= (<long double>((n-i)*(K-i)) /\
-				<long double>((i+1)*(N-K-n+i+1)))
+	while k < min(K,n):
+		p *= (<long double>((n-k)*(K-k)) /\
+				<long double>((k+1)*(N-K-n+k+1)))
 		pval += p
+		k += 1
 	return pval
 
 
-cdef int get_mHG(unsigned char[::1] v, int N, int K, int L, int X,
+cdef int get_mHG_test_statistic(unsigned char[::1] v, int N, int K, int X, int L,
 		long double[::1] mHG_array,
 		long double tol):
 	# calculates XL-mHG test statistic
@@ -71,12 +71,12 @@ cdef int get_mHG(unsigned char[::1] v, int N, int K, int L, int X,
 		if v[n] == 0:
 			# calculate P(k | N,K,n+1) from P(k | N,K,n)
 			p *= (<long double>((n+1)*(N-K-n+k)) /\
-					<long double>((N-n)*(n-k+1)));
+					<long double>((N-n)*(n-k+1)))
 		else:
 			# hit one => calculate hypergeometric p-value
 			# calculate P(k+1 | N,K,n+1) from P(k | N,K,n)
 			p *= (<long double>((n+1)*(K-k)) /\
-					<long double>((N-n)*(k+1)));
+					<long double>((N-n)*(k+1)))
 			k += 1
 			if k >= X: # calculate p-value only if enough elements have been seen
 				pval = get_hypergeometric_pvalue(p,k,N,K,n+1)
@@ -96,16 +96,15 @@ cdef int get_mHG(unsigned char[::1] v, int N, int K, int L, int X,
 	return threshold
 
 
-cdef long double get_mHG_pvalue(int N, int K, int L, int X,\
-		long double mHG,\
+cdef long double get_mHG_pvalue(long double s, int N, int K, int X, int L,\
 		long double[:,::1] matrix,\
 		long double tol):
 	# calculates XL-mHG p-value
 
 	# cheap checks
-	if mHG > 1.0 or is_equal(mHG,1.0,tol):
+	if s > 1.0 or is_equal(s,1.0,tol):
 		return 1.0
-	elif mHG == 0:
+	elif s == 0:
 		return 0
 	elif K == 0 or K >= N or K < X:
 		return 0
@@ -153,7 +152,7 @@ cdef long double get_mHG_pvalue(int N, int K, int L, int X,\
 			# this happens when either k < X, or hypergeometric p-value > mHG
 			# if k == 0 or w == W, we have hypergeometric p-value = 1
 			# since mHG < 1, as soon as k == 0 or w == W, we have left R
-			while k >= X and w < W and (is_equal(pval,mHG,tol) or pval < mHG):
+			while k >= X and w < W and (pval < s or is_equal(pval,s,tol)):
 				# k > 0 is implied
 				matrix[k,w] = 0 # we're still in R
 				p *= ((<long double>(k*(N-K-n+k))) / (<long double>((n-k+1)*(K-k+1))))
@@ -177,56 +176,30 @@ cdef long double get_mHG_pvalue(int N, int K, int L, int X,\
 
 	return 1.0 - (matrix[K,W-1] + matrix[K-1,W])
 
+def run_xlmhg(unsigned char[::1] v, int N, int K, int X, int L, int use_upper_bound, long double[:,::1] matrix, double tol, double pval_thresh):
 
-def mHG_test(unsigned char[::1] v, int N, int K, int L, int X, mat=None, use_upper_bound=False, verbose=False, tolerance=1e-16):
-	# Front-end for the XL-mHG test.
+	cdef int n
+	cdef long double[::1] s_array = np.zeros(1,dtype=np.longdouble)
+	cdef long double s, pval
+	cdef double s_double, pval_double
+	cdef long double tol_ld = <long double>tol
+	cdef long double pval_thresh_ld = <long double>pval_thresh
 
-	# sanity checks
-	assert N >= 0
-	assert 0 <= K <= N
-	assert 0 <= L <= N
-	assert 0 <= X <= K
+	# get XL-mHG test statistic and corresponding threshold
+	n = get_mHG_test_statistic(v, N, K, X, L, s_array, tol_ld)
+	s = s_array[0]
+	if s > 1.0 or is_equal(s,1.0,tol_ld):
+		return n,1.0,1.0
 
-	if K == 0 or K == N: # check if we have any positives at all, or if all entries are positives
-		return 0,1.0,1.0
-
-	cdef long double [:,::1] matrix
-	if mat is None:
-		# intialize matrix array
-		matrix = np.empty((K+1,N-K+1),dtype=np.longdouble)
+	# get XL-mHG p-value (either exact or using upper bound)
+	pval_double = 0
+	if ((not is_equal(s,pval_thresh_ld,tol_ld)) and s > pval_thresh_ld) or use_upper_bound != 0:
+		# use upper bound
+		pval_double = <double>(min(1.0,s*<long double>K))
 	else:
-		# check whether the supplied matrix is valid
-		assert mat.dtype == np.longdouble
-		assert mat.flags['C_CONTIGUOUS']
-		assert mat.shape[0] >= K+1 and mat.shape[1] >= N-K+1
-		matrix = mat
+		# calculate exact p-value
+		pval = get_mHG_pvalue(s, N, K, X, L, matrix, tol_ld)
+		pval_double = <double>pval
 
-	cdef long double tol = <long double>tolerance
-	cdef int threshold
-	cdef long double mHG,mHG_pvalue
-	cdef double mHG_double,mHG_pvalue_double
-
-	# get XL-mHG and corresponding threshold
-	cdef long double[::1] mHG_array = np.zeros(1,dtype=np.longdouble)
-	threshold = get_mHG(v, N, K, L, X, mHG_array, tol)
-	mHG = mHG_array[0]
-	if is_equal(mHG,1.0,tol): # check if there is anything going on at all
-		return threshold,1.0,1.0
-
-	if use_upper_bound:
-		# don't calculate XL-mHG p-value, use upper bound instead
-		mHG_pvalue_double = <double>min(1.0,mHG*(<long double>K))
-
-	else:
-		# calculate XL-mHG p-value
-		mHG_pvalue = get_mHG_pvalue(N, K, L, X, mHG, matrix, tol)
-		# convert to double precision
-		mHG_pvalue_double = <double>mHG_pvalue
-
-		# check whether floating point accuracy was insufficient for calculation of the p-value
-		if mHG_pvalue_double <= 0 or np.isnan(mHG_pvalue_double):
-			# if so, use upper bound instead
-			mHG_pvalue_double = <double>(mHG*(<long double>K))
-
-	mHG_double = <double>mHG
-	return threshold,mHG_double,mHG_pvalue_double
+	s_double = <double>s
+	return n,s_double,pval_double

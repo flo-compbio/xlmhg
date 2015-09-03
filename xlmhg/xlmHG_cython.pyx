@@ -27,7 +27,6 @@ import sys
 
 cdef extern from "math.h":
 	long double fabsl(long double x)
-	double NAN
 
 cdef inline int is_equal(long double a, long double b, long double tol):
 	# tests equality of two floating point numbers (of type long doube => 80-bit extended precision)
@@ -134,7 +133,7 @@ cdef long double get_mHG_pvalue(long double s, int N, int K, int X, int L,\
 
 		if p_start <= 0:
 			# not enough floating point precision to calculate p-value
-			return <long double>NAN
+			return <long double>(float('nan'))
 
 		p = p_start
 		pval = p_start

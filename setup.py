@@ -30,6 +30,7 @@ from codecs import open
 from os import path
 
 root = 'xlmhg'
+version = '1.0.5'
 
 try:
 	import numpy as np # numpy is required
@@ -61,7 +62,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.4',
+    version=version,
 
     description=description,
     long_description=long_description,

@@ -18,7 +18,7 @@ Usage
 .. code-block:: python
 
 	import xlmhg
-	n,s,pval = xlmhg.mHG_test(v,X,L)
+	n,s,pval = xlmhg.test(v,X,L)
 
 Where ``v`` is a NumPy array of type \"np.uint8\" containing only zeros and ones, ``X``, and ``L`` are parameters, and the return values have the following meanings:
 

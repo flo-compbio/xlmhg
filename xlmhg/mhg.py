@@ -18,10 +18,9 @@ from math import isnan
 
 import numpy as np
 
-import xlmhg
-from xlmhg.xlmHG_cython import run_xlmhg
+from xlmhg import xlmhg_cython
 
-def mHG_test(v, X, L, K=None, mat=None, use_upper_bound=False, verbose=False, tol=1e-16, pval_thresh=1.0, perform_checks=True):
+def test(v, X, L, K=None, mat=None, use_upper_bound=False, verbose=False, tol=1e-16, pval_thresh=1.0, perform_checks=True):
 	"""
 	Front-end for the XL-mHG test.
 	"""
@@ -35,7 +34,7 @@ def mHG_test(v, X, L, K=None, mat=None, use_upper_bound=False, verbose=False, to
 		assert v.ndim == 1
 		assert v.dtype == np.uint8
 		if not v.flags.c_contiguous:
-			print >> sys.stderr, 'Warning: mHG_test called with vector ("v" parameter) that is not C-contiguous!'
+			print >> sys.stderr, 'Warning: mhg.test called with vector ("v" parameter) that is not C-contiguous!'
 			v = np.ascontiguousarray(v)
 
 		# check parameters
@@ -52,7 +51,7 @@ def mHG_test(v, X, L, K=None, mat=None, use_upper_bound=False, verbose=False, to
 			assert mat.dtype == np.longdouble
 			assert mat.ndim == 2
 			if not mat.flags.c_contiguous:
-				print >> sys.stderr, 'Warning: mHG_test called with matrix ("mat" parameter) that is not C-contiguous!'
+				print >> sys.stderr, 'Warning: mhg.test called with matrix ("mat" parameter) that is not C-contiguous!'
 				mat = np.ascontiguousarray(mat)
 
 	N = v.size
@@ -78,7 +77,7 @@ def mHG_test(v, X, L, K=None, mat=None, use_upper_bound=False, verbose=False, to
 	if K == 0 or K == N: # check if we have any positives at all, or if all entries are positives
 		return 0,1.0,1.0
 
-	n,s,pval = run_xlmhg(v,N,K,X,L,use_upper_bound,mat,tol,pval_thresh)
+	n,s,pval = xlmhg_cython.run_xlmhg(v,N,K,X,L,use_upper_bound,mat,tol,pval_thresh)
 
 	# check whether floating point accuracy was insufficient for calculation of the p-value
 	if isnan(pval) or pval <= 0:

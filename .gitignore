@@ -1,5 +1,5 @@
 # project-specific files
-xlmhg/xlmHG_cython.c
+xlmhg/xlmhg_cython.c
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

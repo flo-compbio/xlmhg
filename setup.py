@@ -23,8 +23,9 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Nonparametric Test For Enrichment in Ranked Binary Lists.'
-version = '1.1rc2'
+version = '1.1rc3'
 
+"""
 try:
 	import numpy as np # numpy is required
 except ImportError:
@@ -36,6 +37,7 @@ try:
 except ImportError:
 	print 'You must install Cython before installing XL-mHG!'
 	sys.exit(1)
+"""
 
 here = path.abspath(path.dirname(__file__))
 

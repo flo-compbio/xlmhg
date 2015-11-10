@@ -23,19 +23,23 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Nonparametric Test For Enrichment in Ranked Binary Lists.'
-version = '1.1rc2'
+version = '1.1rc3'
 
 try:
-	import numpy as np # numpy is required
+    import numpy as np # numpy is required
 except ImportError:
-	print 'You must install NumPy before installing XL-mHG!'
-	sys.exit(1)
+    print 'You must install NumPy before installing XL-mHG!'
+    sys.exit(1)
 
+ext_modules = []
+cmdclass = {}
 try:
-	from Cython.Distutils import build_ext
+    from Cython.Distutils import build_ext
 except ImportError:
-	print 'You must install Cython before installing XL-mHG!'
-	sys.exit(1)
+    pass
+else:
+    ext_modules.append(Extension(root + '.' + 'xlmhg_cython', sources= [root + os.sep + 'xlmhg_cython.pyx'], include_dirs = [np.get_include()]))
+    cmdclass['build_ext'] = build_ext
 
 here = path.abspath(path.dirname(__file__))
 
@@ -44,8 +48,6 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # extensions
-ext_modules = []
-ext_modules.append(Extension(root + '.' + 'xlmhg_cython', sources= [root + os.sep + 'xlmhg_cython.pyx'], include_dirs = [np.get_include()]))
 
 setup(
     name='xlmhg',
@@ -80,24 +82,24 @@ setup(
     #packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     packages=['xlmhg'],
 
-	# extensions
-	ext_modules = ext_modules,
-	cmdclass = {'build_ext': build_ext},
+    # extensions
+    ext_modules = ext_modules,
+    cmdclass = cmdclass,
 
-	#libraries = [],
+    #libraries = [],
 
     install_requires=['numpy','cython'],
 
-	# development dependencies
+    # development dependencies
     #extras_require={},
 
-	# data
+    # data
     #package_data={}
 
-	# data outside package
+    # data outside package
     #data_files=[],
 
-	# executable scripts
+    # executable scripts
     entry_points={
         #'console_scripts': []
     },

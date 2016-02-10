@@ -5,7 +5,7 @@ This is an efficient Python/Cython implementation of the semiparametric XL-mHG t
 
 __ zohar_
 
-If you use the XL-mHG in your research, please cite `Eden et al. (PLoS Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
+If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
 
 __ mhg_paper_
 __ go_pca_paper_

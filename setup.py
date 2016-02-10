@@ -23,7 +23,7 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Nonparametric Test For Enrichment in Ranked Binary Lists.'
-version = '1.1rc3'
+version = '1.1rc4'
 
 try:
     import numpy as np # numpy is required

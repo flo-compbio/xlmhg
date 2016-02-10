@@ -1,9 +1,18 @@
 XL-mHG
 ======
 
-This is an efficient Python/Cython implementation of the nonparametric XL-mHG test for enrichment in ranked binary lists. The XL-mHG test is an extension of the mHG test, which was developed by `Dr. Zohar Yakhini <http://bioinfo.cs.technion.ac.il/people/zohar>`_ and colleagues.
+This is an efficient Python/Cython implementation of the semiparametric XL-mHG test for enrichment in ranked binary lists. The XL-mHG test is an extension of the nonparametric mHG test, which was developed by `Dr. Zohar Yakhini`__ and colleagues.
 
-If you use the XL-mHG in your research, please cite `Eden et al. (2007) <http://dx.doi.org/10.1371/journal.pcbi.0030039>`_ and `Wagner (2015) <http://dx.doi.org/10.1101/018705>`_.
+__ zohar_
+
+If you use the XL-mHG in your research, please cite `Eden et al. (PLoS Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
+
+__ mhg_paper_
+__ go_pca_paper_
+
+.. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
+.. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
+.. _go_pca_paper: https://dx.doi.org/10.1371/journal.pone.0143196
 
 Installation
 ------------

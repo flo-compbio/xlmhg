@@ -1,4 +1,4 @@
-# Copyright (c) 2015 Florian Wagner
+# Copyright (c) 2015, 2016 Florian Wagner
 #
 # This file is part of XL-mHG.
 #
@@ -28,27 +28,34 @@ version = '1.1rc4'
 try:
     import numpy as np # numpy is required
 except ImportError:
-    print 'You must install NumPy before installing XL-mHG!'
+    print ('You must install NumPy before installing XL-mHG! '
+           'Try `pip install numpy`.')
+    sys.exit(1)
+
+try:
+    from Cython.Distutils import build_ext # Cython is required
+except ImportError:
+    print ('You must installCython before installing XL-mHG! '
+           'Try `pip install cython`.')
     sys.exit(1)
 
 ext_modules = []
-cmdclass = {}
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    pass
-else:
-    ext_modules.append(Extension(root + '.' + 'xlmhg_cython', sources= [root + os.sep + 'xlmhg_cython.pyx'], include_dirs = [np.get_include()]))
-    cmdclass['build_ext'] = build_ext
+
+ext_modules.append(
+    Extension(
+        root + '.' + 'xlmhg_cython',
+        sources= [root + os.sep + 'xlmhg_cython.pyx'],
+        include_dirs = [np.get_include()]
+    )
+)
 
 here = path.abspath(path.dirname(__file__))
 
 long_description = ''
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.rst'), encoding = 'utf-8') as f:
     long_description = f.read()
 
 # extensions
-
 setup(
     name='xlmhg',
 
@@ -80,15 +87,17 @@ setup(
     keywords='statistics nonparametric enrichment test ranked binary lists',
 
     #packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    packages=['xlmhg'],
+    packages = ['xlmhg'],
 
     # extensions
     ext_modules = ext_modules,
-    cmdclass = cmdclass,
+    cmdclass = {
+        'build_ext': build_ext,
+    },
 
     #libraries = [],
 
-    install_requires=['numpy','cython'],
+    install_requires = ['numpy', 'cython'],
 
     # development dependencies
     #extras_require={},

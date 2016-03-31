@@ -16,9 +16,9 @@
 
 import sys
 import os
+import io
 
 from setuptools import setup, find_packages, Extension
-from codecs import open
 from os import path
 
 root = 'xlmhg'
@@ -52,8 +52,8 @@ ext_modules.append(
 here = path.abspath(path.dirname(__file__))
 
 long_description = ''
-with open(path.join(here, 'README.rst'), encoding = 'utf-8') as f:
-    long_description = f.read()
+with io.open(path.join(here, 'README.rst'), encoding = 'UTF-8') as fh:
+    long_description = fh.read()
 
 # extensions
 setup(
@@ -81,6 +81,7 @@ setup(
 
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
+        'Programming Language :: Python :: 2 :: Only',
         'Programming Language :: Python :: 2.7',
     ],
 

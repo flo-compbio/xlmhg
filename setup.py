@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import unicode_literals
+
 import sys
 import os
 import io
@@ -44,15 +46,15 @@ ext_modules = []
 ext_modules.append(
     Extension(
         root + '.' + 'xlmhg_cython',
-        sources= [root + os.sep + 'xlmhg_cython.pyx'],
-        include_dirs = [np.get_include()]
+        sources=[root + os.sep + 'xlmhg_cython.pyx'],
+        include_dirs=[np.get_include()]
     )
 )
 
 here = path.abspath(path.dirname(__file__))
 
 long_description = ''
-with io.open(path.join(here, 'README.rst'), encoding = 'UTF-8') as fh:
+with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
     long_description = fh.read()
 
 # extensions

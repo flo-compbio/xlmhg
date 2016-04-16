@@ -1,5 +1,6 @@
 # project-specific files
-xlmhg/xlmhg_cython.c
+/xlmhg/mhg_cython.c
+/xlmhg/mhg_cython.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -7,6 +8,14 @@ __pycache__/
 
 # C extensions
 *.so
+
+# vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
 
 # Distribution / packaging
 .Python

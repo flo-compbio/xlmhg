@@ -18,18 +18,21 @@
 Changelog
 =========
 
-Version 2.0.2 (2016-04-18)
---------------------------
+Version 2.0
+~~~~~~~~~~~
+
+2.0.2 (2016-04-18)
+------------------
 
 - Integration with Travis CI
 
-Version 2.0.1 (2016-04-15)
---------------------------
+2.0.1 (2016-04-15)
+------------------
 
 - Fixed README.
 
-Version 2.0.0 (2016-04-15)
---------------------------
+2.0.0 (2016-04-15)
+------------------
 
 Major release with several new features:
 
@@ -43,4 +46,4 @@ Major release with several new features:
 - Unit tests to ensure the correctness of all algorithms (using `pytest`).
 
 For details regarding the algorithms, see
-`Wagner (PeerJ Preprints, 2016) <https://doi.org/10.7287/peerj.preprints.1962v2>`_).
+`Wagner (PeerJ Preprints, 2016) <https://doi.org/10.7287/peerj.preprints.1962v2>`_.

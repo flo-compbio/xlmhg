@@ -20,14 +20,12 @@ __ xlmhg_paper_
 .. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
     :alt: Build Status (master branch)
     :scale: 100%
-
-.. :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
+    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
 
 .. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
     :alt: Build Status (develop branch)
     :scale: 100%
-    
-.. :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
+    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
 
 .. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
 .. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar

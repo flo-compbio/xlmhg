@@ -25,12 +25,14 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.0.1'
+version = '2.0.2'
 
 install_requires = [
     'future >= 0.15.2, < 1',
     'six >= 1.10.0, < 2',
 ]
+
+ext_modules = []
 
 # do not require installation if built by ReadTheDocs
 # (we mock these modules in docs/source/conf.py)
@@ -55,15 +57,13 @@ if 'READTHEDOCS' not in os.environ or \
         'numpy >= 1.8, < 2',
     ])
 
-ext_modules = []
-
-ext_modules.append(
-    Extension(
-        root + '.' + 'mhg_cython',
-        sources=[root + os.sep + 'mhg_cython.pyx'],
-        include_dirs=[np.get_include()]
+    ext_modules.append(
+        Extension(
+            root + '.' + 'mhg_cython',
+            sources=[root + os.sep + 'mhg_cython.pyx'],
+            include_dirs=[np.get_include()]
+        )
     )
-)
 
 here = path.abspath(path.dirname(__file__))
 

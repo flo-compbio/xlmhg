@@ -25,7 +25,7 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.0.2'
+version = '2.0.3'
 
 install_requires = [
     'future >= 0.15.2, < 1',

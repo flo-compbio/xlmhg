@@ -1,6 +1,11 @@
 XL-mHG
 ======
 
+===========  ================
+**master**   |travis-master|
+**develop**  |travis-develop|
+===========  ================
+
 This is an efficient Python/Cython implementation of the semiparametric `XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued) entries. The XL-mHG test is an extension of the nonparametric `mHG test`__, which was developed by `Dr. Zohar Yakhini`__ and colleagues.
 
 __ xlmhg_paper_
@@ -11,6 +16,18 @@ If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS Comp
 
 __ mhg_paper_
 __ xlmhg_paper_
+
+.. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
+    :alt: Build Status (master branch)
+    :scale: 100%
+
+.. :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
+
+.. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=devleop
+    :alt: Build Status (develop branch)
+    :scale: 100%
+    
+.. :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
 
 .. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
 .. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
@@ -72,3 +89,5 @@ Copyright (c) 2015, 2016 Florian Wagner
   
   You should have received a copy of the GNU General Public License
   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+

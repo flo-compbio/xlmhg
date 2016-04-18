@@ -23,7 +23,7 @@ __ xlmhg_paper_
 
 .. :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
 
-.. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=devleop
+.. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
     :alt: Build Status (develop branch)
     :scale: 100%
     

@@ -26,7 +26,8 @@ install:
 - pip install pytest-cov codecov
 - python setup.py install
 script:
-  py.test --cov=./
+- pwd
+- py.test --cov=./
 after_success:
   codecov
 notifications:

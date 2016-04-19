@@ -26,10 +26,9 @@ install:
 - pip install pytest-cov codecov
 - python setup.py install
 script:
-- pwd
-- py.test --cov=./
+- py.test --cov=xlmhg tests/
 after_success:
-  codecov
+- codecov
 notifications:
   email:
     on_success: never

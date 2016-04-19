@@ -21,6 +21,7 @@ Changelog
 2.0.x Updates
 -------------
 
+- 2.0.4 (2016-04-19): Added tests/ and CHANGELOG.rst to Manifest.in file
 - 2.0.3 (2016-04-18): Including Travis CI build status in Readme
 - 2.0.2 (2016-04-18): Integration with Travis CI
 - 2.0.1 (2016-04-15): Readme fixes

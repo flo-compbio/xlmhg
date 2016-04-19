@@ -1,0 +1,5 @@
+recursive-include tests *
+prune tests/__pycache__
+include README.rst
+include CHANGELOG.rst
+include LICENSE

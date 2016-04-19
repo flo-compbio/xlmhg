@@ -41,15 +41,15 @@ if 'READTHEDOCS' not in os.environ or \
     try:
         import numpy as np # numpy is required
     except ImportError:
-        print ('You must install NumPy before installing XL-mHG! '
-               'Try `pip install numpy`.')
+        print('You must install NumPy before installing XL-mHG! '
+              'Try `pip install numpy`.')
         sys.exit(1)
 
     try:
         from Cython.Distutils import build_ext # Cython is required
     except ImportError:
-        print ('You must installCython before installing XL-mHG! '
-               'Try `pip install cython`.')
+        print('You must installCython before installing XL-mHG! '
+              'Try `pip install cython`.')
         sys.exit(1)
 
     install_requires.extend([
@@ -89,7 +89,7 @@ setup(
 
     # see https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
@@ -105,9 +105,8 @@ setup(
     keywords=('statistics nonparametric semiparametric enrichment test '
               'ranked lists'),
 
-    #packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    # packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     packages=find_packages(exclude=['docs', 'tests*']),
-    #packages = ['xlmhg'],
 
     # extensions
     ext_modules=ext_modules,
@@ -115,26 +114,27 @@ setup(
         'build_ext': build_ext,
     },
 
-    #libraries = [],
+    # libraries = [],
 
     install_requires=install_requires,
 
     tests_require=[
         'pytest >= 2.8.5, < 3',
+        'pytest-cov >= 2.2.1, < 3',
         'scipy >= 0.17.0',
     ],
 
     # development dependencies
-    #extras_require={},
+    # extras_require={},
 
     # data
-    #package_data={}
+    # package_data={}
 
     # data outside package
-    #data_files=[],
+    # data_files=[],
 
     # executable scripts
     entry_points={
-        #'console_scripts': []
+        # 'console_scripts': []
     },
 )

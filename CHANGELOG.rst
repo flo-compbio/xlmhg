@@ -40,5 +40,5 @@ Major release with several new features:
   XL-mHG p-value meets a given signifance level.
 - Unit tests to ensure the correctness of all algorithms (using `pytest`).
 
-For details regarding the algorithms, see
-`Wagner (PeerJ Preprints, 2016) <https://doi.org/10.7287/peerj.preprints.1962v2>`_.
+For details regarding the algorithms, see `Wagner (PeerJ Preprints, 2016)
+<https://doi.org/10.7287/peerj.preprints.1962v2>`_.

@@ -2,8 +2,11 @@ XL-mHG
 ======
 
 | |versions| |license|
-| **master**   |travis-master|
-| **develop**  |travis-develop|
+
+===========  ================
+**master**   |travis-master|
+**develop**  |travis-develop|
+===========  ================
 
 This is an efficient Python/Cython implementation of the semiparametric
 `XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued)

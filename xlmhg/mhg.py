@@ -24,6 +24,7 @@ import numpy as np
 
 DEFAULT_TOL = 1e-12
 
+
 def is_equal(a, b, tol):
     """Ratio test to check if two floating point numbers are equal.
 
@@ -86,14 +87,14 @@ def get_xlmhg_stat(v, X, L, tol=DEFAULT_TOL):
     N = v.size
     if not (1 <= X <= N):
         raise ValueError(
-            'Invalid value X=%d; should be >= 1 and <= %d.' %(X, N)
+            'Invalid value X=%d; should be >= 1 and <= %d.' % (X, N)
         )
     if not (1 <= L <= N):
         raise ValueError(
-            'Invalid value L=%d; should be >= 1 and <= %d.' %(L, N)
+            'Invalid value L=%d; should be >= 1 and <= %d.' % (L, N)
         )
     if not (0.0 <= tol < 1.0):
-        raise ValueError('Invalid value tol=%.1e; should be in [0,1)' %(tol))
+        raise ValueError('Invalid value tol=%.1e; should be in [0,1)' % (tol))
     
     K = int(np.sum(v != 0))
     if K == 0:
@@ -112,7 +113,8 @@ def get_xlmhg_stat(v, X, L, tol=DEFAULT_TOL):
             # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
             p *= (float((n+1)*(K-k)) / float((N-n)*(k+1)))
             k += 1
-            # calculate hypergeometric p-value only if enough elements have been seen
+            # calculate hypergeometric p-value only if enough elements have
+            # been seen
             if k >= X:
                 hgp = get_hgp(p, k, N, K, n+1)
                 if hgp < stat and not is_equal(hgp, stat, tol):
@@ -120,9 +122,6 @@ def get_xlmhg_stat(v, X, L, tol=DEFAULT_TOL):
                     n_star = n+1
 
     stat = min(stat, 1.0)
-    #if stat == 0.0:
-    #    # insufficient floating point accuracy
-    #    stat = float('nan')
     return stat, n_star
 
 
@@ -159,21 +158,21 @@ def get_xlmhg_pval1(N, K, X, L, stat, tol=DEFAULT_TOL):
 
     # raise exceptions for invalid parameters
     if not (N >= 1):
-        raise ValueError('Invalid value N=%d; should be >= 1.' %(N))
+        raise ValueError('Invalid value N=%d; should be >= 1.' % (N))
     if not (1 <= X <= N):
         raise ValueError(
-            'Invalid value X=%d; should be >= 1 and <= %d.' %(X, N)
+            'Invalid value X=%d; should be >= 1 and <= %d.' % (X, N)
         )
     if not (1 <= L <= N):
         raise ValueError(
-            'Invalid value L=%d; should be >= 1 and <= %d.' %(L, N)
+            'Invalid value L=%d; should be >= 1 and <= %d.' % (L, N)
         )
     if not (0 < stat <= 1.0):
         raise ValueError(
-            'Invalid value stat=%.1e; should be in (0;1].' %(stat,)
+            'Invalid value stat=%.1e; should be in (0;1].' % (stat,)
         )
     if not (0.0 <= tol < 1.0):
-        raise ValueError('Invalid value tol=%.1e; should be in [0,1)' %(tol))
+        raise ValueError('Invalid value tol=%.1e; should be in [0,1)' % (tol))
 
     # special case: stat = 1.0 => pval = 1.0
     if stat == 1.0:

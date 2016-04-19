@@ -1,6 +1,7 @@
 # project-specific files
 /xlmhg/mhg_cython.c
 /xlmhg/mhg_cython.html
+/.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

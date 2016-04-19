@@ -6,30 +6,20 @@ XL-mHG
 **develop**  |travis-develop|
 ===========  ================
 
-This is an efficient Python/Cython implementation of the semiparametric `XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued) entries. The XL-mHG test is an extension of the nonparametric `mHG test`__, which was developed by `Dr. Zohar Yakhini`__ and colleagues.
+This is an efficient Python/Cython implementation of the semiparametric
+`XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued)
+entries. The XL-mHG test is an extension of the nonparametric `mHG test`__,
+which was developed by `Dr. Zohar Yakhini`__ and colleagues.
 
 __ xlmhg_paper_
 __ mhg_paper_
 __ zohar_
 
-If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS Comput Biol, 2007)`__ and `Wagner (PeerJ Preprints, 2016)`__.
+If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS
+Comput Biol, 2007)`__ and `Wagner (PeerJ Preprints, 2016)`__.
 
 __ mhg_paper_
 __ xlmhg_paper_
-
-.. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
-    :alt: Build Status (master branch)
-    :scale: 100%
-    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
-
-.. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
-    :alt: Build Status (develop branch)
-    :scale: 100%
-    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
-
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
-.. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
-.. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
 
 Installation
 ------------
@@ -67,8 +57,6 @@ For a discussion of the statistical background and implementation of this test, 
 
 __ xlmhg_paper_
 
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
-
 Copyright and License
 ---------------------
 
@@ -89,3 +77,16 @@ Copyright (c) 2015, 2016 Florian Wagner
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
+.. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
+    :alt: Build Status (master branch)
+    :scale: 100%
+    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
+
+.. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
+    :alt: Build Status (develop branch)
+    :scale: 100%
+    :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
+
+.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
+.. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
+.. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039

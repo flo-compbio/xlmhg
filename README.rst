@@ -1,7 +1,7 @@
 XL-mHG
 ======
 
-| |versions| |license|
+| |pypi| |versions| |license|
 
 ===========  ==================================
 **master**   |travis-master| |codecov-master|
@@ -84,6 +84,10 @@ Copyright (c) 2015, 2016 Florian Wagner
 .. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
 
 .. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
+
+.. |pypi| image:: https://img.shields.io/pypi/v/xlmhg.svg
+    :target: https://pypi.python.org/pypi/xlmhg
+    :alt: PyPI version
 
 .. |versions| image:: https://img.shields.io/pypi/pyversions/xlmhg.svg
     :target: https://pypi.python.org/pypi/xlmhg

@@ -25,7 +25,7 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.0.4'
+version = '2.0.5rc1'
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -41,15 +41,16 @@ if 'READTHEDOCS' not in os.environ or \
     try:
         import numpy as np # numpy is required
     except ImportError:
-        print ('You must install NumPy before installing XL-mHG! '
-               'Try `pip install numpy`.')
+        print('You must install NumPy before installing XL-mHG! '
+              'Try `pip install numpy`.')
         sys.exit(1)
 
     try:
-        from Cython.Distutils import build_ext # Cython is required
+        # from Cython.Distutils import build_ext # Cython is required
+        from Cython.Build import cythonize  # Cython is required
     except ImportError:
-        print ('You must installCython before installing XL-mHG! '
-               'Try `pip install cython`.')
+        print('You must installCython before installing XL-mHG! '
+              'Try `pip install cython`.')
         sys.exit(1)
 
     install_requires.extend([
@@ -57,12 +58,31 @@ if 'READTHEDOCS' not in os.environ or \
         'numpy >= 1.8, < 2',
     ])
 
-    ext_modules.append(
-        Extension(
-            root + '.' + 'mhg_cython',
-            sources=[root + os.sep + 'mhg_cython.pyx'],
-            include_dirs=[np.get_include()]
-        )
+    compiler_directives = {
+        'linetrace': True,
+
+    }
+
+    # only enable Cython line tracing if we're installing in Travis-CI!
+    macros = []
+    directives = {}
+    try:
+        if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true':
+            print('Warning: Enabling line tracing in cython extension.'
+                  'This will slow it down by a factor of 20 or so!')
+            macros.append(('CYTHON_TRACE', '1'))
+            directives['linetrace'] = True
+    except KeyError:
+        pass
+
+    extensions = [
+        Extension(root+'.'+'mhg_cython', [root + '/mhg_cython.pyx'],
+                  include_dirs=[np.get_include()],
+                  define_macros=macros)
+    ]
+
+    ext_modules = cythonize(
+        extensions, compiler_directives=directives
     )
 
 here = path.abspath(path.dirname(__file__))
@@ -89,7 +109,7 @@ setup(
 
     # see https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
@@ -105,36 +125,36 @@ setup(
     keywords=('statistics nonparametric semiparametric enrichment test '
               'ranked lists'),
 
-    #packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    # packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     packages=find_packages(exclude=['docs', 'tests*']),
-    #packages = ['xlmhg'],
 
     # extensions
     ext_modules=ext_modules,
-    cmdclass={
-        'build_ext': build_ext,
-    },
+    #cmdclass={
+    #    'build_ext': build_ext,
+    #},
 
-    #libraries = [],
+    # libraries = [],
 
     install_requires=install_requires,
 
     tests_require=[
         'pytest >= 2.8.5, < 3',
+        'pytest-cov >= 2.2.1, < 3',
         'scipy >= 0.17.0',
     ],
 
     # development dependencies
-    #extras_require={},
+    # extras_require={},
 
     # data
-    #package_data={}
+    # package_data={}
 
     # data outside package
-    #data_files=[],
+    # data_files=[],
 
     # executable scripts
     entry_points={
-        #'console_scripts': []
+        # 'console_scripts': []
     },
 )

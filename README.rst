@@ -1,6 +1,8 @@
 XL-mHG
 ======
 
+| |versions| |license|
+
 ===========  ================
 **master**   |travis-master|
 **develop**  |travis-develop|
@@ -77,6 +79,20 @@ Copyright (c) 2015, 2016 Florian Wagner
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
+.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
+
+.. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
+
+.. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
+
+.. |versions| image:: https://img.shields.io/pypi/pyversions/xlmhg.svg
+    :target: https://pypi.python.org/pypi/xlmhg
+    :alt: Python versions supported
+
+.. |license| image:: https://img.shields.io/pypi/l/xlmhg.svg
+    :target: https://pypi.python.org/pypi/xlmhg
+    :alt: License
+
 .. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
     :alt: Build Status (master branch)
     :scale: 100%
@@ -86,7 +102,3 @@ Copyright (c) 2015, 2016 Florian Wagner
     :alt: Build Status (develop branch)
     :scale: 100%
     :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
-
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
-.. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
-.. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039

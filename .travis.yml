@@ -22,11 +22,10 @@ install:
 - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
     pytest coverage future six numpy cython scipy
 - source activate test-environment
-- conda install pytest future six numpy cython scipy
 - pip install pytest-cov codecov
-- python setup.py install
+- pip install -e .
 script:
-- py.test --cov=xlmhg tests/
+- py.test --cov=xlmhg --cov-report=xml tests/
 after_success:
 - codecov
 notifications:

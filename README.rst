@@ -3,10 +3,10 @@ XL-mHG
 
 | |versions| |license|
 
-===========  ================
-**master**   |travis-master|
-**develop**  |travis-develop|
-===========  ================
+===========  ==================================
+**master**   |travis-master| |codecov-master|
+**develop**  |travis-develop| |codecov-develop|
+===========  ==================================
 
 This is an efficient Python/Cython implementation of the semiparametric
 `XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued)
@@ -102,3 +102,11 @@ Copyright (c) 2015, 2016 Florian Wagner
     :alt: Build Status (develop branch)
     :scale: 100%
     :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
+
+.. |codecov-master| image:: https://codecov.io/github/flo-compbio/xlmhg/coverage.svg?branch=master
+    :alt: Coverage (master branch)
+    :target: https://codecov.io/github/flo-compbio/xlmhg?branch=master
+
+.. |codecov-develop| image:: https://codecov.io/github/flo-compbio/xlmhg/coverage.svg?branch=develop
+    :alt: Coverage (develop branch)
+    :target: https://codecov.io/github/flo-compbio/xlmhg?branch=develop

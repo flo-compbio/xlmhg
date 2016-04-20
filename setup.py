@@ -39,50 +39,43 @@ ext_modules = []
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     try:
-        import numpy as np # numpy is required
+        import numpy as np  # numpy is required
     except ImportError:
         print('You must install NumPy before installing XL-mHG! '
               'Try `pip install numpy`.')
         sys.exit(1)
 
     try:
-        # from Cython.Distutils import build_ext # Cython is required
-        from Cython.Build import cythonize  # Cython is required
+        from Cython.Distutils import build_ext  # Cython is required
     except ImportError:
         print('You must installCython before installing XL-mHG! '
               'Try `pip install cython`.')
         sys.exit(1)
+
+    from Cython.Compiler import Options as CythonOptions
 
     install_requires.extend([
         'cython >= 0.23.4, < 1',
         'numpy >= 1.8, < 2',
     ])
 
-    compiler_directives = {
-        'linetrace': True,
-
-    }
-
     # only enable Cython line tracing if we're installing in Travis-CI!
     macros = []
-    directives = {}
     try:
-        if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true':
+        if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
+                and 'TRAVIS_TEST_RESULT' not in os.environ:
             print('Warning: Enabling line tracing in cython extension.'
                   'This will slow it down by a factor of 20 or so!')
             macros.append(('CYTHON_TRACE', '1'))
-            directives['linetrace'] = True
+            # only way of setting linetrace without cythonize?
+            CythonOptions.directive_defaults['linetrace'] = True
     except KeyError:
         pass
 
-    extensions = [
+    ext_modules.append(
         Extension(root+'.'+'mhg_cython', [root + '/mhg_cython.pyx'],
                   include_dirs=[np.get_include()],
                   define_macros=macros)
-    ]
-
-    ext_modules = cythonize(
-        extensions, compiler_directives=directives
     )
 
 here = path.abspath(path.dirname(__file__))
@@ -130,9 +123,9 @@ setup(
 
     # extensions
     ext_modules=ext_modules,
-    #cmdclass={
-    #    'build_ext': build_ext,
-    #},
+    cmdclass={
+        'build_ext': build_ext,
+    },
 
     # libraries = [],
 

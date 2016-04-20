@@ -21,6 +21,9 @@ Changelog
 2.0.x Updates
 -------------
 
+- 2.0.5 (2016-04-19): Fixed an uninstended change introduced in 2.0.4 whereby
+  a cythonized version instead of the mhg_cython.pyx file was included in the
+  package
 - 2.0.4 (2016-04-19): Added tests/ and CHANGELOG.rst to Manifest.in file
 - 2.0.3 (2016-04-18): Including Travis CI build status in Readme
 - 2.0.2 (2016-04-18): Integration with Travis CI

@@ -25,7 +25,7 @@ from os import path
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.0.6'
+version = '2.0.7'
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -33,6 +33,7 @@ install_requires = [
 ]
 
 ext_modules = []
+cmdclass = {}
 
 # do not require installation if built by ReadTheDocs
 # (we mock these modules in docs/source/conf.py)
@@ -58,6 +59,9 @@ if 'READTHEDOCS' not in os.environ or \
         'cython >= 0.23.4, < 1',
         'numpy >= 1.8, < 2',
     ])
+
+    # tell setuptools to build the Cython extension
+    cmdclass['build_ext'] = build_ext
 
     # only enable Cython line tracing if we're installing in Travis-CI!
     macros = []
@@ -123,9 +127,7 @@ setup(
 
     # extensions
     ext_modules=ext_modules,
-    cmdclass={
-        'build_ext': build_ext,
-    },
+    cmdclass=cmdclass,
 
     # libraries = [],
 

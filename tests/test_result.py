@@ -19,6 +19,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 from builtins import str as text
+from builtins import int as newint
 
 from copy import deepcopy
 
@@ -58,6 +59,6 @@ def test_basic(my_result, my_v):
     other.pval = 0.86213
     assert other != my_result
 
-    assert isinstance(my_result.N, int)
+    assert isinstance(my_result.N, newint)
     assert my_result.N == my_v.size
     assert isinstance(my_result.escore, float)

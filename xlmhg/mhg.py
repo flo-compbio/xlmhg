@@ -78,13 +78,15 @@ def get_xlmhg_stat(v, X, L, tol=DEFAULT_TOL):
     n_star: int
         The (first) cutoff at which s was attained.
     """
-    assert isinstance(v, np.ndarray)
-    assert v.dtype == np.uint8
+    assert isinstance(v, np.ndarray) and v.ndim == 1 and \
+           np.issubdtype(v.dtype, np.integer)
     assert isinstance(X, int)
     assert isinstance(L, int)
     assert isinstance(tol, float)
 
     N = v.size
+    if not N > 0:
+        raise ValueError('List is empty!')
     if not (1 <= X <= N):
         raise ValueError(
             'Invalid value X=%d; should be >= 1 and <= %d.' % (X, N)

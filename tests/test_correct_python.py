@@ -14,11 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+"""Tests for the Python implementation of the XL-mHG test."""
+
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
-from builtins import *
+from builtins import str as text
 
-import sys
 import itertools as it
 
 import pytest
@@ -26,7 +27,8 @@ import numpy as np
 from scipy.stats import hypergeom
 
 from xlmhg import mhg
-#v = np.uint8([1,0,1,1,0,1] + [0]*12 + [1,0]) # example from paper
+
+# v_ex = np.uint8([1,0,1,1,0,1] + [0]*12 + [1,0])  # example from paper
 
 """
 @pytest.mark.skip(reason='Takes unncessarily long')
@@ -52,6 +54,7 @@ def test_mhg_algos(tol=1e-11):
         #assert is_equal(pval1, pval2, tol = 1e-12)
         assert is_equal(pval1, pval2, tol=tol), 'v: %s ||| %s ||| %s ||| %s ||| %s' %(repr(v), repr([pval1,stat1,n1]), repr([pval2,stat2,n2]), '%.1e' %(abs(pval1-pval2)), '%.1e' %(tol * max(abs(pval1), abs(pval2))))
 """
+
 
 def get_xlmhg_stat_slow(v, X, L, tol=1e-12):
     # calculate the XL-mHG test statistic (inefficient)
@@ -89,6 +92,7 @@ def get_xlmhg_stat_slow(v, X, L, tol=1e-12):
     stat = min(stat, 1.0)
     return stat, n_star
 
+
 def test_mhg_stat():
     # test if mHG test statistic is correct
     # tests random lists with N = 20 and K = 5
@@ -111,6 +115,7 @@ def test_mhg_stat():
         stat_ref, n_star_ref = get_xlmhg_stat_slow(v, X, L)
         assert mhg.is_equal(stat, stat_ref, tol=tol) and \
                 n_star == n_star_ref, repr(v)
+
 
 def test_xlmhg_stat():
     # test if XL-mHG test statistic is correct
@@ -161,6 +166,7 @@ def test_alg1_alg2_accuracy_difference():
     for i in range(bvals.size):
         assert mhg.is_equal(pval2[i], truth[i], tol=tol)
 
+
 def test_mhg_pval_cross():
     # test if mHG p-value is correct
     # by comparing output of Algorithms 1 and 2 to each other
@@ -185,6 +191,7 @@ def test_mhg_pval_cross():
         pval2 = mhg.get_xlmhg_pval2(N, K, X, L, stat)
         assert mhg.is_equal(pval1, pval2, tol=tol), repr(v)
 
+
 def test_xlmhg_pval_cross():
     # - test if XL-mHG p-value is correct,
     #   by comparing output of Algorithms 1 and 2 to each other
@@ -201,3 +208,21 @@ def test_xlmhg_pval_cross():
             pval1 = mhg.get_xlmhg_pval1(N, K, X, L, stat)
             pval2 = mhg.get_xlmhg_pval2(N, K, X, L, stat)
             assert mhg.is_equal(pval1, pval2, tol=tol), repr(v)
+
+
+def test_invalid():
+    v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from paper
+    N = v.size
+    K = int(np.sum(v != 0))
+    X = 1
+    L = N
+    tol = 1e-11
+    with pytest.raises(ValueError):
+        other = np.uint8([])
+        stat, cutoff = mhg.get_xlmhg_stat(other, X, L, tol)
+    with pytest.raises(ValueError):
+        stat, cutoff = mhg.get_xlmhg_stat(v, -1, L, tol)
+    with pytest.raises(ValueError):
+        stat, cutoff = mhg.get_xlmhg_stat(v, X, -1, tol)
+    with pytest.raises(ValueError):
+        stat, cutoff = mhg.get_xlmhg_stat(v, X, L, -1.0)

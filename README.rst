@@ -10,8 +10,8 @@ XL-mHG
 
 This is an efficient Python/Cython implementation of the semiparametric
 `XL-mHG test`__ for enrichment in ranked lists. The XL-mHG test is an extension
-of the nonparametric `mHG test`__, which was developed by `Dr. Zohar Yakhini`__
- and colleagues.
+of the nonparametric `mHG test`__, which was developed by `Dr. Zohar
+Yakhini`__ and colleagues.
 
 __ xlmhg_paper_
 __ mhg_paper_
@@ -36,12 +36,12 @@ Usage
 .. code-block:: python
 
     import xlmhg
-    stat, n_star, pval = xlmhg.xlmhg_test(v, X, L)
+    stat, cutoff, pval = xlmhg.xlmhg_test(v, X, L)
 
 Where ``v`` is a NumPy array of type \"np.uint8\" containing only zeros and ones, ``X``, and ``L`` are parameters, and the return values have the following meanings:
 
 - ``stat``: The XL-mHG test statistic
-- ``n_star``: The cutoff at which the XL-mHG test statistic was attained
+- ``cutoff``: The cutoff at which the XL-mHG test statistic was attained
 - ``pval``: The XL-mHG p-value
 
 What do the ``X`` and ``L`` parameters mean?

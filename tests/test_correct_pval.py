@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""Test the correctness of the Cython implementations of PVAL1 and PVAL2."""
+"""Tests for the Cython implementations of the XL-mHG p-value.."""
 
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
-from builtins import *
+from builtins import str as text
 
 import numpy as np
 from scipy.stats import hypergeom

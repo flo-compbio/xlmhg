@@ -18,6 +18,13 @@
 Changelog
 =========
 
+2.1.0 (2016-05-01)
+------------------
+- Added Cython implementation for calculating XL-mHG E-scores
+- Added `mHGResult` class for representing test results
+- Added tests
+- Fixed a few minor issues
+
 2.0.x Updates
 -------------
 

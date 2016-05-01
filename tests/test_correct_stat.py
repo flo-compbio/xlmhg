@@ -14,9 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+"""Tests for the Cython implementation of the XL-mHG test statistic."""
+
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
-from builtins import *
+from builtins import str as text
 
 import sys
 import itertools as it
@@ -26,7 +28,9 @@ import numpy as np
 from scipy.stats import hypergeom
 
 from xlmhg import xlmhg_test
+from xlmhg import mhg_cython
 from xlmhg.mhg import is_equal
+# from xlmhg.mhg_cython import get_xlmhg_stat
 
 def get_xlmhg_stat_slow(v, X=None, L=None, tol=1e-12):
     # calculate the XL-mHG test statistic (inefficient)
@@ -80,10 +84,8 @@ def test_mhg_stat():
 
     N = 20
     K = 5
-    X = None
-    L = None
-    #X = 1
-    #L = N
+    X = 1
+    L = N
     C = np.int64(list(it.combinations(range(N),K)))
     p = C.shape[0]
     np.random.seed(seed)
@@ -91,7 +93,8 @@ def test_mhg_stat():
         idx = np.random.randint(p)
         v = np.zeros(N, dtype = np.uint8)
         v[C[idx,:]] = 1
-        stat, n_star, _ = xlmhg_test(v, X, L, skip_pval=True)
+        # stat, n_star, _ = xlmhg_test(v, X, L)
+        stat, n_star = mhg_cython.get_xlmhg_stat(v, N, K, X, L)
         stat_ref, n_star_ref = get_xlmhg_stat_slow(v, X, L)
         assert is_equal(stat, stat_ref, tol=tol) and n_star == n_star_ref, \
             repr(v)
@@ -108,7 +111,8 @@ def test_xlmhg_stat():
     assert N == 20 and K == 5
     for L in range(1, N+1):
         for X in range(1, N+1):
-            stat, n_star, _ = xlmhg_test(v, X, L, skip_pval=True)
+            stat, n_star = mhg_cython.get_xlmhg_stat(v, N, K, X, L)
+            # stat, n_star, _ = xlmhg_test(v, X, L)
             stat_ref, n_star_ref = get_xlmhg_stat_slow(v, X, L)
             assert is_equal(stat, stat_ref, tol=tol) and n_star == n_star_ref, \
                 repr(v)

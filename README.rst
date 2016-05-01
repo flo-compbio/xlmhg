@@ -9,9 +9,9 @@ XL-mHG
 ===========  ==================================
 
 This is an efficient Python/Cython implementation of the semiparametric
-`XL-mHG test`__ for enrichment in ranked lists with boolean (0/1-valued)
-entries. The XL-mHG test is an extension of the nonparametric `mHG test`__,
-which was developed by `Dr. Zohar Yakhini`__ and colleagues.
+`XL-mHG test`__ for enrichment in ranked lists. The XL-mHG test is an extension
+of the nonparametric `mHG test`__, which was developed by `Dr. Zohar Yakhini`__
+ and colleagues.
 
 __ xlmhg_paper_
 __ mhg_paper_
@@ -107,10 +107,10 @@ Copyright (c) 2015, 2016 Florian Wagner
     :scale: 100%
     :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
 
-.. |codecov-master| image:: https://codecov.io/github/flo-compbio/xlmhg/coverage.svg?branch=master
+.. |codecov-master| image:: https://codecov.io/gh/flo-compbio/xlmhg/branch/master/graph/badge.svg
     :alt: Coverage (master branch)
-    :target: https://codecov.io/github/flo-compbio/xlmhg?branch=master
+    :target: https://codecov.io/gh/flo-compbio/xlmhg/branch/master
 
-.. |codecov-develop| image:: https://codecov.io/github/flo-compbio/xlmhg/coverage.svg?branch=develop
+.. |codecov-develop| image:: https://codecov.io/gh/flo-compbio/xlmhg/branch/develop/graph/badge.svg
     :alt: Coverage (develop branch)
-    :target: https://codecov.io/github/flo-compbio/xlmhg?branch=develop
+    :target: https://codecov.io/gh/flo-compbio/xlmhg/branch/develop

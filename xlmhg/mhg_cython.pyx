@@ -31,6 +31,9 @@ cimport numpy as np
 
 np.import_array()
 
+def get_default_tol():
+    return float(DEFAULT_TOL)
+
 cdef inline int is_equal(long double a, long double b, long double tol):
     # tests equality of two floating point numbers
     # (of type long doube => 80-bit extended precision)
@@ -50,12 +53,8 @@ cdef long double get_hgp(long double p, int k, int N, int K, int n):
     return pval
 
 def get_xlmhg_stat(unsigned char[::1] v, int N, int K, int X, int L,
-        long double tol=DEFAULT_TOL):
-        #long double[::1] mHG_array,
+                   long double tol=DEFAULT_TOL):
     """Calculates the XL-mHG test statistic."""
-    # stores statistic in supplied array, and returns threshold at which
-    # minimum is achieved
-
     # special cases
     if K == 0 or K == N or K < X:
         return 1.0, 0
@@ -320,3 +319,44 @@ def get_xlmhg_pval2(int N, int K, int X, int L, long double stat,\
             k -= 1
 
     return pval
+
+
+def get_xlmhg_escore(unsigned char[::1] v, int N, int K, int X, int L,
+                     long double hg_pval_thresh,
+                     long double tol=DEFAULT_TOL):
+    """ESCORE: Calculate the XL-mHG E-score in O(N)."""
+    # special cases
+    if K == 0 or K == N or K < X:
+        return float('nan')
+
+    cdef int k = 0
+    cdef long double p = 1.0
+    cdef long double hgp
+    cdef long double e
+    cdef long double escore = 0.0
+    # cdef int n_star = 0
+    cdef int n
+    for n in range(L):
+        if v[n] == 0:
+            # calculate f(k; N,K,n+1) from f(k; N,K,n)
+            p *= (<long double>((n+1)*(N-K-n+k)) /\
+                    <long double>((N-n)*(n-k+1)))
+        else:
+            # hit one => calculate hypergeometric p-value
+            # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
+            p *= (<long double>((n+1)*(K-k)) /\
+                    <long double>((N-n)*(k+1)))
+            k += 1
+            if k >= X:  # make sure at least X 1's have been seen
+                e = <long double>k / (<long double>((n+1)*K) / <long double>N)
+                # only calculate p-value if e(n) is better than current E-score
+                if e > escore and is_equal(e, escore, tol) == 0:
+                    hgp = get_hgp(p, k, N, K, n+1)
+                    # check if hypergeometric p-value meets thresholds crit.
+                    if hgp <= hg_pval_thresh or \
+                            is_equal(hgp, hg_pval_thresh, tol) != 0:
+                        escore = e
+
+    if escore == 0.0:
+        escore = NAN("")
+    return escore

@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""Front-end for the XL-mHG test."""
+"""Python front-end for the XL-mHG test."""
 
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
@@ -25,14 +25,25 @@ import logging
 
 import numpy as np
 
-from . import mhg
-from . import mhg_cython
+from . import mhg, mhg_cython
+from .result import mHGResult
 
 logger = logging.getLogger(__name__)
 
+
+def _preprocess_params(v, K, X, L):
+    assert isinstance(v, np.ndarray) and v.ndim == 1 and v.dtype == np.uint8
+    if K is None:
+        K = int(np.sum(v!=0))
+    if X is None:
+        X = 1
+    if L is None:
+        L = v.size
+    return K, X, L
+
+
 def xlmhg_test(v, X=None, L=None, pval_thresh=None,
-               K=None, table=None, skip_pval=False,
-               use_alg1=False, tol=1e-12):
+               K=None, table=None, use_alg1=False, tol=1e-12):
     """Perform the XL-mHG test using the Cython implementation.
 
     Parameters
@@ -52,8 +63,6 @@ def xlmhg_test(v, X=None, L=None, pval_thresh=None,
         The dynamic programming table. Size has to be at least (K+1) x (W+1).
         Providing this array avoids memory reallocation when conducting
         multiple tests. [None]
-    skip_pval: bool, optional
-        Whether to skip the calculation of the p-value. [False]
     use_alg1: bool, optional
         Whether to use PVAL1 (instead of PVAL2) for calculating the
         p-value. (Ignored if skip_pval=True.) [False]
@@ -64,35 +73,28 @@ def xlmhg_test(v, X=None, L=None, pval_thresh=None,
     -------
     stat: float
         The XL-mHG test statistic.
-    n_star: int
+    cutoff: int
         The (first) cutoff at which stat was attained.
         (0 if no cutoff was tested.)
     pval: float
         The XL-mHG p-value (either exact or an upper bound).
     """
+    # assign default values, if None
+    K, X, L = _preprocess_params(v, K, X, L)
+
     # type checks
-    assert isinstance(v, np.ndarray)
-    assert v.dtype == np.uint8
-    if X is not None:
-        assert isinstance(X, int)
-    if L is not None:
-        assert isinstance(L, int)
+    assert isinstance(K, int)
+    assert isinstance(X, int)
+    assert isinstance(L, int)
     if pval_thresh is not None:
         assert isinstance(pval_thresh, float)
-    if K is not None:
-        assert isinstance(K, int)
     if table is not None:
         assert isinstance(table, np.ndarray)
         assert table.dtype == np.longdouble
-    assert isinstance(skip_pval, bool)
     assert isinstance(use_alg1, bool)
     assert isinstance(tol, float)
 
     N = v.size
-    if X is None:
-        X = 1
-    if L is None:
-        L = N
 
     # check values
     if not (1 <= X <= N):
@@ -115,18 +117,23 @@ def xlmhg_test(v, X=None, L=None, pval_thresh=None,
         table = np.empty((K+1, W+1), dtype = np.longdouble)
 
     # calculate XL-mHG test statistic
-    stat, n_star = mhg_cython.get_xlmhg_stat(v, N, K, X, L, tol)
-    assert 0 < stat <= 1.0
+    stat, cutoff = mhg_cython.get_xlmhg_stat(v, N, K, X, L, tol)
+    assert 0.0 <= stat <= 1.0
 
     # calculate XL-mHG p-value (only if necessary)
     min_KL = min(K, L)
-    upper_bound = min((min_KL-X+1)*stat, 1.0)
-    if skip_pval:
-        # do not calculate p-value at all
-        pval = None
-    elif stat == 1.0:
+    upper_bound = 1.0
+    if X <= min_KL:
+        upper_bound = min((min_KL-X+1)*stat, 1.0)
+    if stat == 1.0:
         # stat = 1.0 => pval = 1.0
         pval = 1.0
+    elif stat == 0.0:
+        logger.warning('Insufficient floating point precision for calculating '
+                       'or reporting the exact XL-mHG test statistic; the '
+                       'true value is too small. Reporting 0 instead.'
+                       '(The XL-mHG p-value will also be reported as 0.)')
+        pval = 0.0
     elif pval_thresh is not None:
         # PVAL-THRESH algorithm
         if stat > pval_thresh and not mhg.is_equal(stat, pval_thresh, tol):
@@ -160,10 +167,29 @@ def xlmhg_test(v, X=None, L=None, pval_thresh=None,
         else:
             pval = mhg_cython.get_xlmhg_pval1(N, K, X, L, stat, table, tol)
 
-    if pval is not None and isnan(pval):
-        # insufficient floating point precision, use bound
+    if stat != 0.0 and (isnan(pval) or pval <= 0 or \
+            (pval > upper_bound and not mhg.is_equal(pval, upper_bound, tol))):
+        # insufficient floating point precision for calclating p-value,
+        # report O(1)-bound instead
         logger.warning('Insufficient floating point precision for calculating '
-                       'the exact p-value. Using upper bound instead.')
+                       'the exact XL-mHG p-value. Reporting upper bound '
+                       'instead. (stat=%.2e, pval=%.2e))' % (stat, pval))
         pval = upper_bound
 
-    return stat, n_star, pval
+    return stat, cutoff, pval
+
+
+def get_xlmhg_test_result(v, X=None, L=None, pval_thresh=None,
+                          K=None, table=None, use_alg1=False, tol=1e-12):
+    # assign default values, if None
+    K, X, L = _preprocess_params(v, K, X, L)
+
+    # perform test
+    stat, cutoff, pval = xlmhg_test(v, X=X, L=L, pval_thresh=pval_thresh,
+                                    K=K, table=table,
+                                    use_alg1=use_alg1, tol=tol)
+
+    # generate result object
+    result = mHGResult(v, K, X, L, stat, cutoff, pval, pval_thresh=pval_thresh)
+    return result
+

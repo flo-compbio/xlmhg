@@ -14,54 +14,109 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+"""Tests for the XL-mHG Python front-end (`test.py`). """
+
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
-from builtins import *
+from builtins import str as text
 
 import numpy as np
 import pytest
 
-from xlmhg import xlmhg_test
+from xlmhg import mHGResult, xlmhg_test, get_xlmhg_test_result
+
 
 @pytest.fixture
-def v():
-    v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from
+def my_v():
+    v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from paper
     return v
 
-def test_mhg(v):
+
+@pytest.fixture
+def my_incredible_stat_v():
+    # test statistic is smaller than smallest double larger than zero
+    v = np.uint8([1]*500 + [0]* 1500)
+    return v
+
+
+@pytest.fixture
+def my_incredible_pval_v():
+    # PVAL1 fails, PVAL2 works
+    v = np.uint8([1]*200 + [0]* 800)
+    return v
+
+
+def test_mhg(my_v):
     # test regular mHG test
-    res = xlmhg_test(v)
+    res = xlmhg_test(my_v)
     assert res[0] == 0.01393188854489164
     assert res[1] == 6
     assert res[2] == 0.0244453044375645
 
-def test_O1bound(v):
+
+def test_alg1(my_v):
+    # test if we can use PVAL1 to calculate p-value
+    res = xlmhg_test(my_v, use_alg1=True)
+    assert res[0] == 0.01393188854489164
+    assert res[1] == 6
+    assert res[2] == 0.0244453044375645
+
+
+def test_O1bound(my_v):
     # test if we return the O(1)-bound if that's equal to or smaller than
     # pval_thresh
-    res = xlmhg_test(v, pval_thresh=0.07)
+    res = xlmhg_test(my_v, pval_thresh=0.07)
     assert res[2] == 0.0696594427244582
 
-def test_ONbound(v):
+
+def test_ONbound(my_v):
     # test if we return the O(N)-bound instead of calculating the p-value if
     # the bound is equal to or smaller than pval_thresh
-    res = xlmhg_test(v, pval_thresh=0.045)
+    res = xlmhg_test(my_v, pval_thresh=0.045)
     assert res[2] == 0.04179566563467492
 
-def test_lowerbound(v):
+
+def test_lowerbound(my_v):
     # test if we return the O(1)-bound when stat > pval_thresh
-    res = xlmhg_test(v, pval_thresh=0.01)
+    res = xlmhg_test(my_v, pval_thresh=0.01)
     assert res[2] == 0.0696594427244582
 
-def test_X(v):
+
+def test_X(my_v):
     # test effect of X
-    res = xlmhg_test(v, X=4)
+    res = xlmhg_test(my_v, X=4)
     assert res[2] == 0.01876934984520124
 
-def test_L(v):
-    res = xlmhg_test(v, L=6)
+
+def test_L(my_v):
+    res = xlmhg_test(my_v, L=6)
     assert res[2] == 0.019801341589267284
 
-def test_skip(v):
-    res = xlmhg_test(v, skip_pval=True)
-    assert res[2] is None
 
+def test_result(my_v):
+    result = get_xlmhg_test_result(my_v)
+    assert isinstance(result, mHGResult)
+
+
+def test_limit_stat(my_incredible_stat_v):
+    res = xlmhg_test(my_incredible_stat_v)
+    # print('Test')
+    # print(res)
+    assert res[0] == 0.0
+    assert res[1] == 500
+    assert res[2] == 0.0
+
+def test_limit_pval(my_incredible_pval_v):
+    # PVAL1 algorithm should handle this without problems
+    res = xlmhg_test(my_incredible_pval_v)
+    assert res[0] == 1.5112233509292993e-216
+    assert res[1] == 200
+    assert res[2] == res[0]
+
+    res = xlmhg_test(my_incredible_pval_v, use_alg1=True)
+    # PVAL2 algorithm should report an invalid p-value
+    # (either <= 0 or unrealistically large; in this case < 0)
+    # and the front-end should replace that with the O(1)-bound
+    assert res[0] == 1.5112233509292993e-216
+    assert res[1] == 200
+    assert res[2] < 1e-200

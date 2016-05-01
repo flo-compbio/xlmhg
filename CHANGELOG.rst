@@ -18,6 +18,10 @@
 Changelog
 =========
 
+2.1.x updates
+-------------
+- 2.1.1 (2016-05-01): Fixed readme
+
 2.1.0 (2016-05-01)
 ------------------
 - Added Cython implementation for calculating XL-mHG E-scores
@@ -25,9 +29,8 @@ Changelog
 - Added tests
 - Fixed a few minor issues
 
-2.0.x Updates
+2.0.x updates
 -------------
-
 - 2.0.7 (2016-04-21): Fixed small problem in setup script
 - 2.0.5 (2016-04-19): Fixed an uninstended change introduced in 2.0.4 whereby
   a cythonized version instead of the mhg_cython.pyx file was included in the
@@ -39,7 +42,6 @@ Changelog
 
 2.0.0 (2016-04-15)
 ------------------
-
 Major release with several new features:
 
 - New API (`xlmhg.xlmhg_test()`; see `test.py`).

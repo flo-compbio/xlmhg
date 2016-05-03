@@ -34,12 +34,13 @@ class mHGResult(object):
     """The result of performing an XL-mHG test.
 
     """
-    def __init__(self, v, K, X, L, stat, cutoff, pval,
+    def __init__(self, N, indices, X, L, stat, cutoff, pval,
                  pval_thresh=None, escore_pval_thresh=None, escore_tol=None):
 
-        assert isinstance(v, np.ndarray) and v.ndim == 1 and \
-               v.dtype == np.uint8
-        assert isinstance(K, int)
+        assert isinstance(N, int)
+        assert isinstance(indices, np.ndarray) and indices.ndim == 1 and \
+               np.issubdtype(indices.dtype, np.uint16) and \
+               indices.flags.c_contiguous
         assert isinstance(X, int)
         assert isinstance(L, int)
         assert isinstance(stat, float)
@@ -52,8 +53,8 @@ class mHGResult(object):
         if escore_tol is not None:
             assert isinstance(escore_tol, float)
 
-        self.v = v
-        self.K = K
+        self.indices = indices
+        self.N = N
         self.X = X
         self.L = L
         self.stat = stat
@@ -69,9 +70,9 @@ class mHGResult(object):
                   self.N, self.K, self.pval, self.hash)
 
     def __str__(self):
-        return '<%s object (N=%d, K=%d, pval=%.1e)>' \
+        return '<%s object (N=%d, K=%d, X=%d, L=%d, pval=%.1e)>' \
                % (self.__class__.__name__,
-                  self.N, self.K, self.pval)
+                  self.N, self.K, self.X, self.L, self.pval)
 
     def __eq__(self, other):
         if self is other:
@@ -85,17 +86,28 @@ class mHGResult(object):
         return not self.__eq__(other)
 
     @property
-    def N(self):
-        return int(self.v.size)
+    def v(self):
+        v = np.zeros(self.N, dtype=np.uint8)
+        v[self.indices] = 1
+        return v
+
+    @property
+    def K(self):
+        return self.indices.size
+
+    @property
+    def k(self):
+        return int(np.sum(self.indices < self.cutoff))
 
     @property
     def hash(self):
         data_str = ';'.join(
-            [str(repr(v)) for v in
-             [self.K, self.X, self.L, self.stat, self.cutoff, self.pval,
+            [str(repr(var)) for var in
+             [self.N, self.K, self.X, self.L,
+              self.stat, self.cutoff, self.pval,
               self.pval_thresh, self.escore_pval_thresh]])
         data_str += ';'
-        data = data_str.encode('UTF-8') + self.v.tobytes()
+        data = data_str.encode('UTF-8') + self.indices.tobytes()
         return str(hashlib.md5(data).hexdigest())
 
     @property
@@ -103,6 +115,6 @@ class mHGResult(object):
         hg_pval_thresh = self.escore_pval_thresh or self.pval
         escore_tol = self.escore_tol or mhg_cython.get_default_tol()
         es = mhg_cython.get_xlmhg_escore(
-            self.v, self.N, self.K, self. X, self.L,
+            self.indices, self.N, self.K, self. X, self.L,
             hg_pval_thresh, escore_tol)
         return es

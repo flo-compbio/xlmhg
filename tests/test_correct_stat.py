@@ -86,15 +86,16 @@ def test_mhg_stat():
     K = 5
     X = 1
     L = N
-    C = np.int64(list(it.combinations(range(N),K)))
+    C = np.uint16(list(it.combinations(range(N),K)))
     p = C.shape[0]
     np.random.seed(seed)
     for i in range(num_lists):
         idx = np.random.randint(p)
+        indices = C[idx,:]
         v = np.zeros(N, dtype = np.uint8)
-        v[C[idx,:]] = 1
+        v[indices] = 1
         # stat, n_star, _ = xlmhg_test(v, X, L)
-        stat, n_star = mhg_cython.get_xlmhg_stat(v, N, K, X, L)
+        stat, n_star = mhg_cython.get_xlmhg_stat(indices, N, K, X, L)
         stat_ref, n_star_ref = get_xlmhg_stat_slow(v, X, L)
         assert is_equal(stat, stat_ref, tol=tol) and n_star == n_star_ref, \
             repr(v)
@@ -104,15 +105,15 @@ def test_xlmhg_stat():
     # uses a particular example vector,
     # and goes over all combinations of X and L
     v = np.uint8([1,0,1,1,0,1] + [0]*12 + [1,0]) # example from paper
+    indices = np.uint16(np.nonzero(v)[0])
     N = v.size
-    K = int(np.sum(v != 0))
+    K = indices.size
     tol = 1e-11
 
     assert N == 20 and K == 5
     for L in range(1, N+1):
         for X in range(1, N+1):
-            stat, n_star = mhg_cython.get_xlmhg_stat(v, N, K, X, L)
-            # stat, n_star, _ = xlmhg_test(v, X, L)
-            stat_ref, n_star_ref = get_xlmhg_stat_slow(v, X, L)
-            assert is_equal(stat, stat_ref, tol=tol) and n_star == n_star_ref, \
-                repr(v)
+            stat, cutoff = mhg_cython.get_xlmhg_stat(indices, N, K, X, L)
+            stat_ref, cutoff_ref = get_xlmhg_stat_slow(v, X, L)
+            assert is_equal(stat, stat_ref, tol=tol) and \
+                   cutoff == cutoff_ref, repr(v)

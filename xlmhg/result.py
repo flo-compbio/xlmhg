@@ -34,13 +34,13 @@ class mHGResult(object):
     """The result of performing an XL-mHG test.
 
     """
-    def __init__(self, indices, N, X, L, stat, cutoff, pval,
+    def __init__(self, N, indices, X, L, stat, cutoff, pval,
                  pval_thresh=None, escore_pval_thresh=None, escore_tol=None):
 
+        assert isinstance(N, int)
         assert isinstance(indices, np.ndarray) and indices.ndim == 1 and \
                np.issubdtype(indices.dtype, np.uint16) and \
                indices.flags.c_contiguous
-        assert isinstance(N, int)
         assert isinstance(X, int)
         assert isinstance(L, int)
         assert isinstance(stat, float)
@@ -94,6 +94,10 @@ class mHGResult(object):
     @property
     def K(self):
         return self.indices.size
+
+    @property
+    def k(self):
+        return int(np.sum(self.indices < self.cutoff))
 
     @property
     def hash(self):

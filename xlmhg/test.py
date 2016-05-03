@@ -31,7 +31,7 @@ from .result import mHGResult
 logger = logging.getLogger(__name__)
 
 
-def get_xlmhg_test_result(indices, N, X=None, L=None, pval_thresh=None,
+def get_xlmhg_test_result(N, indices, X=None, L=None, pval_thresh=None,
                           table=None, use_alg1=False, tol=1e-12):
     """Perform the XL-mHG test using the Cython implementation.
 
@@ -41,10 +41,10 @@ def get_xlmhg_test_result(indices, N, X=None, L=None, pval_thresh=None,
 
     Parameters
     ----------
-    indices: 1-dim np.ndarray with dtype = np.uint16
-        Sorted list of indices corresponding to the "1"s in the ranked list.
     N, int
         The length of the list.
+    indices: 1-dim np.ndarray with dtype = np.uint16
+        Sorted list of indices corresponding to the "1"s in the ranked list.
     X: int, optional
         The ``X`` parameter. [1]
     L: int, optional
@@ -70,9 +70,9 @@ def get_xlmhg_test_result(indices, N, X=None, L=None, pval_thresh=None,
         The test result.
     """
     # type checks
+    assert isinstance(N, int)
     assert isinstance(indices, np.ndarray) and indices.ndim == 1 and\
         np.issubdtype(indices.dtype, np.uint16)
-    assert isinstance(N, int)
     if X is not None:
         assert isinstance(X, (int, np.integer))
     if L is not None:
@@ -181,7 +181,7 @@ def get_xlmhg_test_result(indices, N, X=None, L=None, pval_thresh=None,
         pval = upper_bound
 
     # generate result object
-    result = mHGResult(indices, N, X, L, stat, cutoff, pval,
+    result = mHGResult(N, indices, X, L, stat, cutoff, pval,
                        pval_thresh=pval_thresh)
     return result
 
@@ -234,7 +234,7 @@ def xlmhg_test(v, X=None, L=None, pval_thresh=None,
                          ' 65536.')
     indices = np.uint16(np.nonzero(v)[0])
     N = v.size
-    result = get_xlmhg_test_result(indices, N, X, L,
+    result = get_xlmhg_test_result(N, indices, X, L,
                                    pval_thresh=pval_thresh, table=table,
                                    use_alg1=use_alg1, tol=tol)
     return result.stat, result.cutoff, result.pval

@@ -106,7 +106,8 @@ def test_L(my_v):
 
 
 def test_result(my_indices, my_v):
-    result = get_xlmhg_test_result(my_indices, my_v.size)
+    N = my_v.size
+    result = get_xlmhg_test_result(N, my_indices)
     assert isinstance(result, mHGResult)
 
 
@@ -136,8 +137,9 @@ def test_limit_pval(my_incredible_pval_v):
 
 
 def test_non_contiguous(my_indices, my_v):
+    N = my_v.size
     with pytest.raises(ValueError):
-        result = get_xlmhg_test_result(my_indices[::-1], my_v.size)
+        result = get_xlmhg_test_result(N, my_indices[::-1])
 
 
 def test_list_too_long(my_much_too_long_v):
@@ -150,17 +152,17 @@ def test_table_too_small(my_indices, my_v):
     K = my_indices.size
     with pytest.raises(ValueError):
         table = np.empty(((N-K), (N-K)), np.longdouble)
-        result = get_xlmhg_test_result(my_indices, N, table=table)
+        result = get_xlmhg_test_result(N, my_indices, table=table)
 
 
 def test_params(my_indices, my_v):
     N = my_v.size
-    result = get_xlmhg_test_result(my_indices, N, X=1)
+    result = get_xlmhg_test_result(N, my_indices, X=1)
     assert isinstance(result, mHGResult)
-    result = get_xlmhg_test_result(my_indices, N, L=N)
+    result = get_xlmhg_test_result(N, my_indices, L=N)
     assert isinstance(result, mHGResult)
-    result = get_xlmhg_test_result(my_indices, N, pval_thresh=0.05)
+    result = get_xlmhg_test_result(N, my_indices, pval_thresh=0.05)
     assert isinstance(result, mHGResult)
     table = np.empty((N+1, N+1), np.longdouble)
-    result = get_xlmhg_test_result(my_indices, N, table=table)
+    result = get_xlmhg_test_result(N, my_indices, table=table)
     assert isinstance(result, mHGResult)

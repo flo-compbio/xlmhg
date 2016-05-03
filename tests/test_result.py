@@ -49,7 +49,7 @@ def my_result(my_v, my_indices):
     L = N
     #stat, cutoff, pval = xlmhg_test(my_indices, X, L)
     #result = mHGResult(my_indices, N, X, L, stat, cutoff, pval)
-    result = get_xlmhg_test_result(my_indices, N, X, L)
+    result = get_xlmhg_test_result(N, my_indices, X, L)
     return result
 
 
@@ -61,6 +61,7 @@ def test_basic(my_result, my_v, my_indices):
     assert isinstance(my_result.hash, text)
     assert np.array_equal(my_result.indices, my_indices)
     assert np.array_equal(my_result.v, my_v)
+    assert isinstance(my_result.k, newint)
 
     other = deepcopy(my_result)
     assert other is not my_result

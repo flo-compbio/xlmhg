@@ -18,6 +18,14 @@
 Changelog
 =========
 
+2.2.0 (2016-05-03)
+------------------
+- Changed internal structure used to represent lists, from vector of size N
+  to vector containing only the indices of the 1's. This saves memory and
+  avoids storing redundant information.
+- Added the `get_xlmhg_test_result()` front-end function, which returns an
+  `mHGResult` object.
+
 2.1.x updates
 -------------
 - 2.1.1 (2016-05-01): Fixed readme

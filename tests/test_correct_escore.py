@@ -30,19 +30,31 @@ from scipy.stats import hypergeom
 from xlmhg import mhg, mhg_cython, xlmhg_test
 
 
-def calculate_escore(v, K, X, L, hgp_thresh, tol):
-    N = v.size
+def calculate_escore(indices, N, X, L, hgp_thresh, tol):
+    """Calculate the XL-mHG E-score, using scipy to calculate HG p-values."""
+    assert isinstance(indices, np.ndarray) and indices.ndim == 1 and \
+        np.issubdtype(indices.dtype, np.uint16)
+    assert isinstance(N, int)
+    assert isinstance(X, int)
+    assert isinstance(L, int)
+    assert isinstance(hgp_thresh, float)
+    assert isinstance(tol, float)
+
+    K = indices.size
     k = 0
     escore = 0.0
-    for i in np.nonzero(v[:L])[0]:
+    for i in indices:
+        if i >= L:
+            break
+        n = i+1
         k += 1
         if k >= X:
-            e = k / (((i + 1) * K) / float(N))
+            e = k / ((n*K)/float(N))
             if e > escore and not mhg.is_equal(e, escore, tol):
-                hgp = hypergeom.sf(k - 1, N, K, i + 1)
+                hgp = hypergeom.sf(k - 1, N, K, n)
                 if hgp <= hgp_thresh or mhg.is_equal(hgp, hgp_thresh, tol):
                     escore = e
-    if escore == 0:
+    if escore == 0.0:
         escore = float('nan')
     return escore
 
@@ -59,16 +71,17 @@ def test_mhg_escore():
     K = 5
     X = 1
     L = N
-    C = np.int64(list(it.combinations(range(N),K)))
+    C = np.uint16(list(it.combinations(range(N), K)))
     p = C.shape[0]
     np.random.seed(seed)
     for i in range(num_lists):
         idx = np.random.randint(p)
         v = np.zeros(N, dtype = np.uint8)
         v[C[idx,:]] = 1
-        stat, cutoff, pval = xlmhg_test(v, X, L, K=K)
-        escore_ref = calculate_escore(v, K, X, L, pval, tol)
-        escore = mhg_cython.get_xlmhg_escore(v, N, K, X, L, pval)
+        stat, cutoff, pval = xlmhg_test(v, X, L)
+        indices = C[idx,:]
+        escore_ref = calculate_escore(indices, N, X, L, pval, tol)
+        escore = mhg_cython.get_xlmhg_escore(indices, N, K, X, L, pval)
         assert escore > 0 and mhg.is_equal(escore, escore_ref, tol=tol)
 
 
@@ -77,24 +90,25 @@ def test_xlmhg_escore():
     # uses a particular example vector,
     # and goes over all combinations of X and L
     v = np.uint8([1,0,1,1,0,1] + [0]*12 + [1,0]) # example from paper
+    indices = np.uint16(np.nonzero(v)[0])
     N = v.size
-    K = int(np.sum(v != 0))
+    K = indices.size
     tol = 1e-11
 
     total = 0
     larger = 0
     assert N == 20 and K == 5
     for L in range(1, N+1):
-        for X in range(1, N+1):
+        for X in range(1, L+1):
             total += 1
-            stat, cutoff, pval = xlmhg_test(v, X, L, K=K)
+            stat, cutoff, pval = xlmhg_test(v, X, L)
             # stat, n_star, _ = xlmhg_test(v, X, L)
-            escore_ref = calculate_escore(v, K, X, L, pval, tol)
-            escore = mhg_cython.get_xlmhg_escore(v, N, K, X, L, pval)
+            escore_ref = calculate_escore(indices, N, X, L, pval, tol)
+            escore = mhg_cython.get_xlmhg_escore(indices, N, K, X, L, pval)
             if escore > 0:
                 larger += 1
             assert math.isnan(escore) or escore > 0
             assert (math.isnan(escore) and math.isnan(escore_ref)) or \
                    mhg.is_equal(escore, escore_ref, tol=tol), \
-                   '%s / %s / %s' %(repr(v), repr(X), repr(L))
+                   '%s / %s / %s / %.1e' %(repr(v), repr(X), repr(L), pval)
     print('E-score was valid in %d / %d cases.' % (larger, total))

@@ -33,6 +33,18 @@ def my_v():
 
 
 @pytest.fixture
+def my_much_too_long_v():
+    v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 100000)
+    return v
+
+
+@pytest.fixture
+def my_indices(my_v):
+    indices = np.uint16(np.nonzero(my_v)[0])
+    return indices
+
+
+@pytest.fixture
 def my_incredible_stat_v():
     # test statistic is smaller than smallest double larger than zero
     v = np.uint8([1]*500 + [0]* 1500)
@@ -93,8 +105,8 @@ def test_L(my_v):
     assert res[2] == 0.019801341589267284
 
 
-def test_result(my_v):
-    result = get_xlmhg_test_result(my_v)
+def test_result(my_indices, my_v):
+    result = get_xlmhg_test_result(my_indices, my_v.size)
     assert isinstance(result, mHGResult)
 
 
@@ -105,6 +117,7 @@ def test_limit_stat(my_incredible_stat_v):
     assert res[0] == 0.0
     assert res[1] == 500
     assert res[2] == 0.0
+
 
 def test_limit_pval(my_incredible_pval_v):
     # PVAL1 algorithm should handle this without problems
@@ -120,3 +133,34 @@ def test_limit_pval(my_incredible_pval_v):
     assert res[0] == 1.5112233509292993e-216
     assert res[1] == 200
     assert res[2] < 1e-200
+
+
+def test_non_contiguous(my_indices, my_v):
+    with pytest.raises(ValueError):
+        result = get_xlmhg_test_result(my_indices[::-1], my_v.size)
+
+
+def test_list_too_long(my_much_too_long_v):
+    with pytest.raises(ValueError):
+        result = xlmhg_test(my_much_too_long_v)
+
+
+def test_table_too_small(my_indices, my_v):
+    N = my_v.size
+    K = my_indices.size
+    with pytest.raises(ValueError):
+        table = np.empty(((N-K), (N-K)), np.longdouble)
+        result = get_xlmhg_test_result(my_indices, N, table=table)
+
+
+def test_params(my_indices, my_v):
+    N = my_v.size
+    result = get_xlmhg_test_result(my_indices, N, X=1)
+    assert isinstance(result, mHGResult)
+    result = get_xlmhg_test_result(my_indices, N, L=N)
+    assert isinstance(result, mHGResult)
+    result = get_xlmhg_test_result(my_indices, N, pval_thresh=0.05)
+    assert isinstance(result, mHGResult)
+    table = np.empty((N+1, N+1), np.longdouble)
+    result = get_xlmhg_test_result(my_indices, N, table=table)
+    assert isinstance(result, mHGResult)

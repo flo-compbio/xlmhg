@@ -26,32 +26,41 @@ from copy import deepcopy
 import pytest
 import numpy as np
 
-from xlmhg import xlmhg_test, mHGResult
+from xlmhg import get_xlmhg_test_result, mHGResult
 
 
-@pytest.fixture
+@pytest.fixture()
 def my_v():
     v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from paper
     return v
 
 
 @pytest.fixture
-def my_result(my_v):
+def my_indices(my_v):
+    indices = np.uint16(np.nonzero(my_v)[0])
+    return indices
+
+
+@pytest.fixture
+def my_result(my_v, my_indices):
     N = my_v.size
-    K = int(np.sum(my_v!=0))
+    K = my_indices.size
     X = 1
     L = N
-    stat, cutoff, pval = xlmhg_test(my_v, X, L)
-    result = mHGResult(my_v, K, X, L, stat, cutoff, pval)
+    #stat, cutoff, pval = xlmhg_test(my_indices, X, L)
+    #result = mHGResult(my_indices, N, X, L, stat, cutoff, pval)
+    result = get_xlmhg_test_result(my_indices, N, X, L)
     return result
 
 
-def test_basic(my_result, my_v):
+def test_basic(my_result, my_v, my_indices):
     assert isinstance(my_result, mHGResult)
     assert isinstance(repr(my_result), str)
     assert isinstance(str(my_result), str)
     assert isinstance(text(my_result), text)
     assert isinstance(my_result.hash, text)
+    assert np.array_equal(my_result.indices, my_indices)
+    assert np.array_equal(my_result.v, my_v)
 
     other = deepcopy(my_result)
     assert other is not my_result

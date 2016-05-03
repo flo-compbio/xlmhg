@@ -31,8 +31,10 @@ cimport numpy as np
 
 np.import_array()
 
+
 def get_default_tol():
     return float(DEFAULT_TOL)
+
 
 cdef inline int is_equal(long double a, long double b, long double tol):
     # tests equality of two floating point numbers
@@ -41,6 +43,7 @@ cdef inline int is_equal(long double a, long double b, long double tol):
         return 1
     else:
         return 0
+
 
 cdef long double get_hgp(long double p, int k, int N, int K, int n):
     # calculates hypergeometric p-value when f(k | N,K,n) is already known
@@ -52,38 +55,42 @@ cdef long double get_hgp(long double p, int k, int N, int K, int n):
         k += 1
     return pval
 
-def get_xlmhg_stat(unsigned char[::1] v, int N, int K, int X, int L,
+
+def get_xlmhg_stat(unsigned short[::1] indices, int N, int K, int X, int L,
                    long double tol=DEFAULT_TOL):
     """Calculates the XL-mHG test statistic."""
     # special cases
     if K == 0 or K == N or K < X:
         return 1.0, 0
 
+    cdef long double hgp
+    cdef int cutoff = 0
+    cdef long double stat = 1.1
+    cdef int i = 0
+    cdef int n = 0
     cdef int k = 0
     cdef long double p = 1.0
-    cdef long double hgp
-    cdef long double stat = 1.1
-    cdef int n_star = 0
-    cdef int n
-    for n in range(L):
-        if v[n] == 0:
+    while i < K and indices[i] < L:
+        while n < indices[i]:
+            # "add zeros"
             # calculate f(k; N,K,n+1) from f(k; N,K,n)
-            p *= (<long double>((n+1)*(N-K-n+k)) /\
-                    <long double>((N-n)*(n-k+1)))
-        else:
-            # hit one => calculate hypergeometric p-value
-            # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
-            p *= (<long double>((n+1)*(K-k)) /\
-                    <long double>((N-n)*(k+1)))
-            k += 1
-            if k >= X: # calculate p-value only if enough elements have been seen
-                hgp = get_hgp(p, k, N, K, n+1)
-                if hgp < stat and is_equal(hgp, stat, tol) == 0:
-                    stat = hgp
-                    n_star = n+1
-
+            p *= (<long double>((n+1)*(N-K-n+k)) /
+                  <long double>((N-n)*(n-k+1)))
+            n += 1
+        # "add one" => calculate hypergeometric p-value
+        # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
+        p *= (<long double>((n+1)*(K-k)) /\
+                <long double>((N-n)*(k+1)))
+        k += 1
+        n += 1
+        if k >= X: # calculate p-value only if enough elements have been seen
+            hgp = get_hgp(p, k, N, K, n)
+            if hgp < stat and is_equal(hgp, stat, tol) == 0:
+                stat = hgp
+                cutoff = n
+        i += 1
     stat = min(stat, 1.0) # because we initially set stat to 1.1
-    return stat, n_star
+    return stat, cutoff
 
 
 def get_xlmhg_bound(int N, int K, int X, int L, long double stat,
@@ -151,6 +158,7 @@ def get_xlmhg_bound(int N, int K, int X, int L, long double stat,
     
     return min((k_max-k_min+1)*stat, 1.0)
 
+
 def get_xlmhg_pval1(int N, int K, int X, int L, long double stat, \
                     long double[:,::1] table, long double tol=DEFAULT_TOL):
     """PVAL1: Calculate the XL-mHG p-value in O(N^2)."""
@@ -191,11 +199,14 @@ def get_xlmhg_pval1(int N, int K, int X, int L, long double stat, \
         hgp = p
         w = n - k
 
-        # R is the space of configurations with mHG better than or equal to the one observed
+        # R is the space of configurations with mHG better than or equal to the
+        # one observed
         # - go over all configurations for threshold n
         # - start with highest possible enrichment and then go down
-        # - as long as we're in R, all paths going through this configuration are "doomed"
-        # - because we're using (K x W) grid instead of parallelogram, "going down" becomes going down and right...
+        # - as long as we're in R, all paths going through this configuration
+        #   are "doomed"
+        # - because we're using (K x W) grid instead of parallelogram,
+        #   "going down" becomes going down and right...
 
         # no configuration with threshold > L or threshold < X can be in R 
         if n <= L and n >= X:
@@ -273,11 +284,14 @@ def get_xlmhg_pval2(int N, int K, int X, int L, long double stat,\
             # That means we're done here!
             break
 
-        # R is the space of configurations with mHG better than or equal to the one observed
+        # R is the space of configurations with mHG better than or equal to the
+        # one observed
         # - go over all configurations for threshold n
         # - start with highest possible enrichment and then go down
-        # - as long as we're in R, all paths going through this configuration are "doomed"
-        # - because we're using (K x W) grid instead of parallelogram, "going down" becomes going down and right...
+        # - as long as we're in R, all paths going through this configuration
+        #   are "doomed"
+        # - because we're using (K x W) grid instead of parallelogram,
+        #   "going down" becomes going down and right...
 
         # find the first configuration that's not in R
         # this happens when either k < X, or hypergeometric p-value > mHG
@@ -321,7 +335,7 @@ def get_xlmhg_pval2(int N, int K, int X, int L, long double stat,\
     return pval
 
 
-def get_xlmhg_escore(unsigned char[::1] v, int N, int K, int X, int L,
+def get_xlmhg_escore(unsigned short[::1] indices, int N, int K, int X, int L,
                      long double hg_pval_thresh,
                      long double tol=DEFAULT_TOL):
     """ESCORE: Calculate the XL-mHG E-score in O(N)."""
@@ -329,34 +343,36 @@ def get_xlmhg_escore(unsigned char[::1] v, int N, int K, int X, int L,
     if K == 0 or K == N or K < X:
         return float('nan')
 
-    cdef int k = 0
-    cdef long double p = 1.0
     cdef long double hgp
     cdef long double e
     cdef long double escore = 0.0
-    # cdef int n_star = 0
-    cdef int n
-    for n in range(L):
-        if v[n] == 0:
+    cdef int i = 0
+    cdef int n = 0
+    cdef int k = 0
+    cdef long double p = 1.0
+    while i < K and indices[i] < L:
+        while n < indices[i]:
+            # "add zeros"
             # calculate f(k; N,K,n+1) from f(k; N,K,n)
-            p *= (<long double>((n+1)*(N-K-n+k)) /\
-                    <long double>((N-n)*(n-k+1)))
-        else:
-            # hit one => calculate hypergeometric p-value
-            # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
-            p *= (<long double>((n+1)*(K-k)) /\
-                    <long double>((N-n)*(k+1)))
-            k += 1
-            if k >= X:  # make sure at least X 1's have been seen
-                e = <long double>k / (<long double>((n+1)*K) / <long double>N)
-                # only calculate p-value if e(n) is better than current E-score
-                if e > escore and is_equal(e, escore, tol) == 0:
-                    hgp = get_hgp(p, k, N, K, n+1)
-                    # check if hypergeometric p-value meets thresholds crit.
-                    if hgp <= hg_pval_thresh or \
-                            is_equal(hgp, hg_pval_thresh, tol) != 0:
-                        escore = e
-
+            p *= (<long double>((n+1)*(N-K-n+k)) /
+                  <long double>((N-n)*(n-k+1)))
+            n += 1
+        # "add one" => calculate hypergeometric p-value
+        # calculate f(k+1; N,K,n+1) from f(k; N,K,n)
+        p *= (<long double>((n+1)*(K-k)) /\
+                <long double>((N-n)*(k+1)))
+        k += 1
+        n += 1
+        if k >= X: # calculate E-score only if enough elements have been seen
+            e = <long double>k / (<long double>(n*K) / <long double>N)
+            # only calculate p-value if e(n) is larger than current E-score
+            if e > escore and is_equal(e, escore, tol) == 0:
+                hgp = get_hgp(p, k, N, K, n)
+                # check if hypergeometric p-value meets thresholds crit.
+                if hgp <= hg_pval_thresh or \
+                        is_equal(hgp, hg_pval_thresh, tol) != 0:
+                    escore = e
+        i += 1
     if escore == 0.0:
         escore = NAN("")
     return escore

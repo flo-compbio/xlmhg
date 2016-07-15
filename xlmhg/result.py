@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 class mHGResult(object):
-    """The result of performing an XL-mHG test.
+    """An XL-mHG test result.
 
     """
     def __init__(self, N, indices, X, L, stat, cutoff, pval,

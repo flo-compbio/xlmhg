@@ -1,33 +1,50 @@
+sudo: required
+dist: trusty
+services:
+  - docker
 language: python
+
+# the following defines the build matrix
 python:
-- '2.7'
-- '3.5'
+    - 2.7
+    - 3.5
+env:
+    - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+    - DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+      PRE_CMD=linux32
+
+# only build master and develop branches
 branches:
   only:
     - master
     - develop
+
 before_install:
-- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-    wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
-    -O miniconda.sh; else
-    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    -O miniconda.sh; fi
-- bash miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
-- hash -r
-- conda config --set always_yes yes --set changeps1 no
-- conda update -q conda
-- conda info -a
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+      -O miniconda.sh; else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+      -O miniconda.sh; fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
 install:
-- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-    pytest coverage future six numpy cython scipy
-- source activate test-environment
-- pip install pytest-cov codecov
-- pip install -e .
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+      pytest coverage future six numpy cython scipy
+  - source activate test-environment
+  - pip install pytest-cov codecov
+  - pip install -e .
 script:
-- py.test --cov=xlmhg --cov-report=xml tests/
+  - py.test --cov=xlmhg --cov-report=xml tests/
 after_success:
-- codecov
+  # try to only build wheels (in docker container) if tests are successful
+  - codecov
+  - docker pull $DOCKER_IMAGE
+  - docker run --rm -v "`pwd`:/io" -e TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION $DOCKER_IMAGE
+    /io/tools/build_manylinux_wheel.sh
 notifications:
   email:
     on_success: never
@@ -35,6 +52,8 @@ notifications:
 deploy:
   provider: pypi
   user: flo-compbio
+  skip_cleanup: true
+  distributions: "sdist bdist_wheel"
   password:
     secure: I2DVgNajBx2xsaqeRHlcmtH8Q4emO0gSWUA/Wfayg4r8Bue+phln480zEcJcMC2nch7NzIPfM/jvniFIrGgZddSUJ3qoHAF+HLPfZUwv0IPSdZ4q3C8Jqs2EK5YlHjSQk0497lD5tcGSDhjFYVgSE1spCh0esUUIU0AtKT+tU6O72Jko2XCewjs45J1phB1TQQM5Tak2zluEKDmkkFXry61YDrM+K2SZwSkk8WC/HbX0WNlUSz67Ic0FZzmzZOBBzj9xkAIwHxUmM8+08omm3KtrKQjuoSc6CL2tn1eZG+qIgSt/pelxv5UXW8RHNTxCiA/UG5h9t5hOnyhmrzBVvMn/gNjoc7XJv50rI4V5Ivys4pKVBWxNQAKfpzW1E09vJ/ay5riVyYr5444ZJ/zgQEyju2k87vURRYbus41TV2opkiEDN2kwBFjO/js9UWgIMPDg7FedTqJmMVDPKHpTkNRVHgXNE4Mg1+sLY/bW6nOhqSu775elKObd+MbvQ5Zz+NinLcDXUWqYaLCywGi+1nS/0s1HQyCby+o3VcSmCtSBBtoDaj20wGpftJebnBGOzKaYx7RStMrutviB4wVTLoZQLOV6X2/MDEC6sTJu9f9L+5C7T9DFoP8N61Tymz5dcun7mFnU/u2dn9nZ11x/5mIZboAubcT6seD7Se51XCY=
   on:

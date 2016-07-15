@@ -18,10 +18,10 @@ __ mhg_paper_
 __ zohar_
 
 If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS
-Comput Biol, 2007)`__ and `Wagner (PeerJ Preprints, 2016)`__.
+Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
 
 __ mhg_paper_
-__ xlmhg_paper_
+__ go_pca_paper_
 
 Installation
 ------------
@@ -50,7 +50,7 @@ What do the ``X`` and ``L`` parameters mean?
 - ``X`` refers to the minimum number of "1's" that have to be seen before anything can be called "enrichment".
 - ``L`` is the lowest cutoff (i.e., the largest ``n``) that is being tested for enrichment.
 
-A more direct way to understand ``X`` and ``L`` is through the definition of the XL-mHG test statistic. It is defined as the minimum hypergeometric p-value over all cutoffs at which at least ``X`` "1's" have already been seen, and which are at or below the n'th cutoff. All other cutoffs are ignored. For `X=1` and `L=N`, no relevant cutoffs are ignored, and the XL-mHG test reduces to the mHG test.
+A more direct way to understand ``X`` and ``L`` is through the definition of the XL-mHG test statistic. It is defined as the minimum hypergeometric p-value over all cutoffs at which at least ``X`` "1's" have already been seen, and which are at or below the ``L``'th cutoff. All other cutoffs are ignored. For `X=1` and `L=N`, no relevant cutoffs are ignored, and the XL-mHG test reduces to the mHG test.
 
 Background
 ----------
@@ -84,6 +84,8 @@ Copyright (c) 2015, 2016 Florian Wagner
 .. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
 
 .. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
+
+.. _go_pca_paper: https://dx.doi.org/10.1371/journal.pone.0143196
 
 .. |pypi| image:: https://img.shields.io/pypi/v/xlmhg.svg
     :target: https://pypi.python.org/pypi/xlmhg

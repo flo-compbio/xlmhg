@@ -18,22 +18,40 @@ from __future__ import print_function
 
 import sys
 import os
+from os import path
 import io
+from sys import platform
 
 from setuptools import setup, find_packages, Extension
-from os import path
+from wheel.bdist_wheel import bdist_wheel
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.0'
+version = '2.2.1'
 
 install_requires = [
     'future >= 0.15.2, < 1',
     'six >= 1.10.0, < 2',
 ]
 
+class ManylinuxWheel(bdist_wheel):
+    def run(self):
+        # first, build the wheel normally
+        bdist_wheel.run(self)
+        if platform in ['linux', 'linux2'] and six.PY3:
+            # if we're building on linux, run auditwheel to create a manylinux wheel
+            # and replace the original wheel
+            # note: auditwheel is not compatible with Python 2.7
+            os.system('echo "Setuptools pwd is: `pwd`." && '
+                      'ls -alth dist && '
+                      'find dist/ -name "*.whl" -exec auditwheel repair {} \; && '
+                      'rm dist/*.whl && '
+                      'mv wheelhouse/*.whl dist/ && '
+                      'ls -alth dist/')
+            print('Manylinux wheel created!')
+
 ext_modules = []
-cmdclass = {}
+cmdclass = {'bdist_wheel': ManylinuxWheel}
 
 # do not require installation if built by ReadTheDocs
 # (we mock these modules in docs/source/conf.py)
@@ -49,7 +67,7 @@ if 'READTHEDOCS' not in os.environ or \
     try:
         from Cython.Distutils import build_ext  # Cython is required
     except ImportError:
-        print('You must installCython before installing XL-mHG! '
+        print('You must install Cython before installing XL-mHG! '
               'Try `pip install cython`.')
         sys.exit(1)
 
@@ -68,11 +86,15 @@ if 'READTHEDOCS' not in os.environ or \
     try:
         if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
                 and 'TRAVIS_TEST_RESULT' not in os.environ:
-            print('Warning: Enabling line tracing in cython extension.'
-                  'This will slow it down by a factor of 20 or so!')
-            macros.append(('CYTHON_TRACE', '1'))
+            # note: linetracing is temporarily disabled
+            macros.append(('CYTHON_TRACE', '0'))
+            CythonOptions.directive_defaults['linetrace'] = False
+
             # only way of setting linetrace without cythonize?
-            CythonOptions.directive_defaults['linetrace'] = True
+            # macros.append(('CYTHON_TRACE', '1'))
+            # CythonOptions.directive_defaults['linetrace'] = True
+            # print('Warning: Enabling line tracing in cython extension.'
+            #       'This will slow it down by a factor of 20 or so!')
     except KeyError:
         pass
 
@@ -115,7 +137,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Cython',
     ],
 
@@ -143,7 +165,11 @@ setup(
     # extras_require={},
 
     # data
-    # package_data={}
+    package_data={
+        'xlmhg': ['xlmhg/mhg_cython.pyx',
+                  'tests/*',
+                  'README.rst', 'LICENSE', 'CHANGELOG.rst'],
+    },
 
     # data outside package
     # data_files=[],

@@ -1,7 +1,7 @@
 #!/bin/bash
-set -e -x
+# this should be run from within a manylinux1 docker container
 
-# this should be run from within a manylinux docker container
+set -e -x
 
 cd ~
 echo "The current working directory is: `pwd`"

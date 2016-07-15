@@ -1,5 +1,5 @@
 #!/bin/bash
-# requires docker, Python 3.5 and the `auditwheels` Python package
+# requires docker
 set -e -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

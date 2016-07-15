@@ -31,9 +31,11 @@ install:
   - source activate test-environment
   - pip install --upgrade pip
   - pip install --upgrade --ignore-install setuptools
-  - pip install --upgrade pytest coverage future six numpy cython scipy
-      pytest-cov codecov
+  - pip install -r requirements.txt
   - pip install -e .
+before_script:
+  # install packages required for testing
+  - pip install --upgrade pytest pytest-cov scipy
 script:
   # run tests
   - py.test --cov=xlmhg --cov-report=xml tests/

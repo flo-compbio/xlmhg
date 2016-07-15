@@ -23,7 +23,24 @@ import io
 from sys import platform
 
 from setuptools import setup, find_packages, Extension
-from wheel.bdist_wheel import bdist_wheel
+
+try:
+    import numpy as np  # numpy is required upfront
+except ImportError:
+    print('You must install NumPy before installing XL-mHG! '
+          'Try `pip install numpy`.')
+    sys.exit(1)
+
+try:
+    from Cython.Distutils import build_ext  # Cython is required upfront
+except ImportError:
+    print('You must installCython before installing XL-mHG! '
+          'Try `pip install cython`.')
+    sys.exit(1)
+
+from Cython.Distutils import build_ext
+from Cython.Compiler import Options as CythonOptions
+import numpy as np
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
@@ -32,51 +49,31 @@ version = '2.2.1'
 install_requires = [
     'future >= 0.15.2, < 1',
     'six >= 1.10.0, < 2',
+    'cython >= 0.23.4, < 1',
+    'numpy >= 1.8, < 2',
 ]
 
-class ManylinuxWheel(bdist_wheel):
-    def run(self):
-        # first, build the wheel normally
-        bdist_wheel.run(self)
-        if platform in ['linux', 'linux2'] and six.PY3:
-            # if we're building on linux, run auditwheel to create a manylinux wheel
-            # and replace the original wheel
-            # note: auditwheel is not compatible with Python 2.7
-            os.system('echo "Setuptools pwd is: `pwd`." && '
-                      'ls -alth dist && '
-                      'find dist/ -name "*.whl" -exec auditwheel repair {} \; && '
-                      'rm dist/*.whl && '
-                      'mv wheelhouse/*.whl dist/ && '
-                      'ls -alth dist/')
-            print('Manylinux wheel created!')
-
+cmdclass = {}
 ext_modules = []
-cmdclass = {'bdist_wheel': ManylinuxWheel}
 
-# do not require installation if built by ReadTheDocs
+# do not require installation of extension if built by ReadTheDocs
 # (we mock these modules in docs/source/conf.py)
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
-    try:
-        import numpy as np  # numpy is required
-    except ImportError:
-        print('You must install NumPy before installing XL-mHG! '
-              'Try `pip install numpy`.')
-        sys.exit(1)
+    #try:
+    #    import numpy as np  # numpy is required
+    #except ImportError:
+    #    print('You must install NumPy before installing XL-mHG! '
+    #          'Try `pip install numpy`.')
+    #    sys.exit(1)
 
-    try:
-        from Cython.Distutils import build_ext  # Cython is required
-    except ImportError:
-        print('You must install Cython before installing XL-mHG! '
-              'Try `pip install cython`.')
-        sys.exit(1)
+    #try:
+    #
+    #except ImportError:
+    #    print('You must install Cython before installing XL-mHG! '
+    #          'Try `pip install cython`.')
+    #    sys.exit(1)
 
-    from Cython.Compiler import Options as CythonOptions
-
-    install_requires.extend([
-        'cython >= 0.23.4, < 1',
-        'numpy >= 1.8, < 2',
-    ])
 
     # tell setuptools to build the Cython extension
     cmdclass['build_ext'] = build_ext
@@ -103,6 +100,7 @@ if 'READTHEDOCS' not in os.environ or \
                   include_dirs=[np.get_include()],
                   define_macros=macros)
     )
+
 
 here = path.abspath(path.dirname(__file__))
 
@@ -154,6 +152,8 @@ setup(
     # libraries = [],
 
     install_requires=install_requires,
+
+    setuptools_requires=install_requires,
 
     tests_require=[
         'pytest >= 2.8.5, < 3',

@@ -38,7 +38,9 @@ Usage
     import xlmhg
     stat, cutoff, pval = xlmhg.xlmhg_test(v, X, L)
 
-Where ``v`` is a NumPy array of type \"np.uint8\" containing only zeros and ones, ``X``, and ``L`` are parameters, and the return values have the following meanings:
+Where: ``v`` is the ranked list of 0's and 1's, represented by a NumPy array of
+type \"np.uint8\", `X`` and ``L`` are parameters, and the return values have
+the following meanings:
 
 - ``stat``: The XL-mHG test statistic
 - ``cutoff``: The cutoff at which the XL-mHG test statistic was attained
@@ -47,15 +49,23 @@ Where ``v`` is a NumPy array of type \"np.uint8\" containing only zeros and ones
 What do the ``X`` and ``L`` parameters mean?
 --------------------------------------------
 
-- ``X`` refers to the minimum number of "1's" that have to be seen before anything can be called "enrichment".
-- ``L`` is the lowest cutoff (i.e., the largest ``n``) that is being tested for enrichment.
+- ``X`` refers to the minimum number of "1's" that have to be seen before
+  anything can be called "enrichment".
+- ``L`` is the lowest cutoff (i.e., the largest ``n``) that is being tested
+  for enrichment.
 
-A more direct way to understand ``X`` and ``L`` is through the definition of the XL-mHG test statistic. It is defined as the minimum hypergeometric p-value over all cutoffs at which at least ``X`` "1's" have already been seen, and which are at or below the ``L``'th cutoff. All other cutoffs are ignored. For `X=1` and `L=N`, no relevant cutoffs are ignored, and the XL-mHG test reduces to the mHG test.
+A more direct way to understand ``X`` and ``L`` is through the definition of
+the XL-mHG test statistic. It is defined as the minimum hypergeometric p-value
+over all cutoffs at which at least ``X`` "1's" have already been seen, and
+excluding any cutoffs larger than ``L``. For `X=1` and `L=N`, the XL-mHG test
+reduces to the mHG test.
 
 Background
 ----------
 
-For a discussion of the statistical background and implementation of this test, please see my `Technical Report on arXiv <http://arxiv.org/abs/1507.07905>`_, as well as my `PeerJ Preprint article`__.
+For a discussion of the statistical background and implementation of this test,
+please see the `Technical Report on arXiv <http://arxiv.org/abs/1507.07905>`_,
+as well as the `XL-mHG PeerJ Preprint article`__.
 
 __ xlmhg_paper_
 

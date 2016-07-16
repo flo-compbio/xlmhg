@@ -60,20 +60,6 @@ ext_modules = []
 # (we mock these modules in docs/source/conf.py)
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
-    #try:
-    #    import numpy as np  # numpy is required
-    #except ImportError:
-    #    print('You must install NumPy before installing XL-mHG! '
-    #          'Try `pip install numpy`.')
-    #    sys.exit(1)
-
-    #try:
-    #
-    #except ImportError:
-    #    print('You must install Cython before installing XL-mHG! '
-    #          'Try `pip install cython`.')
-    #    sys.exit(1)
-
 
     # tell setuptools to build the Cython extension
     cmdclass['build_ext'] = build_ext
@@ -84,14 +70,14 @@ if 'READTHEDOCS' not in os.environ or \
         if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
                 and 'TRAVIS_TEST_RESULT' not in os.environ:
             # note: linetracing is temporarily disabled
-            macros.append(('CYTHON_TRACE', '0'))
-            CythonOptions.directive_defaults['linetrace'] = False
+            #macros.append(('CYTHON_TRACE', '0'))
+            #CythonOptions.directive_defaults['linetrace'] = False
 
             # only way of setting linetrace without cythonize?
-            # macros.append(('CYTHON_TRACE', '1'))
-            # CythonOptions.directive_defaults['linetrace'] = True
-            # print('Warning: Enabling line tracing in cython extension.'
-            #       'This will slow it down by a factor of 20 or so!')
+            macros.append(('CYTHON_TRACE', '1'))
+            CythonOptions.directive_defaults['linetrace'] = True
+            print('Warning: Enabling line tracing in cython extension.'
+                  'This will slow it down by a factor of 20 or so!')
     except KeyError:
         pass
 

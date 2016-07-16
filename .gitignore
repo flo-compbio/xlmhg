@@ -2,6 +2,7 @@
 /xlmhg/mhg_cython.c
 /xlmhg/mhg_cython.html
 /.idea
+/wheelhouse
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -5,7 +5,6 @@ set -e -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 pushd $DIR
 
-
 ### 64-bit
 
 DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64

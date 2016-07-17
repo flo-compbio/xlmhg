@@ -45,6 +45,8 @@ script:
   - py.test --cov=xlmhg --cov-report=xml tests/
 after_success:
   # try to only build wheels (in docker container) if tests are successful
+  - mkdir dist wheelhouse
+  - ls -alth
   - ./tools/run_manylinux_container.sh
   - codecov
 notifications:

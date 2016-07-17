@@ -44,7 +44,7 @@ import numpy as np
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.2'
+version = '2.2.3'
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -138,8 +138,6 @@ setup(
     # libraries = [],
 
     install_requires=install_requires,
-
-    setuptools_requires=install_requires,
 
     tests_require=[
         'pytest >= 2.8.5, < 3',

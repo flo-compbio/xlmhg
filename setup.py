@@ -139,8 +139,6 @@ setup(
 
     install_requires=install_requires,
 
-    setuptools_requires=install_requires,
-
     tests_require=[
         'pytest >= 2.8.5, < 3',
         'pytest-cov >= 2.2.1, < 3',

@@ -46,6 +46,7 @@ script:
 after_success:
   # try to only build wheels (in docker container) if tests are successful
   - mkdir dist
+  - chmod o+w dist
   - ls -alth
   - ./tools/run_manylinux_container.sh
   - codecov

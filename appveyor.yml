@@ -24,6 +24,10 @@ install:
   - dir
   # install conda
   - miniconda.exe /InstallationType=JustMe /S /D=%cd%\\Miniconda
+  - dir
+  - dir %cd%\\Miniconda
+  - echo %PATH%
+  - where conda
   # configure and update conda
   - conda config --set always_yes yes --set changeps1 yes
   - conda update conda

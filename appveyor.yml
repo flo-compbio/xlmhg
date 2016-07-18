@@ -15,6 +15,7 @@ install:
   # provided by Appveyor
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
+  - "%PYTHON%\\python.exe -m pip install wheel"
   - "%PYTHON%\\python.exe -m pip install --only-binary :all: numpy cython"  # we need scipy for the tests
   - "%PYTHON%\\python.exe -m pip install -e ."
 
@@ -46,7 +47,6 @@ install:
   - pip install -e .
 
   # install xlmhg
-  # - "%PYTHON%\\python.exe -m pip install wheel"
 
 build: off
 

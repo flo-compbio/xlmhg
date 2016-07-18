@@ -26,10 +26,10 @@ install:
   - miniconda.exe /InstallationType=JustMe /S /D=%cd%\\Miniconda
   - set "CONDA=%cd%\\Miniconda\\Scripts\\conda.exe"
   # configure and update conda
-  - %CONDA% config --set always_yes yes --set changeps1 yes
-  - %CONDA% update conda
-  - %CONDA%" info -a
-  - %CONDA% create -n testenv python=3.5 numpy cython scipy
+  - "%CONDA% config --set always_yes yes --set changeps1 yes"
+  - "%CONDA% update conda"
+  - "%CONDA%" info -a"
+  - "%CONDA% create -n testenv python=3.5 numpy cython scipy"
   - activate testenv
   - pip install --upgrade pip
   - pip install --upgrade --ignore-installed setuptools

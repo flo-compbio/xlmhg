@@ -34,7 +34,8 @@ install:
   - "%ACTIVATE% testenv"
   - pip install --upgrade pip
   - pip install --upgrade --ignore-installed setuptools
-  - pip install pytest
+  - pip install --upgrade pytest twine
+  - pip install -e .
 
   #- "%PYTHON%\\python.exe -m pip install --upgrade pip"
   #- "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
@@ -61,6 +62,7 @@ test_script:
 
 after_test:
   # this step builds the wheels.
+  # uses the python binary provided by appveyor
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
 
 artifacts:
@@ -68,6 +70,7 @@ artifacts:
   - path: dist\*
 
 #on_success:
+#  twine upload -u flo-compbio -p %pypi_password% dist\*
 #  You can use this step to upload your artifacts to a public website.
 #  See Appveyor's documentation for more details. Or you can simply
 #  access your wheels from the Appveyor "artifacts" tab for your build.

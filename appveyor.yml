@@ -12,7 +12,7 @@ environment:
 
 install:
   # We need wheel installed to build wheels
-  - bitsadmin.exe /transfer "JobName" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe miniconda.exe
+  - bitsadmin.exe /transfer "JobName" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
   - dir
 
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"

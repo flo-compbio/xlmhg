@@ -28,7 +28,7 @@ install:
   # configure and update conda
   - "%CONDA% config --set always_yes yes --set changeps1 yes"
   - "%CONDA% update conda"
-  - "%CONDA%" info -a"
+  - "%CONDA% info -a"
   - "%CONDA% create -n testenv python=3.5 numpy cython scipy"
   - activate testenv
   - pip install --upgrade pip

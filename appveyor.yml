@@ -15,7 +15,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
   - "%PYTHON%\\python.exe -m pip install pytest"
-  - "%PYTHON%\\python.exe -m pip install --only-binary :all: numpy cython"
+  - "%PYTHON%\\python.exe -m pip install --only-binary :all: numpy cython scipy"  # we need scipy for the tests
   # install xlmhg
   - "%PYTHON%\\python.exe -m pip install -e ."
   # - "%PYTHON%\\python.exe -m pip install wheel"

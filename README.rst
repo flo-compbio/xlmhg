@@ -3,10 +3,10 @@ XL-mHG
 
 | |pypi| |versions| |license|
 
-===========  ==================================
-**master**   |travis-master| |codecov-master|
-**develop**  |travis-develop| |codecov-develop|
-===========  ==================================
+===========  =====================================================
+**master**   |codecov-master| |travis-master| |appveyor-master|
+**develop**  |codecov-develop| |travis-develop| |appveyor-develop|
+===========  =====================================================
 
 This is an efficient Python/Cython implementation of the semiparametric
 `XL-mHG test`__ for enrichment in ranked lists. The XL-mHG test is an extension
@@ -110,14 +110,24 @@ Copyright (c) 2015, 2016 Florian Wagner
     :alt: License
 
 .. |travis-master| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
-    :alt: Build Status (master branch)
+    :alt: Travis-CI build Status (master branch)
     :scale: 100%
     :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=master
 
 .. |travis-develop| image:: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
-    :alt: Build Status (develop branch)
+    :alt: Travis-CI build Status (develop branch)
     :scale: 100%
     :target: https://travis-ci.org/flo-compbio/xlmhg.svg?branch=develop
+
+.. |appveyor-master| image:: https://ci.appveyor.com/api/projects/status/wpon7qkwpxx3fe6q/branch/master?svg=true
+    :alt: Appveyor build Status (master branch)
+    :scale: 100%
+    :target: https://ci.appveyor.com/project/flo-compbio/xlmhg/branch/master
+
+.. |appveyor-develop| image:: https://ci.appveyor.com/api/projects/status/wpon7qkwpxx3fe6q/branch/develop?svg=true
+    :alt: Appveyor build Status (develop branch)
+    :scale: 100%
+    :target: https://ci.appveyor.com/project/flo-compbio/xlmhg/branch/develop
 
 .. |codecov-master| image:: https://codecov.io/gh/flo-compbio/xlmhg/branch/master/graph/badge.svg
     :alt: Coverage (master branch)

@@ -6,21 +6,39 @@ environment:
   matrix:
 
     # - PYTHON: "C:\\Python27"
-    # - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python35"
     # - PYTHON: "C:\\Python27-x64"
     - PYTHON: "C:\\Python35-x64"
 
 install:
   # We need wheel installed to build wheels
-  - bitsadmin.exe /transfer "JobName" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+  - if "%PYTHON%" == "C:\\Python35" (
+      bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+    )
+    else (
+      if "%PYTHON%" == "C:\\Python35-x64" (
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
+      )
+    )
   - dir
+  # install conda
+  - miniconda.exe /InstallationType=JustMe /S /D=%cd%\\Miniconda
+  # configure and update conda
+  - conda config --set always_yes yes --set changeps1 yes
+  - conda update conda
+  - conda info -a
+  - conda create -n testenv python=3.5 numpy cython scipy
+  - activate testenv
+  - pip install --upgrade pip
+  - pip install --upgrade --ignore-installed setuptools
+  - pip install pytest
 
-  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
-  - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
-  - "%PYTHON%\\python.exe -m pip install pytest"
+  #- "%PYTHON%\\python.exe -m pip install --upgrade pip"
+  #- "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
+  #- "%PYTHON%\\python.exe -m pip install pytest"
   # - "%PYTHON%\\python.exe -m pip install --only-binary :all: numpy cython scipy"  # we need scipy for the tests
   # install xlmhg
-  - "%PYTHON%\\python.exe -m pip install -e ."
+  # - "%PYTHON%\\python.exe -m pip install -e ."
   # - "%PYTHON%\\python.exe -m pip install wheel"
 
 build: off
@@ -34,7 +52,8 @@ test_script:
   # the interpreter you're using - Appveyor does not do anything special
   # to put the Python evrsion you want to use on PATH.
   - echo "Hello World"
-  - "%PYTHON%\\python.exe -m pytest tests/"
+  - py.test tests/
+  # - "%PYTHON%\\python.exe -m pytest tests/"
   # - %PYTHON%\\python.exe setup.py test"
 
 after_test:

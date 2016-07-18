@@ -22,7 +22,8 @@ DEF DEFAULT_TOL = 1e-12
 
 cdef extern from "math.h":
     long double ABS "fabsl" (long double x)
-    long double NAN "nanl" (const char* tagp)
+    # long double NAN "nanl" (const char* tagp)
+    double NAN
 
 cimport cython
 
@@ -192,8 +193,9 @@ def get_xlmhg_pval1(int N, int K, int X, int L, long double stat, \
 
         if p_start <= 0.0:
             # not enough floating point precision to calculate p-value
-            #return <long double>(float('nan'))
-            return NAN("")
+            # return <long double>(float('nan'))
+            # return NAN("")
+            return <long double>NAN
 
         p = p_start
         hgp = p
@@ -273,7 +275,8 @@ def get_xlmhg_pval2(int N, int K, int X, int L, long double stat,\
 
         if p_start <= 0.0:
             # not enough floating point precision to calculate p-value
-            return NAN("")
+            #return NAN("")
+            return <long double>NAN
 
         p = p_start
         hgp = p
@@ -341,7 +344,8 @@ def get_xlmhg_escore(unsigned short[::1] indices, int N, int K, int X, int L,
     """ESCORE: Calculate the XL-mHG E-score in O(N)."""
     # special cases
     if K == 0 or K == N or K < X:
-        return float('nan')
+        # return float('nan')
+        return <long double>NAN
 
     cdef long double hgp
     cdef long double e
@@ -374,5 +378,6 @@ def get_xlmhg_escore(unsigned short[::1] indices, int N, int K, int X, int L,
                     escore = e
         i += 1
     if escore == 0.0:
-        escore = NAN("")
+        # escore = NAN("")
+        escore = <long double>NAN
     return escore

@@ -59,18 +59,18 @@ install:
 
   # set up conda environment
   - if "%PYTHON%" == "C:\Python35" (
-      "%CONDA% create -n testenv python=3.5 numpy cython scipy"
+      %CONDA% create -n testenv python=3.5 numpy cython scipy
     )
     else (
       if "%PYTHON%" == "C:\Python35-x64" (
-        "%CONDA% create -n testenv python=3.5 numpy cython scipy"
+        %CONDA% create -n testenv python=3.5 numpy cython scipy
       )
       else (
         if "%PYTHON%" == "C:\Python27" (
-          "%CONDA% create -n testenv python=2.7 numpy cython scipy"
+          %CONDA% create -n testenv python=2.7 numpy cython scipy
         )
         else (
-          "%CONDA% create -n testenv python=2.7 numpy cython scipy"
+          %CONDA% create -n testenv python=2.7 numpy cython scipy
         )
       )
     )

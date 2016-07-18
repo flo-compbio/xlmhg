@@ -31,7 +31,7 @@ install:
   - "%CONDA% update conda"
   - "%CONDA% info -a"
   - "%CONDA% create -n testenv python=3.5 numpy cython scipy"
-  - "%ACTIVATE"% testenv
+  - "%ACTIVATE% testenv"
   - pip install --upgrade pip
   - pip install --upgrade --ignore-installed setuptools
   - pip install pytest

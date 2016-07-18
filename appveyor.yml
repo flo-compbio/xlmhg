@@ -29,6 +29,8 @@ install:
 
   # we need scipy to execute XL-mHG tests
   # but scipy does not provide windows binaries => use conda
+
+  # download conda
   - if "%PYTHON%" == "C:\Python35" (
       bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
     )

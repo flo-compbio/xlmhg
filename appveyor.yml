@@ -1,0 +1,82 @@
+environment:
+
+  pypi_password:
+    secure: Ccv6xibMSCG/0HwrWsekSg==
+
+  matrix:
+
+    # - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python35"
+    # - PYTHON: "C:\\Python27-x64"
+    - PYTHON: "C:\\Python35-x64"
+
+install:
+  # install numpy and cython for the Python environment
+  # provided by Appveyor
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
+  - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
+  - "%PYTHON%\\python.exe -m pip install wheel"
+  - "%PYTHON%\\python.exe -m pip install --only-binary :all: numpy cython"  # we need scipy for the tests
+  - "%PYTHON%\\python.exe -m pip install -e ."
+
+  # we need scipy to execute XL-mHG tests
+  # but scipy does not provide windows binaries => use conda
+  - if "%PYTHON%" == "C:\Python35" (
+      bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+    )
+    else (
+      if "%PYTHON%" == "C:\Python35-x64" (
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
+      )
+    )
+  - dir
+  # install conda
+  - miniconda.exe /InstallationType=JustMe /S /D=%cd%\\Miniconda
+  - set "CONDA=%cd%\\Miniconda\\Scripts\\conda.exe"
+  - set "ACTIVATE=%cd%\\Miniconda\\Scripts\\activate.bat"
+  # configure and update conda
+  - "%CONDA% config --set always_yes yes --set changeps1 yes"
+  - "%CONDA% update conda"
+  - "%CONDA% info -a"
+  # set up conda environment
+  - "%CONDA% create -n testenv python=3.5 numpy cython scipy"
+  - "%ACTIVATE% testenv"
+  - pip install --upgrade pip
+  - pip install --upgrade --ignore-installed setuptools
+  - pip install --upgrade pytest twine
+  - pip install -e .
+
+  # install xlmhg
+
+build: off
+
+test_script:
+  # Put your test command here.
+  # If you don't need to build C extensions on 64-bit Python 3.3 or 3.4,
+  # you can remove "build.cmd" from the front of the command, as it's
+  # only needed to support those cases.
+  # Note that you must use the environment variable %PYTHON% to refer to
+  # the interpreter you're using - Appveyor does not do anything special
+  # to put the Python evrsion you want to use on PATH.
+  - py.test tests/test_result.py tests/test_correct_bound.py tests/test_correct_stat.py
+  # - "%PYTHON%\\python.exe -m pytest tests/"
+  # - %PYTHON%\\python.exe setup.py test"
+
+after_test:
+  # this step builds the wheels.
+  # uses the python binary provided by appveyor
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+
+artifacts:
+  # bdist_wheel puts your built wheel in the dist directory
+  - path: dist\*
+
+on_success:
+  - if "%APPVEYOR_REPO_BRANCH%" == "master" (
+        twine upload -u flo-compbio -p %pypi_password% dist\*
+    )
+#
+#  You can use this step to upload your artifacts to a public website.
+#  See Appveyor's documentation for more details. Or you can simply
+#  access your wheels from the Appveyor "artifacts" tab for your build.
+

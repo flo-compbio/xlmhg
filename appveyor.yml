@@ -12,6 +12,7 @@ environment:
 
 install:
   # We need wheel installed to build wheels
+  - echo "%PYTHON%"
   - if "%PYTHON%" == "C:\\Python35" (
       bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
     )

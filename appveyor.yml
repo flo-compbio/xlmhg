@@ -5,9 +5,9 @@ environment:
 
   matrix:
 
-    - PYTHON: "C:\\Python27"
+    # - PYTHON: "C:\\Python27"
     - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python27-x64"
+    # - PYTHON: "C:\\Python27-x64"
     - PYTHON: "C:\\Python35-x64"
 
 install:
@@ -31,7 +31,7 @@ test_script:
   # the interpreter you're using - Appveyor does not do anything special
   # to put the Python evrsion you want to use on PATH.
   - echo "Hello World"
-  - py.test tests/
+  - "%PYTHON%\\python.exe -m pytest tests/"
   # - %PYTHON%\\python.exe setup.py test"
 
 after_test:

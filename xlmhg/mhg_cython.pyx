@@ -20,9 +20,14 @@
 
 DEF DEFAULT_TOL = 1e-12
 
+# cdef extern from "float.h":
+#     double DBL_MAX
+#     double DBL_MIN
+
 cdef extern from "math.h":
     long double ABS "fabsl" (long double x)
-    long double NAN "nanl" (const char* tagp)
+    # long double NAN "nanl" (const char* tagp)
+    # double NAN
 
 cimport cython
 
@@ -31,6 +36,8 @@ cimport numpy as np
 
 np.import_array()
 
+# cdef inline long double NAN():
+#     return <long double>((DBL_MAX/DBL_MIN) * 0.0)
 
 def get_default_tol():
     return float(DEFAULT_TOL)
@@ -192,8 +199,7 @@ def get_xlmhg_pval1(int N, int K, int X, int L, long double stat, \
 
         if p_start <= 0.0:
             # not enough floating point precision to calculate p-value
-            #return <long double>(float('nan'))
-            return NAN("")
+            return float('nan')
 
         p = p_start
         hgp = p
@@ -273,7 +279,7 @@ def get_xlmhg_pval2(int N, int K, int X, int L, long double stat,\
 
         if p_start <= 0.0:
             # not enough floating point precision to calculate p-value
-            return NAN("")
+            return float('nan')
 
         p = p_start
         hgp = p
@@ -374,5 +380,5 @@ def get_xlmhg_escore(unsigned short[::1] indices, int N, int K, int X, int L,
                     escore = e
         i += 1
     if escore == 0.0:
-        escore = NAN("")
+        return float('nan')
     return escore

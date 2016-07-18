@@ -44,7 +44,7 @@ import numpy as np
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.4'
+version = '2.2.5'
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -70,14 +70,14 @@ if 'READTHEDOCS' not in os.environ or \
         if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
                 and 'TRAVIS_TEST_RESULT' not in os.environ:
             # note: linetracing is temporarily disabled
-            macros.append(('CYTHON_TRACE', '0'))
-            CythonOptions.directive_defaults['linetrace'] = False
+            # macros.append(('CYTHON_TRACE', '0'))
+            # CythonOptions.directive_defaults['linetrace'] = False
 
             # only way of setting linetrace without cythonize?
-            #macros.append(('CYTHON_TRACE', '1'))
-            #CythonOptions.directive_defaults['linetrace'] = True
-            #print('Warning: Enabling line tracing in cython extension.'
-            #      'This will slow it down by a factor of 20 or so!')
+            macros.append(('CYTHON_TRACE', '1'))
+            CythonOptions.directive_defaults['linetrace'] = True
+            print('Warning: Enabling line tracing in cython extension.'
+                  'This will slow it down by a factor of 20 or so!')
     except KeyError:
         pass
 

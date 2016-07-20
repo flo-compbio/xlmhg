@@ -23,6 +23,18 @@ import io
 from sys import platform
 
 from setuptools import setup, find_packages, Extension
+from wheel.bdist_wheel import bdist_wheel
+
+class CustomBdistWheel(bdist_wheel):
+    # source: http://lepture.com/en/2014/python-on-a-hard-wheel
+    def get_tag(self):
+        tag = bdist_wheel.get_tag(self)
+        # print('I\'m running!!! Tag is "%s"' % str(tag))
+        if platform == 'darwin':
+            repl = 'macosx_10_6_x86_64.macosx_10_9_x86_64.macosx_10_10_x86_64'
+            if tag[2] == 'macosx_10_6_x86_64':
+                tag = (tag[0], tag[1], repl)
+        return tag
 
 try:
     import numpy as np  # numpy is required upfront
@@ -44,7 +56,7 @@ import numpy as np
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.5'
+version = '2.2.6'
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -53,7 +65,7 @@ install_requires = [
     'numpy >= 1.8, < 2',
 ]
 
-cmdclass = {}
+cmdclass = {'bdist_wheel': CustomBdistWheel}
 ext_modules = []
 
 # do not require installation of extension if built by ReadTheDocs
@@ -68,6 +80,7 @@ if 'READTHEDOCS' not in os.environ or \
     macros = []
     try:
         if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
+                and os.environ['TRAVIS_OS_NAME'] == 'linux' \
                 and 'TRAVIS_TEST_RESULT' not in os.environ:
             # note: linetracing is temporarily disabled
             # macros.append(('CYTHON_TRACE', '0'))

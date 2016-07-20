@@ -63,10 +63,7 @@ after_success:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       # linux
       # build wheels in manylinux1 docker container
-      mkdir dist wheelhouse
-      ls -alth
-      ./tools/run_manylinux_container.sh
-      codecov
+      ./tools/travis_build_linux_wheels.sh
     else
       # mac
       python setup.py bdist_wheel

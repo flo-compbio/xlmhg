@@ -56,7 +56,7 @@ import numpy as np
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.6'
+version = '2.2.7'
 
 install_requires = [
     'future >= 0.15.2, < 1',

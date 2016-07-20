@@ -62,7 +62,7 @@ install:
   - pip install -e .
 before_script:
   # install packages required for testing
-  - pip install --upgrade pytest pytest-cov scipy
+  - pip install --upgrade pytest pytest-cov codecov scipy
 script:
   # run tests
   - py.test --cov=xlmhg --cov-report=xml tests/

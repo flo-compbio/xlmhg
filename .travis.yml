@@ -1,14 +1,13 @@
-sudo: required
-dist: trusty
-services:
-  - docker
 language: python
-
-# the following defines the build matrix
-
 os:
   - linux
+    - sudo: required
+    - dist: trusty
+    - services:
+      - docker
   - osx
+
+# the following defines the build matrix
 
 python:
   - 2.7

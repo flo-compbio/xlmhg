@@ -125,8 +125,7 @@ def get_xlmhg_stat(v, X, L, tol=DEFAULT_TOL):
 
     stat = min(stat, 1.0)
     return stat, n_star
-
-
+ices =
 def get_xlmhg_pval1(N, K, X, L, stat, tol=DEFAULT_TOL):
     """Calculate the XL-mHG p-value using "Algorithm 1".
 

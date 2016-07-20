@@ -18,6 +18,14 @@
 Changelog
 =========
 
+2.2.7 (2016-07-20)
+------------------
+- Added binary distributions for Windows (32/64-bit), Mac OS X (10.6+
+  64-bit), and Linux (32/64-bit), for both Python 2.7 and Python 3.5. This
+  means that for all of these platforms/environments, the installation of the
+  `xlmhg` package (`pip install xlmhg`) no longer requires a C compiler to
+  be present.
+
 2.2.0 (2016-05-03)
 ------------------
 - Changed internal structure used to represent lists, from vector of size N

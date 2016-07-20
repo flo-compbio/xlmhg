@@ -80,7 +80,7 @@ if 'READTHEDOCS' not in os.environ or \
     macros = []
     try:
         if os.environ['TRAVIS'] == 'true' and os.environ['CI'] == 'true' \
-                and.os.environ['TRAVIS_OS_NAME'] == 'linux' \
+                and os.environ['TRAVIS_OS_NAME'] == 'linux' \
                 and 'TRAVIS_TEST_RESULT' not in os.environ:
             # note: linetracing is temporarily disabled
             # macros.append(('CYTHON_TRACE', '0'))

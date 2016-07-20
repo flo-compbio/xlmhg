@@ -1,4 +1,5 @@
 language: python
+
 os:
   - linux
 
@@ -6,8 +7,6 @@ sudo: required
 dist: trusty
 services:
   - docker
-
-# the following defines the build matrix
 
 python:
   - 2.7
@@ -17,6 +16,10 @@ matrix:
   include:
     - os: osx
       language: generic
+      env: TRAVIS_PYTHON_VERSION=2.7
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.5
 
 # only build master and develop branches
 branches:

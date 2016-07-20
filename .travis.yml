@@ -1,7 +1,6 @@
 language: python
 os:
   - linux
-  - osx
 
 sudo: required
 dist: trusty
@@ -13,6 +12,11 @@ services:
 python:
   - 2.7
   - 3.5
+
+matrix:
+  include:
+    - os: osx
+      language: generic
 
 # only build master and develop branches
 branches:

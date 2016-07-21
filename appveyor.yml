@@ -6,6 +6,13 @@ notifications:
   on_build_failure: false
   on_build_status_changed: false
 
+branches:
+ only:
+   - master
+   - develop
+
+skip_tags: true
+
 environment:
 
   pypi_password:
@@ -109,7 +116,7 @@ artifacts:
 
 on_success:
   - if "%APPVEYOR_REPO_BRANCH%" == "master" (
-        twine upload -u flo-compbio -p %pypi_password% dist\*
+      twine upload -u flo-compbio -p %pypi_password% dist\*
     )
 #
 #  You can use this step to upload your artifacts to a public website.

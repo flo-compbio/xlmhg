@@ -25,38 +25,17 @@ from sys import platform
 from setuptools import setup, find_packages, Extension
 from wheel.bdist_wheel import bdist_wheel
 
-class CustomBdistWheel(bdist_wheel):
-    # source: http://lepture.com/en/2014/python-on-a-hard-wheel
-    def get_tag(self):
-        tag = bdist_wheel.get_tag(self)
-        # print('I\'m running!!! Tag is "%s"' % str(tag))
-        if platform == 'darwin':
-            repl = 'macosx_10_6_x86_64.macosx_10_9_x86_64.macosx_10_10_x86_64'
-            if tag[2] == 'macosx_10_6_x86_64':
-                tag = (tag[0], tag[1], repl)
-        return tag
-
-try:
-    import numpy as np  # numpy is required upfront
-except ImportError:
-    print('You must install NumPy before installing XL-mHG! '
-          'Try `pip install numpy`.')
-    sys.exit(1)
-
-try:
-    from Cython.Distutils import build_ext  # Cython is required upfront
-except ImportError:
-    print('You must installCython before installing XL-mHG! '
-          'Try `pip install cython`.')
-    sys.exit(1)
-
-from Cython.Distutils import build_ext
-from Cython.Compiler import Options as CythonOptions
-import numpy as np
-
+here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.8'
+version = '2.2.9'
+
+long_description = ''
+with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
+    long_description = fh.read()
+
+ext_modules = []
+cmdclass = {}
 
 install_requires = [
     'future >= 0.15.2, < 1',
@@ -65,16 +44,17 @@ install_requires = [
     'numpy >= 1.8, < 2',
 ]
 
-cmdclass = {'bdist_wheel': CustomBdistWheel}
-ext_modules = []
+try:
+    # this can fail if numpy or cython isn't installed yet
+    import numpy as np
+    from Cython.Distutils import build_ext
+    from Cython.Compiler import Options as CythonOptions
 
-# do not require installation of extension if built by ReadTheDocs
-# (we mock these modules in docs/source/conf.py)
-if 'READTHEDOCS' not in os.environ or \
-        os.environ['READTHEDOCS'] != 'True':
+except ImportError:
+    pass
 
+else:
     # tell setuptools to build the Cython extension
-    cmdclass['build_ext'] = build_ext
 
     # only enable Cython line tracing if we're installing in Travis-CI!
     macros = []
@@ -91,21 +71,41 @@ if 'READTHEDOCS' not in os.environ or \
             CythonOptions.directive_defaults['linetrace'] = True
             print('Warning: Enabling line tracing in cython extension.'
                   'This will slow it down by a factor of 20 or so!')
-    except KeyError:
+    except (KeyError, ImportError):
+        # KeyError if environment variable is not set,
+        # ImportError if cython is not yet installed
         pass
 
     ext_modules.append(
-        Extension(root+'.'+'mhg_cython', [root + '/mhg_cython.pyx'],
+        Extension(root + '.' + 'mhg_cython', [root + '/mhg_cython.pyx'],
                   include_dirs=[np.get_include()],
-                  define_macros=macros)
-    )
+                  define_macros=macros))
+
+    cmdclass['build_ext'] = build_ext
 
 
-here = path.abspath(path.dirname(__file__))
+# do not require installation of extensions if built by ReadTheDocs
+# (we mock these modules in docs/source/conf.py)
+if 'READTHEDOCS' in os.environ and os.environ['READTHEDOCS'] == 'True':
+    ext_modules = []  # disable Cython extension
+    if 'build_ext' in cmdclass:
+        del cmdclass['build_ext']
 
-long_description = ''
-with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
-    long_description = fh.read()
+
+# fix version tag for mac
+class CustomBdistWheel(bdist_wheel):
+    # source: http://lepture.com/en/2014/python-on-a-hard-wheel
+    def get_tag(self):
+        tag = bdist_wheel.get_tag(self)
+        # print('I\'m running!!! Tag is "%s"' % str(tag))
+        if platform == 'darwin':
+            repl = 'macosx_10_6_x86_64.macosx_10_9_x86_64.macosx_10_10_x86_64'
+            if tag[2] == 'macosx_10_6_x86_64':
+                tag = (tag[0], tag[1], repl)
+        return tag
+
+
+cmdclass['bdist_wheel'] = CustomBdistWheel
 
 # extensions
 setup(

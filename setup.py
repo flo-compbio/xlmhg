@@ -36,23 +36,23 @@ class CustomBdistWheel(bdist_wheel):
                 tag = (tag[0], tag[1], repl)
         return tag
 
+
+ext_modules = []
+cmdclass = {'bdist_wheel': CustomBdistWheel}
+
 try:
     import numpy as np  # numpy is required upfront
-except ImportError:
-    print('You must install NumPy before installing XL-mHG! '
-          'Try `pip install numpy`.')
-    sys.exit(1)
-
-try:
     from Cython.Distutils import build_ext  # Cython is required upfront
-except ImportError:
-    print('You must installCython before installing XL-mHG! '
-          'Try `pip install cython`.')
-    sys.exit(1)
+    from Cython.Compiler import Options as CythonOptions
 
-from Cython.Distutils import build_ext
-from Cython.Compiler import Options as CythonOptions
-import numpy as np
+except ImportError:
+    pass
+
+else:
+    ext_modules.append(
+        Extension(root + '.' + 'mhg_cython', [root + '/mhg_cython.pyx'],
+                  include_dirs=[np.get_include()],
+                  define_macros=macros))
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
@@ -64,9 +64,6 @@ install_requires = [
     'cython >= 0.23.4, < 1',
     'numpy >= 1.8, < 2',
 ]
-
-cmdclass = {'bdist_wheel': CustomBdistWheel}
-ext_modules = []
 
 # do not require installation of extension if built by ReadTheDocs
 # (we mock these modules in docs/source/conf.py)
@@ -94,12 +91,8 @@ if 'READTHEDOCS' not in os.environ or \
     except KeyError:
         pass
 
-    ext_modules.append(
-        Extension(root+'.'+'mhg_cython', [root + '/mhg_cython.pyx'],
-                  include_dirs=[np.get_include()],
-                  define_macros=macros)
-    )
-
+else:
+    ext_modules = []  # disable Cython extension
 
 here = path.abspath(path.dirname(__file__))
 

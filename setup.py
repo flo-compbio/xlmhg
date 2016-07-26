@@ -56,7 +56,7 @@ else:
 
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.8'
+version = '2.2.9'
 
 install_requires = [
     'future >= 0.15.2, < 1',

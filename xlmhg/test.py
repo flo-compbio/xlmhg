@@ -25,7 +25,12 @@ import logging
 
 import numpy as np
 
-from . import mhg, mhg_cython
+from . import mhg
+try:
+    from . import mhg_cython
+except ImportError:
+    # this is a duct-tape fix for the Google App Engine
+    pass
 from .result import mHGResult
 
 logger = logging.getLogger(__name__)

@@ -20,12 +20,21 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 from builtins import *
 
+import sys
 from math import isnan
 import logging
 
 import numpy as np
 
-from . import mhg, mhg_cython
+from . import mhg
+try:
+    # This is a duct-tape fix for the Google App Engine, on which importing
+    # the C extension fails.
+    from . import mhg_cython
+except ImportError:
+    print('Warning (xlmhg): Failed to import "mhg_cython" C extgension.',
+          file=sys.stderr)
+
 from .result import mHGResult
 
 logger = logging.getLogger(__name__)

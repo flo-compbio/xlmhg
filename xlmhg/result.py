@@ -25,7 +25,13 @@ import logging
 
 import numpy as np
 
-from . import mhg_cython
+try:
+    # This is a duct-tape fix for the Google App Engine, on which importing
+    # the C extension fails.
+    from . import mhg_cython
+except ImportError:
+    print('Warning (xlmhg): Failed to import "mhg_cython" C extgension.',
+          file=sys.stderr)
 
 logger = logging.getLogger(__name__)
 

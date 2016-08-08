@@ -22,8 +22,20 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import re
+import sys
+
 import sphinx_rtd_theme
 import xlmhg
+
+from mock import Mock as MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+MOCK_MODULES = ['cython', 'numpy']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 def get_version():
     ver_pat = re.compile(r'(\d+)\.(\d+)')

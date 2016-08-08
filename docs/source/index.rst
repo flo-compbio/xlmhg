@@ -6,6 +6,9 @@
 XL-mHG User Manual
 ==================
 
+.. toctree::
+  :maxdepth: 2
+
 The `xlmhg <https://pypi.python.org/pypi/xlmhg>`_ package offers two
 alternative Python APIs (functions) to perform an XL-mHG test:
 
@@ -21,12 +24,6 @@ alternative Python APIs (functions) to perform an XL-mHG test:
   which includes additional information such as the parameters used to perform
   the test, and methods to calculate additional quantities like E-Scores.
 
-.. "Contents:
-   .. toctree::
-      :maxdepth: 2
-
-.. "Bla :class:`numpy.poly1d`. Another `numpy.poly1d`.
-
 
 .. _simple_api:
 
@@ -34,6 +31,7 @@ Simple API
 ----------
 
 .. autofunction:: xlmhg.xlmhg_test
+
 
 .. _advanced_api:
 

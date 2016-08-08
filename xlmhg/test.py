@@ -59,22 +59,22 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
                           table=None, use_alg1=False, tol=1e-12):
     """Perform an XL-mHG test.
 
-    This function accepts a list in the form of a numpy `indices` array
+    This function accepts a list in the form of a numpy ``indices`` array
     containing the indices of the non-zero elements (sorted), along with the
-    length `N` of the list. It returns an `mHGResult` object.
+    length ``N`` of the list. It returns an `mHGResult` object.
 
     Parameters
     ----------
     N, int
         The length of the list.
-    indices: 1-dim `np.ndarray` with ``dtype``=`np.uint16`
+    indices: 1-dim `numpy.ndarray` with ``dtype`` = numpy.uint16
         Sorted list of indices corresponding to the "1"s in the ranked list.
     X: int, optional
         The ``X`` parameter. Should be between 1 and K (inclusive), where K
-        is the length of `indices`. [1]
+        is the length of ``indices``. [1]
     L: int, optional
-        The ``L`` parameter. Should be between 1 and `N` (inclusive). If
-        ``None``, this parameter will be set to `N` [None]
+        The ``L`` parameter. Should be between 1 and ``N`` (inclusive). If
+        `None`, this parameter will be set to ``N`` [None]
     exact_pval: str, enumerated
         Valid values are: 'always', 'if_significant', and 'if_necessary'.
         Determines in which cases exact p-values should be calculated. This
@@ -82,26 +82,26 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
         p-value in cases where they do not require it, which can lead to
         significant performance gains. ['always']
 
-        Specifically, this setting (in conjunction with `pval_thresh`)
+        Specifically, this setting (in conjunction with ``pval_thresh``)
         determines in which cases the PVAL-THRESH algorithm is invoked to
         efficiently determine whether the test is significant. This algorithm
         first tries to make this determination by calculating O(1)- and O(N)-
         bounds of the XL-mHG p-value. Only if this fails to give a conclusive
         answer, an O(N^2)-algorithm is used to calculate the exact p-value.
 
-        Note that whenever 'if_necessary' or `if_significant` is
+        Note that whenever 'if_necessary' or 'if_significant' is
         specified, a significance level (p-value threshold; argument
-        `pval_thresh`) must be specified as well.
+        ``pval_thresh``) must be specified as well.
     pval_thresh: float, optional
         The significance threshold, i.e., the p-value below which the test
         should be considered statistically significant. Note that this
-        argument must be given whenever the `escore_pval_thresh` argument is
+        argument must be given whenever the ``escore_pval_thresh`` argument is
         given. [None]
     escore_pval_thresh: float, optional
         The significance threshold to be used in the calculation of an E-score.
         The E-score is a measure of the strength of enrichment that is similar
         to "fold enrichment". [None]
-    table: np.ndarray with ndim=2 and dtype=np.longdouble optional
+    table: `numpy.ndarray` with ndim=2 and dtype= numpy.longdouble, optional
         The dynamic programming table. Size has to be at least (K+1) x (W+1).
         Providing this array avoids memory reallocation when conducting
         multiple tests. [None]
@@ -319,21 +319,21 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
 
 
 def xlmhg_test(v, X=None, L=None, table=None):
-    """Perform the XL-mHG test (simplified API).
+    """Perform an XL-mHG test (simplified API).
 
     This function accepts a vector containing zeros and ones, and returns
     a 3-tuple with the XL-mHG test statistic, cutoff, and p-value.
 
     Parameters
     ----------
-    v: 1-dim `np.ndarray` of integers
+    v: 1-dim `numpy.ndarray` of integers
         The ranked list. All non-zero elements are considered "1"s.
         (Let N denote the length of the list.)
     X: int, optional
         The ``X`` parameter. [1]
     L: int, optional
         The ``L`` parameter. [N]
-    table: np.ndarray with ndim=2 and dtype=np.float64, optional
+    table: np.ndarray with ``ndim`` =2 and ``dtype`` =np.float64, optional
         The dynamic programming table. Size has to be at least (K+1) x (W+1).
         Providing this array avoids memory reallocation when conducting
         multiple tests. [None]

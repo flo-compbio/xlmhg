@@ -25,10 +25,6 @@ import pytest
 
 from xlmhg import mHGResult, xlmhg_test, get_xlmhg_test_result
 
-
-
-
-
 @pytest.fixture
 def my_indices(my_v):
     indices = np.uint16(np.nonzero(my_v)[0])

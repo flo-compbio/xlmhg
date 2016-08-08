@@ -100,8 +100,6 @@ def get_xlmhg_stat(unsigned short[::1] indices, int N, int K, int X, int L,
     return stat, cutoff
 
 
-def get_xlmhg_O1_bound(int N, int K, int X,
-
 def get_xlmhg_ON_bound(int N, int K, int X, int L, long double stat,
                        long double tol=DEFAULT_TOL):
     """PVAL-BOUND: Calculate an upper bound for the XL-mHG p-value in O(N)."""

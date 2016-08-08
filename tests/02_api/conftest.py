@@ -30,6 +30,7 @@ def my_v():
     v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from paper
     return v
 
+
 @pytest.fixture
 def my_N(my_v):
     return my_v.size

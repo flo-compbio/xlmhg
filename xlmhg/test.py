@@ -266,7 +266,8 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
         else:
             # O(1)-bound was inconclusive
             # => calculate O(N)-bound
-            ON_upper_bound = mhg_cython.get_xlmhg_bound(N, K, X, L, stat, tol)
+            ON_upper_bound = mhg_cython.get_xlmhg_ON_bound(N, K, X, L, stat,
+                                                           tol)
             if ON_upper_bound <= pval_thresh or \
                 mhg.is_equal(ON_upper_bound, pval_thresh, tol):
                 # The upper bound is "<=" the significance threshold.

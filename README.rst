@@ -28,7 +28,7 @@ Getting started
 ---------------
 
 The `xlmhg` package exposes two Python API's (functions) that are documented
- in the `User Manual`__. Here's a quick example of the "simple" API:
+in the `User Manual`__. Here's a quick example using the "simple" API:
 
 .. code-block:: python
 
@@ -36,7 +36,7 @@ The `xlmhg` package exposes two Python API's (functions) that are documented
     stat, cutoff, pval = xlmhg.xlmhg_test(v, X, L)
 
 Where: ``v`` is the ranked list of 0's and 1's, represented by a NumPy array of
-integers, `X`` and ``L`` are the XL-mHG parameters, and the return values have
+integers, ``X`` and ``L`` are the XL-mHG parameters, and the return values have
 the following meanings:
 
 - ``stat``: The XL-mHG test statistic

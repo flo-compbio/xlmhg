@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""Tests for the `mHGResult` class (`result.py`)."""
+"""Tests for the `mHGResult` class (in `result.py`)."""
 
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
@@ -29,37 +29,25 @@ import numpy as np
 from xlmhg import get_xlmhg_test_result, mHGResult
 
 
-@pytest.fixture()
-def my_v():
-    v = np.uint8([1, 0, 1, 1, 0, 1] + [0] * 12 + [1, 0])  # example from paper
-    return v
-
-
 @pytest.fixture
-def my_indices(my_v):
-    indices = np.uint16(np.nonzero(my_v)[0])
-    return indices
-
-
-@pytest.fixture
-def my_result(my_v, my_indices):
+def my_result(my_v, my_ind):
     N = my_v.size
-    K = my_indices.size
+    K = my_ind.size
     X = 1
     L = N
     #stat, cutoff, pval = xlmhg_test(my_indices, X, L)
     #result = mHGResult(my_indices, N, X, L, stat, cutoff, pval)
-    result = get_xlmhg_test_result(N, my_indices, X, L)
+    result = get_xlmhg_test_result(N, my_ind, X, L)
     return result
 
 
-def test_basic(my_result, my_v, my_indices):
+def test_basic(my_result, my_v, my_ind):
     assert isinstance(my_result, mHGResult)
     assert isinstance(repr(my_result), str)
     assert isinstance(str(my_result), str)
     assert isinstance(text(my_result), text)
     assert isinstance(my_result.hash, text)
-    assert np.array_equal(my_result.indices, my_indices)
+    assert np.array_equal(my_result.indices, my_ind)
     assert np.array_equal(my_result.v, my_v)
     assert isinstance(my_result.k, newint)
 

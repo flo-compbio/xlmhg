@@ -101,7 +101,7 @@ def test_bound():
             for stat in all_stat:
                 # calculate and validate bound
                 bound_ref, k_min, k_max = calculate_bound(N, K, X, L, stat, S)
-                bound = mhg_cython.get_xlmhg_bound(N, K, X, L, stat)
+                bound = mhg_cython.get_xlmhg_ON_bound(N, K, X, L, stat)
                 assert bound == bound_ref, \
                         'X=%d, L=%d, stat=%.3e => k_min=%d, k_max=%d' \
                         %(X, L, stat, k_min, k_max)

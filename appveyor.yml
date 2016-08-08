@@ -101,7 +101,9 @@ test_script:
   # Note that you must use the environment variable %PYTHON% to refer to
   # the interpreter you're using - Appveyor does not do anything special
   # to put the Python evrsion you want to use on PATH.
-  - py.test tests/test_result.py tests/test_correct_bound.py tests/test_correct_stat.py
+  - py.test tests/02_api/test_result.py
+      tests/01_algorithms/test_correct_bound.py
+      tests/01_algorithms/test_correct_stat.py
   # - "%PYTHON%\\python.exe -m pytest tests/"
   # - %PYTHON%\\python.exe setup.py test"
 

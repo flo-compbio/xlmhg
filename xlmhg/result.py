@@ -39,8 +39,54 @@ logger = logging.getLogger(__name__)
 
 
 class mHGResult(object):
-    """An XL-mHG test result.
+    """The result of an XL-mHG test.
 
+    This class is used by the `get_xlmhg_test_result` function to represent the
+    result of an XL-mHG test.
+
+    Parameters
+    ----------
+    N: int
+        See :attr:`N` attribute.
+    indices
+        See :attr:`indices` attribute.
+    X: int
+        See :attr:`X` attribute.
+    L: int
+        See :attr:'L' attribute.
+    stat: float
+        See :attr:`stat` attribute.
+    cutoff: int
+        See :attr:`cutoff` attribute.
+    pval: float
+        See :attr:`pval` attribute.
+    pval_thresh: float, optional
+        See :attr:`pval_thresh` attribute.
+    escore_tol: float, optional
+        See :attr:`escore_tol` attribute.
+
+    Attributes
+    ----------
+    N: int
+        The length of the ranked list (i.e., the number of elements in it).
+    indices: `numpy.ndarray` with ``ndim=1`` and ``dtype=np.uint16``.
+        A sorted (!) list of indices of all the 1's in the ranked list.
+    X: int
+        The XL-mHG X parameter.
+    L: int
+        The XL-mHG L parameter.
+    stat: float
+        The XL-mHG test statistic.
+    cutoff: int
+        The XL-mHG cutoff.
+    pval: float
+        The XL-mHG p-value.
+    pval_thresh: float or None
+        The user-specified significance (p-value) threshold for this test.
+    escore_pval_thresh: float or None
+        The user-specified p-value threshold used in the E-score calculation.
+    escore_tol: float or None
+        The floating point tolerance used in the E-score calculation.
     """
     def __init__(self, N, indices, X, L, stat, cutoff, pval,
                  pval_thresh=None, escore_pval_thresh=None, escore_tol=None):
@@ -95,20 +141,24 @@ class mHGResult(object):
 
     @property
     def v(self):
+        """Returns the list as a `numpy.ndarray` with ``dtype`` = np.uint8."""
         v = np.zeros(self.N, dtype=np.uint8)
         v[self.indices] = 1
         return v
 
     @property
     def K(self):
+        """Returns the number of 1's in the list."""
         return self.indices.size
 
     @property
     def k(self):
+        """Returns the number of 1's above the XL-mHG cutoff."""
         return int(np.sum(self.indices < self.cutoff))
 
     @property
     def hash(self):
+        """Returns a unique hash value for the result."""
         data_str = ';'.join(
             [str(repr(var)) for var in
              [self.N, self.K, self.X, self.L,
@@ -120,6 +170,7 @@ class mHGResult(object):
 
     @property
     def escore(self):
+        """Returns the E-score associated with the result."""
         hg_pval_thresh = self.escore_pval_thresh or self.pval
         escore_tol = self.escore_tol or mhg_cython.get_default_tol()
         es = mhg_cython.get_xlmhg_escore(

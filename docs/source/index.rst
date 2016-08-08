@@ -6,6 +6,12 @@
 XL-mHG User Manual
 ==================
 
+This is the official documentation for the
+`xlmhg <https://github.com/flo-compbio/xlmhg>`_ Python package.
+
+Contents
+--------
+
 .. toctree::
   :maxdepth: 2
 

@@ -141,24 +141,26 @@ class mHGResult(object):
 
     @property
     def v(self):
-        """Returns the list as a `numpy.ndarray` with ``dtype`` = np.uint8."""
+        """(property) Returns the list as a `numpy.ndarray`
+                      (with dtype ``np.uint8``).
+        """
         v = np.zeros(self.N, dtype=np.uint8)
         v[self.indices] = 1
         return v
 
     @property
     def K(self):
-        """Returns the number of 1's in the list."""
+        """(property) Returns the number of 1's in the list."""
         return self.indices.size
 
     @property
     def k(self):
-        """Returns the number of 1's above the XL-mHG cutoff."""
+        """(property) Returns the number of 1's above the XL-mHG cutoff."""
         return int(np.sum(self.indices < self.cutoff))
 
     @property
     def hash(self):
-        """Returns a unique hash value for the result."""
+        """(property) Returns a unique hash value for the result."""
         data_str = ';'.join(
             [str(repr(var)) for var in
              [self.N, self.K, self.X, self.L,
@@ -170,7 +172,7 @@ class mHGResult(object):
 
     @property
     def escore(self):
-        """Returns the E-score associated with the result."""
+        """(property) Returns the E-score associated with the result."""
         hg_pval_thresh = self.escore_pval_thresh or self.pval
         escore_tol = self.escore_tol or mhg_cython.get_default_tol()
         es = mhg_cython.get_xlmhg_escore(

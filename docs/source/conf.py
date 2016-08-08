@@ -25,7 +25,6 @@ import re
 import sys
 
 import sphinx_rtd_theme
-import xlmhg
 
 from mock import Mock as MagicMock
 
@@ -36,6 +35,9 @@ class Mock(MagicMock):
 
 MOCK_MODULES = ['cython', 'numpy']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
+import xlmhg
+
 
 def get_version():
     ver_pat = re.compile(r'(\d+)\.(\d+)')

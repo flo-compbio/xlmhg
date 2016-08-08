@@ -33,6 +33,7 @@ try:
 except ImportError:
     print('Warning (xlmhg): Failed to import "mhg_cython" C extgension.',
           file=sys.stderr)
+    from . import mhg as mhg_cython
 
 logger = logging.getLogger(__name__)
 

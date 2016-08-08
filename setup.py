@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.2.12'
+version = '2.3.0'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -38,10 +38,10 @@ ext_modules = []
 cmdclass = {}
 
 install_requires = [
-    'future >= 0.15.2, < 1',
-    'six >= 1.10.0, < 2',
-    'cython >= 0.23.4, < 1',
-    'numpy >= 1.8, < 2',
+    'future>=0.15.2, <1',
+    'six>=1.10.0, <2',
+    'cython>=0.23.4, <1',
+    'numpy>=1.8, <2',
 ]
 
 try:
@@ -152,14 +152,16 @@ setup(
 
     install_requires=install_requires,
 
-    tests_require=[
-        'pytest >= 2.8.5, < 3',
-        'pytest-cov >= 2.2.1, < 3',
-        'scipy >= 0.17.0',
-    ],
+    # tests_require=[],
 
     # development dependencies
-    # extras_require={},
+    extras_require={
+        'tests': [
+            'pytest>=2.8.5, <3',
+            'pytest-cov>=2.2.1, <3',
+            'scipy>=0.17.0, <1',
+        ]
+    },
 
     # data
     package_data={

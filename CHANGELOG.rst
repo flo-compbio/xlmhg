@@ -18,6 +18,12 @@
 Changelog
 =========
 
+2.3.0 (2016-??-??)
+------------------
+- Added arguments `exact_pval` and `escore_pval_thresh` to
+  `get_xlmhg_test_result()`. Also, the `pval_thresh` argument now has a
+  different meaning.
+
 2.2.7 (2016-07-20)
 ------------------
 - Added binary distributions for Windows (32/64-bit), Mac OS X (10.6+

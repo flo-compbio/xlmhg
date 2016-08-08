@@ -28,7 +28,7 @@ Getting started
 ---------------
 
 The `xlmhg` package exposes two Python API's (functions) that are documented
- in the `User Manual`__. Here's a quick example of the "simple" API:
+in the `User Manual`__. Here's a quick example of the "simple" API:
 
 .. code-block:: python
 

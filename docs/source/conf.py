@@ -22,8 +22,26 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import re
+import sys
+import os
+
 import sphinx_rtd_theme
+
+from mock import Mock as MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+if 'READTHEDOCS' in os.environ and \
+        os.environ['READTHEDOCS'] == 'True':
+    # mock packages if we're running on ReadTheDocs
+    MOCK_MODULES = ['cython', 'numpy']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
 import xlmhg
+
 
 def get_version():
     ver_pat = re.compile(r'(\d+)\.(\d+)')
@@ -124,6 +142,7 @@ add_function_parentheses = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
+highlight_language = 'text'
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -140,7 +159,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 

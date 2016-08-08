@@ -40,9 +40,16 @@ cmdclass = {}
 install_requires = [
     'future>=0.15.2, <1',
     'six>=1.10.0, <2',
-    'cython>=0.23.4, <1',
-    'numpy>=1.8, <2',
 ]
+
+# do not require installation if built by ReadTheDocs
+# (we mock these modules in docs/source/conf.py)
+if 'READTHEDOCS' not in os.environ or \
+        os.environ['READTHEDOCS'] != 'True':
+    install_requires.extend([
+        'cython>=0.23.4, <1'
+        'numpy>=1.8, <2',
+    ])
 
 try:
     # this can fail if numpy or cython isn't installed yet

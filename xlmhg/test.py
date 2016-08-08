@@ -333,10 +333,10 @@ def xlmhg_test(v, X=None, L=None, table=None):
         The ``X`` parameter. [1]
     L: int, optional
         The ``L`` parameter. [N]
-    table: np.ndarray with ``ndim`` =2 and ``dtype`` =np.float64, optional
-        The dynamic programming table. Size has to be at least (K+1) x (W+1).
-        Providing this array avoids memory reallocation when conducting
-        multiple tests. [None]
+    table: np.ndarray with ``ndim=2`` and ``dtype=np.float64`` , optional
+        The dynamic programming table. Size has to be at least (K+1) x (W+1),
+        with W = N-K. Providing this array avoids memory reallocation when
+        conducting multiple tests. [None]
 
     Returns
     -------

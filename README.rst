@@ -3,10 +3,10 @@ XL-mHG
 
 | |pypi| |versions| |license|
 
-===========  =====================================================
-**master**   |codecov-master| |travis-master| |appveyor-master|
-**develop**  |codecov-develop| |travis-develop| |appveyor-develop|
-===========  =====================================================
+===========  ====================================================================
+**master**   |codecov-master| |travis-master| |appveyor-master| |docs-latest|
+**develop**  |codecov-develop| |travis-develop| |appveyor-develop| |docs-develop|
+===========  ====================================================================
 
 This is an efficient Python/Cython implementation of the semiparametric
 `XL-mHG test`__ for enrichment in ranked lists. The XL-mHG test is an extension
@@ -17,12 +17,6 @@ __ xlmhg_paper_
 __ mhg_paper_
 __ zohar_
 
-If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS
-Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
-
-__ mhg_paper_
-__ go_pca_paper_
-
 Installation
 ------------
 
@@ -30,8 +24,11 @@ Installation
 
     $ pip install xlmhg
 
-Usage
------
+Getting started
+---------------
+
+The `xlmhg` package exposes two Python API's (functions) that are documented
+ in the `User Manual`__. Here's a quick example of the "simple" API:
 
 .. code-block:: python
 
@@ -39,35 +36,30 @@ Usage
     stat, cutoff, pval = xlmhg.xlmhg_test(v, X, L)
 
 Where: ``v`` is the ranked list of 0's and 1's, represented by a NumPy array of
-type \"np.uint8\", `X`` and ``L`` are parameters, and the return values have
+integers, `X`` and ``L`` are the XL-mHG parameters, and the return values have
 the following meanings:
 
 - ``stat``: The XL-mHG test statistic
-- ``cutoff``: The cutoff at which the XL-mHG test statistic was attained
+- ``cutoff``: The cutoff at which XL-mHG test statistic was attained
 - ``pval``: The XL-mHG p-value
 
-What do the ``X`` and ``L`` parameters mean?
---------------------------------------------
+__ user_manual_
 
-- ``X`` refers to the minimum number of "1's" that have to be seen before
-  anything can be called "enrichment".
-- ``L`` is the lowest cutoff (i.e., the largest ``n``) that is being tested
-  for enrichment.
+Documentation
+-------------
 
-A more direct way to understand ``X`` and ``L`` is through the definition of
-the XL-mHG test statistic. It is defined as the minimum hypergeometric p-value
-over all cutoffs at which at least ``X`` "1's" have already been seen, and
-excluding any cutoffs larger than ``L``. For `X=1` and `L=N`, the XL-mHG test
-reduces to the mHG test.
+Please refer to the `XL-mHG User Manual`__ (hosted on ReadTheDocs).
 
-Background
-----------
+__ user_manual_
 
-For a discussion of the statistical background and implementation of this test,
-please see the `Technical Report on arXiv <http://arxiv.org/abs/1507.07905>`_,
-as well as the `XL-mHG PeerJ Preprint article`__.
+Citing XL-mHG
+-------------
 
-__ xlmhg_paper_
+If you use the XL-mHG test in your research, please cite `Eden et al. (PLoS
+Comput Biol, 2007)`__ and `Wagner (PLoS One, 2015)`__.
+
+__ mhg_paper_
+__ go_pca_paper_
 
 Copyright and License
 ---------------------
@@ -96,6 +88,8 @@ Copyright (c) 2015, 2016 Florian Wagner
 .. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
 
 .. _go_pca_paper: https://dx.doi.org/10.1371/journal.pone.0143196
+
+.. _user_manual: https://xl-mhg.readthedocs.io
 
 .. |pypi| image:: https://img.shields.io/pypi/v/xlmhg.svg
     :target: https://pypi.python.org/pypi/xlmhg
@@ -136,3 +130,11 @@ Copyright (c) 2015, 2016 Florian Wagner
 .. |codecov-develop| image:: https://codecov.io/gh/flo-compbio/xlmhg/branch/develop/graph/badge.svg
     :alt: Coverage (develop branch)
     :target: https://codecov.io/gh/flo-compbio/xlmhg/branch/develop
+
+.. |docs-latest| image:: https://readthedocs.org/projects/xl-mhg/badge/?version=latest
+    :alt: Documentation Status (master branch)
+    :target: https://xl-mhg.readthedocs.io/en/latest
+
+.. |docs-develop| image:: https://readthedocs.org/projects/xl-mhg/badge/?version=develop
+    :alt: Documentation Status (develop branch)
+    :target: https://xl-mhg.readthedocs.io/en/develop

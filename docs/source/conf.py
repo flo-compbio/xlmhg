@@ -23,6 +23,7 @@
 
 import re
 import sys
+import os
 
 import sphinx_rtd_theme
 
@@ -33,8 +34,11 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return Mock()
 
-MOCK_MODULES = ['cython', 'numpy']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+if 'READTHEDOCS' in os.environ and \
+        os.environ['READTHEDOCS'] == 'True':
+    # mock packages if we're running on ReadTheDocs
+    MOCK_MODULES = ['cython', 'numpy']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import xlmhg
 

@@ -18,11 +18,15 @@
 Changelog
 =========
 
-2.3.0 (2016-??-??)
+2.3.0 (2016-08-08)
 ------------------
 - Added arguments `exact_pval` and `escore_pval_thresh` to
   `get_xlmhg_test_result()`. Also, the `pval_thresh` argument now has a
   different meaning.
+
+2.3.1 (2016-08-09)
+~~~~~~~~~~~~~~~~~~
+- Improved docstrings and added a user manual (https://xl-mhg.readthedocs.io)
 
 2.2.7 (2016-07-20)
 ------------------

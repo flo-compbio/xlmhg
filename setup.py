@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.3.0'
+version = '2.3.1'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -164,15 +164,16 @@ setup(
     # development dependencies
     extras_require={
          'docs': [
-             'sphinx',
-             'sphinx-rtd-theme',
-             # 'mock',
+             'sphinx>=1.4.5, <2',
+             'sphinx-rtd-theme>=0.1.9',
+             'sphinxcontrib-napoleon>=0.5.3',
+             #'mock>=2.0.0, <3',
          ],
         'tests': [
             'pytest>=2.8.5, <3',
             'pytest-cov>=2.2.1, <3',
             'scipy>=0.17.0, <1',
-        ]
+        ],
     },
 
     # data

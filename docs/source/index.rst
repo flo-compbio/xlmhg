@@ -30,4 +30,5 @@ Contents
 
   background
   api
+  citing
   license

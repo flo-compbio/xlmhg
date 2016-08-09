@@ -40,7 +40,7 @@ interesting items. For example, the following list of 20 items exhibits an
 accumulation of 1's "at the top" that is considered statistically significant
 (p < 0.05) by the mHG test:
 
-v = [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]\ :sup:`T`
+v = (1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)\ :sup:`T`
 
 To better understand how enrichment is defined for the purposes of the mHG
 test, it is helpful to take a close
@@ -115,7 +115,7 @@ __ xlmhg_paper_
 
 .. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
 
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
+.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v2
 
 .. _gorilla_paper: https://dx.doi.org/10.1186/1471-2105-10-48
 

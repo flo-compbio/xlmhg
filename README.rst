@@ -81,7 +81,7 @@ Copyright (c) 2015, 2016 Florian Wagner
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
+.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v2
 
 .. _zohar: http://bioinfo.cs.technion.ac.il/people/zohar
 

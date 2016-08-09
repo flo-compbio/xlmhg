@@ -101,7 +101,7 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
         The significance threshold to be used in the calculation of an E-score.
         The E-score is a measure of the strength of enrichment that is similar
         to "fold enrichment". [None]
-    table: `numpy.ndarray` with ndim=2 and dtype= numpy.longdouble, optional
+    table: `numpy.ndarray` with ``ndim=2`` and ``dtype=numpy.longdouble``, optional
         The dynamic programming table. Size has to be at least (K+1) x (W+1).
         Providing this array avoids memory reallocation when conducting
         multiple tests. [None]
@@ -333,7 +333,7 @@ def xlmhg_test(v, X=None, L=None, table=None):
         The ``X`` parameter. [1]
     L: int, optional
         The ``L`` parameter. [N]
-    table: np.ndarray with ``ndim=2`` and ``dtype=np.float64`` , optional
+    table: np.ndarray with ``ndim=2`` and ``dtype=numpy.longdouble``, optional
         The dynamic programming table. Size has to be at least (K+1) x (W+1),
         with W = N-K. Providing this array avoids memory reallocation when
         conducting multiple tests. [None]

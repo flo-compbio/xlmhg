@@ -30,16 +30,29 @@ exact p-values for this test.
 __ zohar_
 __ mhg_paper_
 
-To understand how the mHG test works, it is helpful to take a close
-look at the definition of its test statistic: For a given list of length
+The input to the test is a ranked list of items, some of which are known
+to have some "interesting property". The test asks whether there exists an
+unusual accumulation of a subset of those "interesting items" at the "top of
+the list", without requiring the user to specify what part of the list should
+be considered "the top". Computationally, the ranked list can be represented
+as a column vector containing only 0's and 1's, with 1's representing the
+interesting items. For example, the following list of 20 items exhibits an
+accumulation of 1's "at the top" that is considered statistically significant
+(p < 0.05) by the mHG test:
+
+v = (1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)\ :sup:`T`
+
+To better understand how enrichment is defined for the purposes of the mHG
+test, it is helpful to take a close
+look at the definition of its test statistic: For a given ranked list of length
 ``N``, it is defined as the *minimum hypergeometric p-value* over all N
 possible cutoffs. This means that users do not have to specify a fixed
 cutoff that defines "the top of the list". This nonparametric approach makes
-the mHG test very flexible, meaning that it can detect
-enrichment when there are only a few "interesting" items that are extremely
-concentrated at the very top of the list (representing one extreme), as well
-as when there is a slight overabundance of interesting items within, say, the
-entire top half of the list.
+the mHG test very flexible, meaning that it can detect enrichment when there
+are only a few "interesting" items that are extremely concentrated at the very
+very top of the list (representing one extreme), as well as when there is a
+slight overabundance of interesting items within, say, the entire top half
+of the list.
 
 However, for some applications, the mHG test is a little "too flexible",
 meaning that it would be beneficial to be able to somewhat restrict the type of
@@ -102,7 +115,7 @@ __ xlmhg_paper_
 
 .. _mhg_paper: https://dx.doi.org/10.1371/journal.pcbi.0030039
 
-.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v1
+.. _xlmhg_paper: https://doi.org/10.7287/peerj.preprints.1962v2
 
 .. _gorilla_paper: https://dx.doi.org/10.1186/1471-2105-10-48
 

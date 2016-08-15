@@ -29,6 +29,8 @@ Contents
   :maxdepth: 2
 
   background
+  install
+  examples
   api
   citing
   license

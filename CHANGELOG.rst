@@ -18,6 +18,11 @@
 Changelog
 =========
 
+2.4.0 (2016-08-15)
+------------------
+- Added `get_result_figure()` API function to visualize test results using the
+  Plotly offline plotting library (see https://plot.ly/python/offline/).
+
 2.3.0 (2016-08-08)
 ------------------
 - Added arguments `exact_pval` and `escore_pval_thresh` to

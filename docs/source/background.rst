@@ -18,9 +18,6 @@
 Statistical Background
 ======================
 
-Overview
---------
-
 The XL-mHG test is a powerful semiparametric test to assess *enrichment* in
 ranked lists. It is based on the nonparametric **mHG test**, developed by
 `Dr. Zohar Yakhini`__ and colleagues (`Eden et al., 2007`__), who also proposed

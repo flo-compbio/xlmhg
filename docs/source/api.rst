@@ -36,20 +36,34 @@ alternative Python APIs (functions) to perform an XL-mHG test:
   as the parameters used to perform the test, and methods to calculate
   additional quantities like E-Scores.
 
+Additionally, the API includes a function
+(:func:`xlmhg.get_result_figure`) for generating a `Plotly`__ figure
+containing a visual representation of a test result. See :ref:`examples` for
+concrete examples of how to use these functions.
+
+__ plotly_
+
 .. _simple_api:
 
-Simple API
-----------
+Simple API - :func:`xlmhg_test`
+-------------------------------------
 
 .. autofunction:: xlmhg.xlmhg_test
 
 
 .. _advanced_api:
 
-Advanced API
-------------
+Advanced API - :func:`get_xlmhg_test_result`
+--------------------------------------------
 
 .. autofunction:: xlmhg.get_xlmhg_test_result
+
+Visualizing test results - :func:`get_result_figure`
+----------------------------------------------------
+
+.. autofunction:: xlmhg.get_xlmhg_test_result
+
+.. _plotly: https://plot.ly/
 
 
 .. "Indices and tables

@@ -171,6 +171,11 @@ class mHGResult(object):
         return str(hashlib.md5(data).hexdigest())
 
     @property
+    def fold_enrichment(self):
+        """(property) Returns the fold enrichment at the XL-mHG cutoff."""
+        return self.k / (self.K*(self.cutoff/float(self.N)))
+
+    @property
     def escore(self):
         """(property) Returns the E-score associated with the result."""
         hg_pval_thresh = self.escore_pval_thresh or self.pval

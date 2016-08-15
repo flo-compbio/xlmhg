@@ -21,6 +21,9 @@ Examples
 Conducting a test using the simple API
 --------------------------------------
 
+This example demonstrates the use of the simple API (:func:`xlmhg_test`) for
+conducting an XL-mHG test.
+
 Script:
 
 .. code-block:: python
@@ -46,6 +49,9 @@ Output::
 
 Conducting a test using the advanced API
 ----------------------------------------
+
+This example demonstrates the use of the advanced API
+(:func:`get_xlmhg_test_result`) for conducting an XL-mHG test.
 
 Script:
 
@@ -79,6 +85,9 @@ Output::
 Visualizing a test result
 -------------------------
 
+This example demonstrates how to visualize an XL-mHG test result using the
+:func:`get_result_figure` function.
+
 Script:
 
 .. code-block:: python
@@ -99,11 +108,10 @@ Script:
 
     plot(fig, filename='test_figure.html')
 
-This produces an html file ``test_figure.html`` that contains the figure. Open
-the file in a browser (if it doesn't open automatically) and click on the
-camera symbol (the left-most symbol on top of the figure) to download it in
-PNG format. The figure looks as follows:
-
+This produces an html file (``test_figure.html``) that contains an interactive
+figure. Open the file in a browser (if it doesn't open automatically) and click
+on the camera symbol (the left-most symbol on top of the figure) to download
+it as a PNG image. The image looks as follows:
 
 .. figure:: /_static/test_figure.png
 

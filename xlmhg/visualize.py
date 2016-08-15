@@ -149,6 +149,7 @@ def get_result_figure(
     X = result.X
     L = result.L
     N = result.N
+    K = result.K
     fold_start = result.indices[0] + 1
 
     data = []
@@ -190,9 +191,7 @@ def get_result_figure(
 
     title = None
     if show_title:
-        title = 'X=%d, L=%d, p-value=%s (%d/%d@%d)' % \
-                (result.X, result.L, pval_str,
-                 result.k, result.K, result.cutoff)
+        title = 'XL-mHG test result (N=%d, K=%d)' %(N, K)
 
     if plot_fold_enrichment:
         fold_min_int = -0.3

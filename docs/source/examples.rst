@@ -19,8 +19,8 @@ Examples
 ========
 
 The following examples illustrate how to conduct XL-mHG tests and visualize
-the results using the Python API. For details on each method,
-including all optional parameters, see the `API reference <api>`.
+the results using the Python API. For details on each method, including all
+optional parameters, see the `API reference <api>`.
 
 Conducting a test using the simple API
 --------------------------------------

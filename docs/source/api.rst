@@ -46,7 +46,7 @@ __ plotly_
 .. _simple_api:
 
 Simple API - :func:`xlmhg_test`
--------------------------------------
+-------------------------------
 
 .. autofunction:: xlmhg.xlmhg_test
 
@@ -61,7 +61,7 @@ Advanced API - :func:`get_xlmhg_test_result`
 Visualizing test results - :func:`get_result_figure`
 ----------------------------------------------------
 
-.. autofunction:: xlmhg.get_xlmhg_test_result
+.. autofunction:: xlmhg.get_result_figure
 
 .. _plotly: https://plot.ly/
 

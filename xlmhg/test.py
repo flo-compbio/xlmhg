@@ -319,7 +319,7 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
 
 
 def xlmhg_test(v, X=None, L=None, table=None):
-    """Perform an XL-mHG test (simplified API).
+    """Perform an XL-mHG test (simplified interface).
 
     This function accepts a vector containing zeros and ones, and returns
     a 3-tuple with the XL-mHG test statistic, cutoff, and p-value.

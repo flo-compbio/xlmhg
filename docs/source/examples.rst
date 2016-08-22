@@ -15,18 +15,20 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+.. currentmodule:: xlmhg
+
 Examples
 ========
 
 The following examples illustrate how to conduct XL-mHG tests and visualize
 the results using the Python API. For details on each method, including all
-optional parameters, see the `API reference <api>`.
+optional parameters, see the :doc:`API reference <api>`.
 
-Conducting a test using the simple API
---------------------------------------
+Conducting a test using the simple test function
+------------------------------------------------
 
-This example demonstrates the use of the simple API (:func:`xlmhg_test`) for
-conducting an XL-mHG test.
+This example demonstrates the use of the simple test function,
+:func:`xlmhg_test`, for conducting an XL-mHG test.
 
 Script:
 
@@ -51,11 +53,11 @@ Output::
     P-value: 0.024
 
 
-Conducting a test using the advanced API
-----------------------------------------
+Conducting a test using the advanced test function
+--------------------------------------------------
 
-This example demonstrates the use of the advanced API
-(:func:`get_xlmhg_test_result`) for conducting an XL-mHG test.
+This example demonstrates the use of the advanced test function,
+:func:`get_xlmhg_test_result`, for conducting an XL-mHG test.
 
 Script:
 

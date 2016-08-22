@@ -40,7 +40,7 @@ cmdclass = {}
 install_requires = [
     'future>=0.15.2, <1',
     'six>=1.10.0, <2',
-    'plotly>=1.12.6, <2',
+    'plotly>=1.12.4, <2',
     'pip>=8.1.2',
 ]
 

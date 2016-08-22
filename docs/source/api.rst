@@ -15,53 +15,61 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+.. currentmodule:: xlmhg
+
 
 API Reference
 =============
 
-The `xlmhg <https://pypi.python.org/pypi/xlmhg>`_ package offers two
-alternative Python APIs (functions) to perform an XL-mHG test:
+The `xlmhg <https://pypi.python.org/pypi/xlmhg>`_ Python API includes two
+alternative functions to **conduct an XL-mHG test**:
 
-- The :ref:`simple API <simple_api>` (:func:`xlmhg.xlmhg_test`) accepts a
-  ranked list in the form of a vector, and (optionally) the ``X`` and ``L``
-  parameters, and returns a 3-tuple containing the test statistic, cutoff,
-  and p-value.
+- The :ref:`simple test function <simple_test>`, :func:`xlmhg_test`,
+  accepts a ranked list in the form of a vector, and (optionally) the ``X``
+  and ``L`` parameters, and returns a 3-tuple containing the test statistic,
+  cutoff, and p-value.
 
-- The :ref:`advanced API <advanced_api>` (:func:`xlmhg.get_xlmhg_test_result`)
-  accepts a more compact representation of a ranked list (consisting of its
-  length ``N`` and a vector specifying the ``indices`` of the 1's in the ranked
-  list), as well as several additional arguments that can improve the
-  performance of the test. Instead of a simple tuple, this API returns the test
-  result as an `mHGResult` object, which includes additional information such
-  as the parameters used to perform the test, and methods to calculate
-  additional quantities like E-Scores.
+- The :ref:`advanced test function <advanced_test>`,
+  :func:`get_xlmhg_test_result`, accepts a more compact representation
+  of a list (consisting of its length ``N`` and a vector specifying the
+  ``indices`` of the 1's in the ranked list), as well as several additional
+  arguments that can improve the  performance of the test. Instead of a
+  simple tuple, this API returns the test result as an :class:`mHGResult`
+  object, which includes additional information such as the test parameters,
+  and methods to calculate additional quantities like E-Scores.
 
-Additionally, the API includes a function
-(:func:`xlmhg.get_result_figure`) for generating a `Plotly`__ figure
-containing a visual representation of a test result. See :ref:`examples` for
-concrete examples of how to use these functions.
+Additionally, the API includes a function,
+:func:`get_result_figure`, for **visualizing a test result** in a
+`Plotly`__ figure. See :doc:`examples` for concrete examples of
+how to use these functions.
 
 __ plotly_
 
-.. _simple_api:
+.. _simple_test:
 
-Simple API - :func:`xlmhg_test`
--------------------------------------
+Simple test function - :func:`xlmhg_test`
+-----------------------------------------
 
-.. autofunction:: xlmhg.xlmhg_test
+.. autofunction:: xlmhg_test
 
 
-.. _advanced_api:
+.. _advanced_test:
 
-Advanced API - :func:`get_xlmhg_test_result`
---------------------------------------------
+Advanced test function - :func:`get_xlmhg_test_result`
+------------------------------------------------------
 
 .. autofunction:: xlmhg.get_xlmhg_test_result
+
+Test result objects - :class:`mHGResult`
+----------------------------------------
+
+.. autoclass:: xlmhg.mHGResult
+    :members:
 
 Visualizing test results - :func:`get_result_figure`
 ----------------------------------------------------
 
-.. autofunction:: xlmhg.get_xlmhg_test_result
+.. autofunction:: xlmhg.get_result_figure
 
 .. _plotly: https://plot.ly/
 
@@ -72,6 +80,3 @@ Visualizing test results - :func:`get_result_figure`
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
-
-.. autoclass:: xlmhg.mHGResult
-    :members:

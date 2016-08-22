@@ -23,7 +23,14 @@ Changelog
 - Added `get_result_figure()` API function to visualize test results using the
   Plotly offline plotting library (see https://plot.ly/python/offline/).
 - Significantly expanded the documentation (added "installation" and
-  "examples" sections)
+  "examples" sections).
+
+2.4.1 (2016-08-22)
+~~~~~~~~~~~~~~~~~~
+- Added pip version 8 to dependencies (required for installing wheels).
+- Fixed error in User Manual that resulting in missing documentation for the
+  `get_result_figure` function.
+
 
 2.3.0 (2016-08-08)
 ------------------

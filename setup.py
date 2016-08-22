@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.0'
+version = '2.4.1'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -40,7 +40,8 @@ cmdclass = {}
 install_requires = [
     'future>=0.15.2, <1',
     'six>=1.10.0, <2',
-    'plotly>=1.12.6, <2',
+    'plotly>=1.12.4, <2',
+    'pip>=8.1.2',
 ]
 
 # do not require installation if built by ReadTheDocs
@@ -48,7 +49,7 @@ install_requires = [
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
-        'cython>=0.23.4, <1'
+        'cython>=0.23.4, <1',
         'numpy>=1.8, <2',
     ])
 

@@ -62,6 +62,8 @@ class mHGResult(object):
         See :attr:`pval` attribute.
     pval_thresh: float, optional
         See :attr:`pval_thresh` attribute.
+    escore_pval_thresh: float, optional
+        See :attr:`escore_pval_thresh` attribute.
     escore_tol: float, optional
         See :attr:`escore_tol` attribute.
 

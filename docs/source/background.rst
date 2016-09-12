@@ -47,7 +47,7 @@ possible cutoffs. This means that users do not have to specify a fixed
 cutoff that defines "the top of the list". This nonparametric approach makes
 the mHG test very flexible, meaning that it can detect enrichment when there
 are only a few "interesting" items that are extremely concentrated at the very
-very top of the list (representing one extreme), as well as when there is a
+top of the list (representing one extreme), as well as when there is a
 slight overabundance of interesting items within, say, the entire top half
 of the list.
 

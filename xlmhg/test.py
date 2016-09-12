@@ -305,8 +305,8 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
 
     if isnan(pval) or pval <= 0 or \
             (pval > O1_upper_bound and
-                 (not mhg.is_equal(pval, upper_bound, tol))):
-        # insufficient floating point precision for calclating p-value,
+                 (not mhg.is_equal(pval, O1_upper_bound, tol))):
+        # insufficient floating point precision for calculating p-value,
         # report O(1)-bound instead
         logger.warning('Insufficient floating point precision for calculating '
                        'the exact XL-mHG p-value. Using upper bound instead.')

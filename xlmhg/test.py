@@ -314,7 +314,8 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
 
     # generate result object
     result = mHGResult(N, indices, X, L, stat, cutoff, pval,
-                       pval_thresh=pval_thresh)
+                       pval_thresh=pval_thresh,
+                       escore_pval_thresh=escore_pval_thresh)
     return result
 
 

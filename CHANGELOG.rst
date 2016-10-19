@@ -31,6 +31,9 @@ Changelog
 - Fixed error in User Manual that resulting in missing documentation for the
   `get_result_figure` function.
 
+2.4.3 (2016-10-19)
+~~~~~~~~~~~~~~~~~~
+- Fixed minor issue
 
 2.3.0 (2016-08-08)
 ------------------

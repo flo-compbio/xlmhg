@@ -183,6 +183,6 @@ class mHGResult(object):
         hg_pval_thresh = self.escore_pval_thresh or self.pval
         escore_tol = self.escore_tol or mhg_cython.get_default_tol()
         es = mhg_cython.get_xlmhg_escore(
-            self.indices, self.N, self.K, self. X, self.L,
+            self.indices, self.N, self.K, self.X, self.L,
             hg_pval_thresh, escore_tol)
         return es

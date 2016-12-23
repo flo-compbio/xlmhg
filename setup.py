@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.5'
+version = '2.4.6'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -117,7 +117,7 @@ class CustomBdistWheel(bdist_wheel):
         # print('I\'m running!!! Tag is "%s"' % str(tag))
         if platform == 'darwin':
             repl = 'macosx_10_6_x86_64.macosx_10_9_x86_64.macosx_10_10_x86_64'
-            if tag[2] == 'macosx_10_6_x86_64':
+            if tag[2] in ['macosx_10_6_x86_64', 'macosx_10_7_x86_64']:
                 tag = (tag[0], tag[1], repl)
         return tag
 

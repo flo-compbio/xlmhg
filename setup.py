@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.4'
+version = '2.4.5'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -49,7 +49,8 @@ if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
         'six>=1.10.0, <2',
-        'cython>=0.23.0, <1',
+        #'cython>=0.23.0, <1',
+        'cython>=0.25.0, <1',
         'numpy>=1.8, <2',
     ])
 else:
@@ -82,7 +83,9 @@ else:
 
             # only way of setting linetrace without cythonize?
             macros.append(('CYTHON_TRACE', '1'))
-            CythonOptions.directive_defaults['linetrace'] = True
+            #CythonOptions.directive_defaults['linetrace'] = True
+            cython_defaults = CythonOptions.get_directive_defaults()
+            cython_defaults['linetrace'] = True
             print('Warning: Enabling line tracing in cython extension.'
                   'This` will slow it down by a factor of 20 or so!')
     except (KeyError, ImportError):

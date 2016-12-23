@@ -1,8 +1,9 @@
 # project-specific files
 /xlmhg/mhg_cython.c
 /xlmhg/mhg_cython.html
-/.idea
-/wheelhouse
+/.idea/
+/wheelhouse/
+/.vscode/
 
 # sphinx docs
 /docs/build/

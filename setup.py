@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.3'
+version = '2.4.4'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -39,7 +39,6 @@ cmdclass = {}
 
 install_requires = [
     'future>=0.15.2, <1',
-    'six>=1.10.0, <2',
     'plotly>=1.12.4, <2',
     'pip>=8.1.2',
 ]
@@ -49,9 +48,15 @@ install_requires = [
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
-        'cython>=0.23.4, <1',
+        'six>=1.10.0, <2',
+        'cython>=0.23.0, <1',
         'numpy>=1.8, <2',
     ])
+else:
+    install_requires.extend([
+        'six>=1.5.2, <2',
+    ])
+
 
 try:
     # this can fail if numpy or cython isn't installed yet
@@ -79,7 +84,7 @@ else:
             macros.append(('CYTHON_TRACE', '1'))
             CythonOptions.directive_defaults['linetrace'] = True
             print('Warning: Enabling line tracing in cython extension.'
-                  'This will slow it down by a factor of 20 or so!')
+                  'This` will slow it down by a factor of 20 or so!')
     except (KeyError, ImportError):
         # KeyError if environment variable is not set,
         # ImportError if cython is not yet installed

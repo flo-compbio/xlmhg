@@ -171,7 +171,7 @@ def get_result_figure(
     if plot_fold_enrichment:
         tick_color = score_color
     yaxis = go.YAxis(
-        title='Enrichment score',
+        title='-log<sub>10</sub>(hypergeom. p-value)',
         tickfont=dict(
             color=tick_color,
         ),

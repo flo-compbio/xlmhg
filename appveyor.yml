@@ -40,15 +40,15 @@ environment:
       PYTHON_MAJOR_VERSION: "3"
       ARCH: "64"
 
-    - PYTHON: "C:\\Python36"
-      PYTHON_VERSION: "3.6"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "32"
+    #- PYTHON: "C:\\Python36"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "32"
 
-    - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "64"
+    #- PYTHON: "C:\\Python36-x64"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "64"
 
 install:
   # install numpy and cython for the Python environment

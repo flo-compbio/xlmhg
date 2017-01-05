@@ -90,7 +90,7 @@ install:
   - "%CONDA% info -a"
 
   # set up conda environment
-  - "%CONDA% create -n testenv python=%PYTHON_VERSION% numpy cython scipy""
+  - "%CONDA% create -n testenv python=%PYTHON_VERSION% numpy cython scipy"
 
   # activate conda environment
   - "%ACTIVATE% testenv"

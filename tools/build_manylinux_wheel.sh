@@ -26,14 +26,14 @@ echo "The current working directory is: `pwd`"
 # install conda
 if [ $(uname -m) == 'x86_64' ]; then
   # 64-bit
-    if [[ "${PYTHON_VERSION}" == "2.7" ]]; then
+    if [[ "${PYTHON_VERSION:0:1}" == "2" ]]; then
         curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
     else
         curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
     fi
 else
   # 32-bit
-    if [[ "${PYTHON_VERSION}" == "2.7" ]]; then
+    if [[ "${PYTHON_VERSION:0:1}" == "2" ]]; then
         curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86.sh
     else
         curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86.sh

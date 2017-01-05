@@ -43,6 +43,10 @@ docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.4 $DOCKER_IMAGE \
 docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.5 $DOCKER_IMAGE \
     /io/tools/build_manylinux_wheel.sh
 
+# build Python 3.6 wheel
+docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.6 $DOCKER_IMAGE \
+    /io/tools/build_manylinux_wheel.sh
+
 
 ### 32-bit
 
@@ -61,8 +65,13 @@ docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.4 $DOCKER_IMAGE linux32 \
 docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.5 $DOCKER_IMAGE linux32 \
     /io/tools/build_manylinux_wheel.sh
 
+# build Python 3.6 wheel
+docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.6 $DOCKER_IMAGE linux32 \
+    /io/tools/build_manylinux_wheel.sh
+
 
 ### clean up
+
 pushd ..
 mv wheelhouse/*.whl dist/
 rm -r wheelhouse

@@ -27,8 +27,9 @@ Installation
 Getting started
 ---------------
 
-The `xlmhg` package exposes two Python API's (functions) that are documented
-in the `User Manual`__. Here's a quick example using the "simple" API:
+The `xlmhg` package provides two functions (one simple and more more advanced)
+for performing XL-mHG tests. These functions are documented in the
+`User Manual`__. Here's a quick example using the "simple" test function:
 
 .. code-block:: python
 

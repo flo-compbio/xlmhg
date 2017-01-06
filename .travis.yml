@@ -10,8 +10,8 @@ services:
 
 python:
   - 2.7
-  - 3.4
   - 3.5
+  - 3.6
 
 matrix:
   include:
@@ -21,6 +21,9 @@ matrix:
     - os: osx
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.5
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.6
 
 # only build master and develop branches
 branches:
@@ -29,8 +32,8 @@ branches:
     - develop
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+  - if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
+      if [[ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]]; then
         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
             -O miniconda.sh;
       else
@@ -38,7 +41,7 @@ before_install:
             -O miniconda.sh;
        fi
     else
-      if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      if [[ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]]; then
         wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh
             -O miniconda.sh;
       else

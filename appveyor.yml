@@ -21,9 +21,34 @@ environment:
   matrix:
 
     - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "2.7"
+      PYTHON_MAJOR_VERSION: "2"
+      ARCH: "32"
+
     - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7"
+      PYTHON_MAJOR_VERSION: "2"
+      ARCH: "64"
+
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "3.5"
+      PYTHON_MAJOR_VERSION: "3"
+      ARCH: "32"
+
     - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5"
+      PYTHON_MAJOR_VERSION: "3"
+      ARCH: "64"
+
+    #- PYTHON: "C:\\Python36"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "32"
+
+    #- PYTHON: "C:\\Python36-x64"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "64"
 
 install:
   # install numpy and cython for the Python environment
@@ -38,20 +63,20 @@ install:
   # but scipy does not provide windows binaries => use conda
 
   # download conda
-  - if "%PYTHON%" == "C:\Python35" (
-      bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
-    )
-    else (
-      if "%PYTHON%" == "C:\Python35-x64" (
-        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+  - if "%PYTHON_MAJOR_VERSION%" == "2" (
+      if "%ARCH%" == "32" (
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86.exe %cd%\\miniconda.exe
       )
       else (
-        if "%PYTHON%" == "C:\Python27" (
-          bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86.exe %cd%\\miniconda.exe
-        )
-        else (
-          bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe %cd%\\miniconda.exe
-        )
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+      )
+    )
+    else (
+      if "%ARCH%" == "32" (
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
+      )
+      else (
+        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
       )
     )
   - dir
@@ -65,22 +90,7 @@ install:
   - "%CONDA% info -a"
 
   # set up conda environment
-  - if "%PYTHON%" == "C:\Python35" (
-      %CONDA% create -n testenv python=3.5 numpy cython scipy
-    )
-    else (
-      if "%PYTHON%" == "C:\Python35-x64" (
-        %CONDA% create -n testenv python=3.5 numpy cython scipy
-      )
-      else (
-        if "%PYTHON%" == "C:\Python27" (
-          %CONDA% create -n testenv python=2.7 numpy cython scipy
-        )
-        else (
-          %CONDA% create -n testenv python=2.7 numpy cython scipy
-        )
-      )
-    )
+  - "%CONDA% create -n testenv python=%PYTHON_VERSION% numpy cython scipy"
 
   # activate conda environment
   - "%ACTIVATE% testenv"

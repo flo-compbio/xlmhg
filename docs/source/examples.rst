@@ -92,7 +92,9 @@ Visualizing a test result
 -------------------------
 
 This example demonstrates how to visualize an XL-mHG test result using the
-:func:`get_result_figure` function.
+:func:`get_result_figure` function and `plotly`__.
+
+__ plotly_
 
 Script:
 
@@ -100,6 +102,7 @@ Script:
 
     import numpy as np
     import xlmhg
+    from plotly.offline import plot
 
     v = np.uint8([1,0,1,1,0,1] + [0]*12 + [1,0])
     X = 3
@@ -121,3 +124,4 @@ it as a PNG image. The image looks as follows:
 
 .. figure:: /_static/test_figure.png
 
+.. _plotly: https://plot.ly/

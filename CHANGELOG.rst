@@ -35,6 +35,11 @@ Changelog
 ~~~~~~~~~~~~~~~~~~
 - Fixed minor issue
 
+2.4.7 (2017-01-14)
+~~~~~~~~~~~~~~~~~~
+- Added bottom panel to visualization of test result showing occurrences of the
+  "1's"
+
 2.3.0 (2016-08-08)
 ------------------
 - Added arguments `exact_pval` and `escore_pval_thresh` to

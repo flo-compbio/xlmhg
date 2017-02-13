@@ -28,7 +28,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.7'
+version = '2.4.8'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -39,7 +39,7 @@ cmdclass = {}
 
 install_requires = [
     'future>=0.15.2, <1',
-    'plotly>=1.12.4, <2',
+    'plotly>=1.12.4, <3',
     'pip>=8.1.2',
 ]
 

@@ -70,10 +70,10 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
     indices: 1-dim `numpy.ndarray` with ``dtype`` = numpy.uint16
         Sorted list of indices corresponding to the "1"s in the ranked list.
     X: int, optional
-        The ``X`` parameter. Should be between 1 and K (inclusive), where K
-        is the length of ``indices``. [1]
+        The ``X`` parameter. Should be between 0 and K (inclusive), where K
+        is the length of ``indices``. [0]
     L: int, optional
-        The ``L`` parameter. Should be between 1 and ``N`` (inclusive). If
+        The ``L`` parameter. Should be between 0 and ``N`` (inclusive). If
         `None`, this parameter will be set to ``N`` [None]
     exact_pval: str, enumerated
         Valid values are: 'always', 'if_significant', and 'if_necessary'.
@@ -138,7 +138,7 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
     # assign default values, if None
     K = indices.size
     if X is None:
-        X = 1
+        X = 0
     if L is None:
         L = N
 
@@ -150,13 +150,13 @@ def get_xlmhg_test_result(N, indices, X=None, L=None,
         raise ValueError(
             'Length of list cannot exceed 65536.'
         )
-    if not (1 <= X <= N):
+    if not (0 <= X <= N):
         raise ValueError(
-            'Invalid value X=%d; should be >= 1 and <= %d.' %(X, N)
+            'Invalid value X=%d; should be >= 0 and <= %d.' %(X, N)
         )
-    if not (1 <= L <= N):
+    if not (0 <= L <= N):
         raise ValueError(
-            'Invalid value L=%d; should be >= 1 and <= %d.' %(L, N)
+            'Invalid value L=%d; should be >= 0 and <= %d.' %(L, N)
         )
     if pval_thresh is not None and not (0.0 <= pval_thresh <= 1.0):
         raise ValueError(

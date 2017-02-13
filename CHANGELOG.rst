@@ -40,6 +40,12 @@ Changelog
 - Added bottom panel to visualization of test result showing occurrences of the
   "1's"
 
+2.4.8 (2017-02-13)
+~~~~~~~~~~~~~~~~~~
+- Added some features to the `get_result_figure()` function.
+- Allowed setting X=0 for XL-mHG tests.
+- Allowed plotly versions 3.x 
+
 2.3.0 (2016-08-08)
 ------------------
 - Added arguments `exact_pval` and `escore_pval_thresh` to

@@ -84,8 +84,10 @@ def get_result_figure(
         font_family='Computer Modern Roman, serif',
         score_color='rgb(0,109,219)',
         enrichment_color='rgb(219,109,0)',
-        cutoff_color='rgba(255, 109, 182,0.5)',
-        line_width=2.0):
+        cutoff_color='rgba(255, 52, 52, 0.7)',
+        line_width=2.0,
+        ymax=None,
+        mHG_label=False):
     """Visualize an XL-mHG test result.
 
     Parameters
@@ -125,6 +127,10 @@ def get_result_figure(
         ["rgba(255, 109,182,0.5)"]
     line_width : int or float, optional
         The line width used for plotting. [2.0]
+    ymax : int or float or None, optional
+        The y-axis limit. If ``None``, determined automatically. [None]
+    mHG_label : bool, optional
+        If ``True``, label the p-value with "mHG" instead of "XL-mHG". [False]
 
     Returns
     -------
@@ -147,9 +153,16 @@ def get_result_figure(
     assert isinstance(score_color, (str, _oldstr))
     assert isinstance(enrichment_color, (str, _oldstr))
     assert isinstance(line_width, (int, float))
+    if ymax is not None:
+        assert isinstance(ymax, (int, float))
+    assert isinstance(mHG_label, bool)
 
     pvals, folds = get_hypergeometric_stats(result.N, result.indices)
     pval_max = max(int(ceil(-np.log10(np.amin(pvals)))), 1.0)
+
+    if ymax is not None:
+        pval_max = ymax
+
     pval_min = 0.0
     X = result.X
     L = result.L
@@ -225,9 +238,9 @@ def get_result_figure(
         if title is None:
             t = 22
         margin = dict(
-            l=80,
+            l=70,
             t=t,
-            b=75,
+            b=60,
         )
 
     if plot_fold_enrichment:
@@ -274,11 +287,18 @@ def get_result_figure(
     # in the calculation of the test statistic
     # (due to X and L parameters)
     rect_col = 'rgba(60,60,60,0.10)'
+
+    rect1_x1 = 0
+    if result.X > 0:
+        if result.X < result.K:
+            rect1_x1 = result.indices[result.X-1] + 0.5
+        else:
+            rect1_x1 = result.N
     rect1 = {
         'type': 'rect',
         'x0': 0,
         'y0': pval_min,
-        'x1': result.indices[result.X-1] + 0.5,
+        'x1': rect1_x1,
         'y1': pval_max,
         'line': dict(
             width=0,
@@ -314,20 +334,28 @@ def get_result_figure(
             opacity=0.7,
         ))
 
+    if not mHG_label:
+        # show XL-mHG p-value
+        pval_text = ('<b><i>p</i><sup>XL-mHG</sup> = '
+                     '%s</b><br>(X=%d, L=%d; %d/%d @ %d)') \
+                    % (pval_str, result.X, result.L,
+                       result.k, result.K, result.cutoff)
+    else:
+        # show mHG p-value
+        pval_text = ('<b><i>p</i><sup>mHG</sup> = '
+                     '%s</b><br>(%d/%d @ %d)') \
+                    % (pval_str,
+                       result.k, result.K, result.cutoff)
+
     annotations = []
     if show_inset:
         annotations.append(
             go.Annotation(
-                x=0.95,
-                y=0.95,
+                x=0.98,
+                y=0.96,
                 align='right',
                 showarrow=False,
-                #text='X=%d, L=%d<br><b><i>p</i> = %s</b>' \
-                #     % (result.X, result.L, pval_str),
-                #text='%d/%d @ %d<br><b><i>p</i> = %s</b>' \
-                #     % (result.k, result.K, result.cutoff, pval_str),
-                text='<b><i>p</i> = %s</b><br>(%d/%d @ %d)' \
-                     % (pval_str, result.k, result.K, result.cutoff),
+                text=pval_text,
                 xref='paper',
                 yref='paper',
                 xanchor='right',
@@ -344,7 +372,7 @@ def get_result_figure(
         'y1': pval_max,
         'line': dict(
             color=cutoff_color,
-            width=line_width,
+            width=1.5*line_width,
             dash='dash',
         ),
     }

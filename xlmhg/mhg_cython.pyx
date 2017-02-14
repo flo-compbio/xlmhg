@@ -105,20 +105,19 @@ def get_xlmhg_ON_bound(int N, int K, int X, int L, long double stat,
     """PVAL-BOUND: Calculate an upper bound for the XL-mHG p-value in O(N)."""
     # we assume that:
     # 0 < stat <= 1.0
-    # 1 <= X <= N
-    # 1 <= L <= N
+    # 0 <= X <= N
+    # 0 <= L <= N
     cdef int n, k, w, min_KL
     cdef int k_min, k_max
     cdef long double p, hgp
 
+    min_KL = min(K, L)
     if stat == 1.0:
         # by definition
         return 1.0
-    elif X > K or X > L:
-        # since X > 0, this includes the case K=0
+    elif min_KL == 0 or X > min_KL:
         return 0.0
 
-    min_KL = min(K, L)
     k_min = 0
     p = 1.0
     n = 1

@@ -50,8 +50,16 @@ def get_xlmhg_O1_bound(stat, K, X, L):
     assert isinstance(L, (int, np.integer))
 
     min_KL = min(K, L)
-    upper_bound = min((min_KL-X+1)*stat, 1.0)
+    max_X1 = max(X, 1)  # there is never a p-value based on zero 1's
+
+    if stat == 1.0:
+        return 1.0  # by definition
+    elif min_KL == 0 or X > min_KL:
+        return 0.0
+
+    upper_bound = min((min_KL-max_X1+1)*stat, 1.0)
     return upper_bound
+
 
 def get_xlmhg_test_result(N, indices, X=None, L=None,
                           exact_pval='always', # if_necessary, if_significant

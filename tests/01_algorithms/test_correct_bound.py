@@ -25,6 +25,8 @@ from scipy.stats import hypergeom
 
 from xlmhg import mhg
 from xlmhg import mhg_cython
+from xlmhg import test
+
 
 def calculate_bound(N, K, X, L, stat, S):
     """Calculate the O(N) upper bound when we know s_(k,w), for all (k,w)."""
@@ -111,12 +113,14 @@ def test_bound():
                 assert bound >= pval or mhg.is_equal(bound, pval, tol)
 
                 # make sure O(1) bound is >= this bound
-                assert bound <= min(K*stat, 1.0) or \
-                        mhg.is_equal(bound, min(K*stat, 1.0), tol)
+                o1_bound = test.get_xlmhg_O1_bound(stat, K, X, L)
+
+                assert bound <= o1_bound or \
+                        mhg.is_equal(bound, o1_bound, tol), (stat, stat==1.0, N, K, X, L)
 
                 tests += 1
-                if bound < min(K*stat, 1.0) and not \
-                        mhg.is_equal(bound, min(K*stat, 1.0), tol):
+                if bound < o1_bound and not \
+                        mhg.is_equal(bound, o1_bound, tol):
                     smaller += 1
 
     print('Calculated %d p-values, based on %d configurations!'

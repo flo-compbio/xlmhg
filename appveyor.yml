@@ -63,20 +63,21 @@ install:
   # but scipy does not provide windows binaries => use conda
 
   # download conda
+  # bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86.exe %cd%\\miniconda.exe
   - if "%PYTHON_MAJOR_VERSION%" == "2" (
       if "%ARCH%" == "32" (
-        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86.exe %cd%\\miniconda.exe
+        PowerShell.exe -ExecutionPolicy Bypass -Command "& {(New-Object System.Net.WebClient).DownloadFile('https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86.exe', '%cd%\\miniconda.exe')}"
       )
       else (
-        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+        PowerShell.exe -ExecutionPolicy Bypass -Command "& {(New-Object System.Net.WebClient).DownloadFile('https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe', '%cd%\\miniconda.exe')}"
       )
     )
     else (
       if "%ARCH%" == "32" (
-        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe %cd%\\miniconda.exe
+        PowerShell.exe -ExecutionPolicy Bypass -Command "& {(New-Object System.Net.WebClient).DownloadFile('https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe', '%cd%\\miniconda.exe')}"
       )
       else (
-        bitsadmin.exe /transfer "DownloadMiniconda" https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe %cd%\\miniconda.exe
+        PowerShell.exe -ExecutionPolicy Bypass -Command "& {(New-Object System.Net.WebClient).DownloadFile('https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe', '%cd%\\miniconda.exe')}"
       )
     )
   - dir

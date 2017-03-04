@@ -44,7 +44,11 @@ Changelog
 ~~~~~~~~~~~~~~~~~~
 - Added some features to the `get_result_figure()` function.
 - Allowed setting X=0 for XL-mHG tests.
-- Allowed plotly versions 3.x 
+- Allowed plotly versions 3.x
+
+2.4.9 (2017-03-04)
+~~~~~~~~~~~~~~~~~~
+- Fixed build bug on Windows
 
 2.3.0 (2016-08-08)
 ------------------

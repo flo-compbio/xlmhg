@@ -1,28 +1,11 @@
-# Copyright (c) 2016 Florian Wagner
+# Copyright (c) 2016-2019 Florian Wagner
 #
 # This file is part of XL-mHG.
-#
-# XL-mHG is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License, Version 3,
-# as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Python API for visualizing XL-mHG test results."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-_oldstr = str
-from builtins import *
-
 from math import floor, ceil
-# from collections import Iterable
+# from ABC import Iterable
 
 import numpy as np
 import plotly.graph_objs as go
@@ -141,17 +124,17 @@ def get_result_figure(
     assert isinstance(result, mHGResult)
     assert isinstance(show_title, bool)
     if title is not None:
-        assert isinstance(title, (str, _oldstr))
+        assert isinstance(title, str)
     assert isinstance(show_inset, bool)
     assert isinstance(plot_fold_enrichment, bool)
-    assert isinstance(font_family, (str, _oldstr))
+    assert isinstance(font_family, str)
     assert isinstance(width, int)
     assert isinstance(height, int)
     assert isinstance(font_size, (int, float))
     if margin is not None:
         assert isinstance(margin, dict)
-    assert isinstance(score_color, (str, _oldstr))
-    assert isinstance(enrichment_color, (str, _oldstr))
+    assert isinstance(score_color, str)
+    assert isinstance(enrichment_color, str)
     assert isinstance(line_width, (int, float))
     if ymax is not None:
         assert isinstance(ymax, (int, float))
@@ -176,7 +159,7 @@ def get_result_figure(
     data.append(go.Scatter(
         x=np.arange(N+1),
         y=-np.log10(pvals),
-        mode='line',
+        mode='lines',
         line=dict(
             color=score_color,
             width=line_width,
@@ -188,7 +171,7 @@ def get_result_figure(
     tick_color = None
     if plot_fold_enrichment:
         tick_color = score_color
-    yaxis = go.YAxis(
+    yaxis = go.layout.YAxis(
         #title='-log<sub>10</sub>(hypergeom. p-value)',
         title='Enrichment score',
         tickfont=dict(
@@ -207,7 +190,7 @@ def get_result_figure(
 
     # additional y axis at the the bottom,
     # showing the occurrences of the "1's"
-    yaxis3 = go.YAxis(
+    yaxis3 = go.layout.YAxis(
         domain=[0, 0.1],
         anchor='x',
         mirror=True,
@@ -254,7 +237,7 @@ def get_result_figure(
             x=np.arange(fold_start, result.N + 1),
             y=np.log2(folds[fold_start:]),
             yaxis='y2',
-            mode='line',
+            mode='lines',
             line=dict(
                 color=enrichment_color,
                 width=line_width
@@ -262,7 +245,7 @@ def get_result_figure(
         ))
 
         # generate fold enrichment axis
-        yaxis2 = go.YAxis(
+        yaxis2 = go.layout.YAxis(
             title='log<sub>2</sub>(Fold enrichment)',
             # titlefont=dict(
             #    color='rgb(148, 103, 189)'
@@ -350,7 +333,7 @@ def get_result_figure(
     annotations = []
     if show_inset:
         annotations.append(
-            go.Annotation(
+            go.layout.Annotation(
                 x=0.98,
                 y=0.96,
                 align='right',

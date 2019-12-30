@@ -1,20 +1,8 @@
 #!/bin/bash
 
-# Copyright (c) 2016 Florian Wagner
+# Copyright (c) 2016-2019 Florian Wagner
 #
 # This file is part of XL-mHG.
-#
-# XL-mHG is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License, Version 3,
-# as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # This script should be run from within a manylinux1 docker container.
 
@@ -55,7 +43,7 @@ pip install --upgrade pip
 pip install --upgrade --ignore-installed setuptools
 
 # install requirements for building the package
-pip install --upgrade wheel numpy cython auditwheel six
+pip install --upgrade wheel numpy cython auditwheel
 
 # get ready to build
 cd /io
@@ -66,7 +54,7 @@ python setup.py bdist_wheel
 source deactivate
 
 ### run auditwheel (requires python 3)
-conda create -n python3env python=3.5
+conda create -n python3env python=3.8
 source activate python3env
 pip install --upgrade pip
 pip install --upgrade --ignore-installed setuptools

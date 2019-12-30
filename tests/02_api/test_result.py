@@ -1,25 +1,8 @@
-# Copyright (c) 2016 Florian Wagner
+# Copyright (c) 2016-2019 Florian Wagner
 #
 # This file is part of XL-mHG.
-#
-# XL-mHG is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License, Version 3,
-# as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """Tests for the `mHGResult` class (in `result.py`)."""
-
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import str as text
-from builtins import int as newint
 
 from copy import deepcopy
 
@@ -45,11 +28,10 @@ def test_basic(my_result, my_v, my_ind):
     assert isinstance(my_result, mHGResult)
     assert isinstance(repr(my_result), str)
     assert isinstance(str(my_result), str)
-    assert isinstance(text(my_result), text)
-    assert isinstance(my_result.hash, text)
+    assert isinstance(my_result.hash, str)
     assert np.array_equal(my_result.indices, my_ind)
     assert np.array_equal(my_result.v, my_v)
-    assert isinstance(my_result.k, newint)
+    assert isinstance(my_result.k, int)
 
     other = deepcopy(my_result)
     assert other is not my_result
@@ -57,6 +39,6 @@ def test_basic(my_result, my_v, my_ind):
     other.pval = 0.86213
     assert other != my_result
 
-    assert isinstance(my_result.N, newint)
+    assert isinstance(my_result.N, int)
     assert my_result.N == my_v.size
     assert isinstance(my_result.escore, float)

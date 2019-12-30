@@ -4,10 +4,6 @@
 
 """XL-mHG Python implementation."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import *
-
 import numpy as np
 
 DEFAULT_TOL = 1e-12

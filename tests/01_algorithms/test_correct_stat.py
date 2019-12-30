@@ -4,10 +4,6 @@
 
 """Tests for the Cython implementation of the XL-mHG test statistic."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import str as text
-
 import sys
 import itertools as it
 

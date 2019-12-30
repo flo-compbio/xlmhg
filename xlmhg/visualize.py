@@ -4,11 +4,6 @@
 
 """Python API for visualizing XL-mHG test results."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-_oldstr = str
-from builtins import *
-
 from math import floor, ceil
 # from ABC import Iterable
 
@@ -129,17 +124,17 @@ def get_result_figure(
     assert isinstance(result, mHGResult)
     assert isinstance(show_title, bool)
     if title is not None:
-        assert isinstance(title, (str, _oldstr))
+        assert isinstance(title, str)
     assert isinstance(show_inset, bool)
     assert isinstance(plot_fold_enrichment, bool)
-    assert isinstance(font_family, (str, _oldstr))
+    assert isinstance(font_family, str)
     assert isinstance(width, int)
     assert isinstance(height, int)
     assert isinstance(font_size, (int, float))
     if margin is not None:
         assert isinstance(margin, dict)
-    assert isinstance(score_color, (str, _oldstr))
-    assert isinstance(enrichment_color, (str, _oldstr))
+    assert isinstance(score_color, str)
+    assert isinstance(enrichment_color, str)
     assert isinstance(line_width, (int, float))
     if ymax is not None:
         assert isinstance(ymax, (int, float))

@@ -4,10 +4,6 @@
 
 """Tests for the Python implementation of the XL-mHG test."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import str as text
-
 import itertools as it
 
 import pytest

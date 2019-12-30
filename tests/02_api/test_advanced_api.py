@@ -4,10 +4,6 @@
 
 """Tests for the advanced API (`get_xlmhg_test_result`). """
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import str as text
-
 import numpy as np
 import pytest
 

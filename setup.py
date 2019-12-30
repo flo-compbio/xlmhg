@@ -2,8 +2,6 @@
 #
 # This file is part of XL-mHG.
 
-from __future__ import print_function
-
 import sys
 import os
 from os import path
@@ -26,9 +24,8 @@ ext_modules = []
 cmdclass = {}
 
 install_requires = [
-    'future>=0.15.2, <1',
-    'plotly>=1.12.4',
-    'pip>=8.1.2',
+    'plotly>=3',
+    'pip>=19',
 ]
 
 # do not require installation if built by ReadTheDocs
@@ -36,14 +33,13 @@ install_requires = [
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
-        'six>=1.10.0, <2',
         'cython>=0.25.0, <1',
         'numpy>=1.8, <2',
     ])
 else:
-    install_requires.extend([
-        'six>=1.5.2, <2',
-    ])
+    pass
+    #install_requires.extend([
+    #])
 
 
 try:

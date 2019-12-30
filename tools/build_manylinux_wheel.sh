@@ -43,7 +43,7 @@ pip install --upgrade pip
 pip install --upgrade --ignore-installed setuptools
 
 # install requirements for building the package
-pip install --upgrade wheel numpy cython auditwheel six
+pip install --upgrade wheel numpy cython auditwheel
 
 # get ready to build
 cd /io

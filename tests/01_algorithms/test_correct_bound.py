@@ -4,10 +4,6 @@
 
 """Tests for Cython implementation of the XL-mHG bounds."""
 
-from __future__ import (absolute_import, division,
-                        print_function, unicode_literals)
-from builtins import str as text
-
 import numpy as np
 from scipy.stats import hypergeom
 

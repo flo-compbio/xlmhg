@@ -37,7 +37,6 @@ if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
         'six>=1.10.0, <2',
-        #'cython>=0.23.0, <1',
         'cython>=0.25.0, <1',
         'numpy>=1.8, <2',
     ])
@@ -141,6 +140,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Cython',
     ],
 

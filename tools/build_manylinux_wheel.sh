@@ -54,7 +54,7 @@ python setup.py bdist_wheel
 source deactivate
 
 ### run auditwheel (requires python 3)
-conda create -n python3env python=3.5
+conda create -n python3env python=3.8
 source activate python3env
 pip install --upgrade pip
 pip install --upgrade --ignore-installed setuptools

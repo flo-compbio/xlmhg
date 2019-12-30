@@ -65,7 +65,7 @@ __ go_pca_paper_
 Copyright and License
 ---------------------
 
-Copyright (c) 2015-2017 Florian Wagner
+Copyright (c) 2015-2019 Florian Wagner
 
 ::
 

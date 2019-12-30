@@ -6,6 +6,11 @@
 Changelog
 =========
 
+2.5.0 (2019-12-30)
+-----------------
+- Dropped Python 2 support
+- Included binaries for Python 3.7 and 3.8
+
 2.4.0 (2016-08-15)
 ------------------
 - Added `get_result_figure()` API function to visualize test results using the

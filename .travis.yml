@@ -9,21 +9,21 @@ services:
   - docker
 
 python:
-  - 2.7
   - 3.5
   - 3.6
+  - 3.7
 
 matrix:
   include:
-    - os: osx
-      language: generic
-      env: TRAVIS_PYTHON_VERSION=2.7
     - os: osx
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.5
     - os: osx
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.6
+    - os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.7
 
 # only build master and develop branches
 branches:

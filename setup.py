@@ -1,18 +1,6 @@
-# Copyright (c) 2015, 2016 Florian Wagner
+# Copyright (c) 2015-2019 Florian Wagner
 #
 # This file is part of XL-mHG.
-#
-# XL-mHG is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License, Version 3,
-# as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
 
@@ -28,7 +16,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.4.9'
+version = '2.5.0'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -39,7 +27,7 @@ cmdclass = {}
 
 install_requires = [
     'future>=0.15.2, <1',
-    'plotly>=1.12.4, <3',
+    'plotly>=1.12.4',
     'pip>=8.1.2',
 ]
 
@@ -148,11 +136,11 @@ setup(
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering :: Bio-Informatics',
 
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: BSD License',
 
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Cython',
     ],
 

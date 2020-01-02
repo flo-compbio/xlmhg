@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Copyright (c) 2020 Florian Wagner
+#
+# This file is part of XL-mHG.
+
+# Builds manylinux1 wheels for the XL-mHG Python package using the
+# manylinux1 docker image. This script is run inside the docker container.
+
 set -e -x
 
 cd ~
@@ -20,9 +27,8 @@ for whl in wheelhouse/xlmhg-*.whl; do
 done
 
 # Install packages and test
-#echo "TESTING PHASE!"
-#for PYVER in ${PYVERSIONS[*]}; do
-#    PYBIN="/opt/python/${PYVER}/bin"
-#    "${PYBIN}/pip" install xlmhg --no-index -f /io/wheelhouse
-#    (cd "$HOME"; "${PYBIN}/pytest" .)
-#done
+for PYVER in ${PYVERSIONS[*]}; do
+    PYBIN="/opt/python/${PYVER}/bin"
+    "${PYBIN}/pip" install xlmhg --no-index -f /io/wheelhouse
+    (cd "$HOME"; "${PYBIN}/pytest" .)
+done

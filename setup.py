@@ -14,7 +14,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.5.2'
+version = '2.5.3'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -167,7 +167,7 @@ setup(
         'tests': [
             'pytest>=2.8.5, <3',
             'pytest-cov>=2.2.1, <3',
-            'scipy>=0.17.0, <1',
+            'scipy>=1.4.1, <2',
         ],
     },
 

@@ -62,7 +62,6 @@ environment:
 
 build_script:
   # install numpy and cython for the Python environment
-  # provided by Appveyor
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
   - "%PYTHON%\\python.exe -m pip install wheel"
@@ -119,6 +118,8 @@ test_script:
   # Note that you must use the environment variable %PYTHON% to refer to
   # the interpreter you're using - Appveyor does not do anything special
   # to put the Python evrsion you want to use on PATH.
+  - set "ACTIVATE=%cd%\\Miniconda\\Scripts\\activate.bat"
+  - "%ACTIVATE% testenv"
   - py.test tests/02_api/test_result.py
       tests/01_algorithms/test_correct_bound.py
       tests/01_algorithms/test_correct_stat.py

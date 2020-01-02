@@ -50,32 +50,17 @@ environment:
       PYTHON_MAJOR_VERSION: "3"
       ARCH: "64"
 
-    - PYTHON: "C:\\Python38"
-      PYTHON_VERSION: "3.8"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "32"
+    #- PYTHON: "C:\\Python38"
+    #  PYTHON_VERSION: "3.8"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "32"
 
     - PYTHON: "C:\\Python38-x64"
       PYTHON_VERSION: "3.8"
       PYTHON_MAJOR_VERSION: "3"
       ARCH: "64"
 
-
-    #- PYTHON: "C:\\Python36"
-    #  PYTHON_VERSION: "3.6"
-    #  PYTHON_MAJOR_VERSION: "3"
-    #  ARCH: "32"
-
-    #- PYTHON: "C:\\Python36-x64"
-    #  PYTHON_VERSION: "3.6"
-    #  PYTHON_MAJOR_VERSION: "3"
-    #  ARCH: "64"
-
-build: script
-
 build_script:
-
-install:
   # install numpy and cython for the Python environment
   # provided by Appveyor
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
@@ -125,8 +110,6 @@ install:
   - pip install --upgrade --ignore-installed setuptools
   - pip install --upgrade pytest twine
   - pip install -e .
-
-  # install xlmhg
 
 test_script:
   # Put your test command here.

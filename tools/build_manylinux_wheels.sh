@@ -30,5 +30,5 @@ done
 for PYVER in ${PYVERSIONS[*]}; do
     PYBIN="/opt/python/${PYVER}/bin"
     "${PYBIN}/pip" install xlmhg --no-index -f /io/wheelhouse
-    (cd "$HOME"; "${PYBIN}/pytest" .)
+    (cd "$HOME"; "${PYBIN}/pytest" /io )
 done

@@ -6,8 +6,6 @@ notifications:
   on_build_failure: false
   on_build_status_changed: false
 
-build: Script
-
 branches:
  only:
    - master
@@ -73,6 +71,8 @@ environment:
     #  PYTHON_MAJOR_VERSION: "3"
     #  ARCH: "64"
 
+build: Off
+
 install:
   # install numpy and cython for the Python environment
   # provided by Appveyor
@@ -124,8 +124,6 @@ install:
   - pip install -e .
 
   # install xlmhg
-
-build: off
 
 test_script:
   # Put your test command here.

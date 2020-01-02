@@ -71,7 +71,9 @@ environment:
     #  PYTHON_MAJOR_VERSION: "3"
     #  ARCH: "64"
 
-build: Off
+build: script
+
+build_script:
 
 install:
   # install numpy and cython for the Python environment

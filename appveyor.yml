@@ -120,7 +120,8 @@ install:
 
   # activate conda environment
   - "%ACTIVATE% testenv"
-  - pip install --upgrade pip
+  - python -m pip install --upgrade pip
+  #- pip install --upgrade pip
   - pip install --upgrade --ignore-installed setuptools
   - pip install --upgrade pytest twine
   - pip install -e .

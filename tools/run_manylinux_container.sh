@@ -14,50 +14,19 @@ set -e -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 pushd $DIR
 
-### 64-bit
-
+### build 64-bit Python wheels
 DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
 docker pull $DOCKER_IMAGE
+docker run --rm -v "`pwd`/..:/io" -e PLAT="manylinux1_x86_64" $DOCKER_IMAGE \
+    /io/tools/build_manylinux_wheels.sh
 
-# build Python 3.5 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.5 $DOCKER_IMAGE \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.6 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.6 $DOCKER_IMAGE \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.7 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.7 $DOCKER_IMAGE \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.8 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.8 $DOCKER_IMAGE \
-    /io/tools/build_manylinux_wheel.sh
-
-### 32-bit
-
+### build 32-bit Python wheels
 DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
 docker pull $DOCKER_IMAGE
-
-# build Python 3.5 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.5 $DOCKER_IMAGE linux32 \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.6 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.6 $DOCKER_IMAGE linux32 \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.7 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.7 $DOCKER_IMAGE linux32 \
-    /io/tools/build_manylinux_wheel.sh
-
-# build Python 3.8 wheel
-docker run --rm -v "`pwd`/..:/io" -e PYTHON_VERSION=3.8 $DOCKER_IMAGE linux32 \
-    /io/tools/build_manylinux_wheel.sh
+docker run --rm -v "`pwd`/..:/io" -e PLAT="manylinux1_i686" $DOCKER_IMAGE linux32 \
+    /io/tools/build_manylinux_wheels.sh
 
 ### clean up
-
 pushd ..
 mv wheelhouse/*.whl dist/
 rm -r wheelhouse

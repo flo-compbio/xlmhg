@@ -6,7 +6,7 @@ notifications:
   on_build_failure: false
   on_build_status_changed: false
 
-build:Script
+build: Script
 
 branches:
  only:

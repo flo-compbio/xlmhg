@@ -13,6 +13,8 @@ python:
 
 jobs:
   include:
+    - os: linux
+      language: python
     - os: osx
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.5

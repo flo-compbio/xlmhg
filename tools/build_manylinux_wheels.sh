@@ -6,7 +6,6 @@ cd ~
 echo "The current working directory is: `pwd`"
 
 PYVERSIONS=(cp35-cp35m cp36-cp36m cp37-cp37m cp38-cp38)
-PLAT=manylinux1_x86_64
 
 # Compile wheels
 for PYVER in ${PYVERSIONS[*]}; do

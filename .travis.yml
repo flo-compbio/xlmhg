@@ -10,9 +10,6 @@ services:
 
 python:
   - 3.8
-  - 3.7
-  - 3.6
-  - 3.5
 
 jobs:
   include:
@@ -90,3 +87,4 @@ deploy:
     secure: I2DVgNajBx2xsaqeRHlcmtH8Q4emO0gSWUA/Wfayg4r8Bue+phln480zEcJcMC2nch7NzIPfM/jvniFIrGgZddSUJ3qoHAF+HLPfZUwv0IPSdZ4q3C8Jqs2EK5YlHjSQk0497lD5tcGSDhjFYVgSE1spCh0esUUIU0AtKT+tU6O72Jko2XCewjs45J1phB1TQQM5Tak2zluEKDmkkFXry61YDrM+K2SZwSkk8WC/HbX0WNlUSz67Ic0FZzmzZOBBzj9xkAIwHxUmM8+08omm3KtrKQjuoSc6CL2tn1eZG+qIgSt/pelxv5UXW8RHNTxCiA/UG5h9t5hOnyhmrzBVvMn/gNjoc7XJv50rI4V5Ivys4pKVBWxNQAKfpzW1E09vJ/ay5riVyYr5444ZJ/zgQEyju2k87vURRYbus41TV2opkiEDN2kwBFjO/js9UWgIMPDg7FedTqJmMVDPKHpTkNRVHgXNE4Mg1+sLY/bW6nOhqSu775elKObd+MbvQ5Zz+NinLcDXUWqYaLCywGi+1nS/0s1HQyCby+o3VcSmCtSBBtoDaj20wGpftJebnBGOzKaYx7RStMrutviB4wVTLoZQLOV6X2/MDEC6sTJu9f9L+5C7T9DFoP8N61Tymz5dcun7mFnU/u2dn9nZ11x/5mIZboAubcT6seD7Se51XCY=
   on:
     branch: master
+  skip_existing: true

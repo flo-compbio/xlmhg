@@ -14,7 +14,7 @@ from wheel.bdist_wheel import bdist_wheel
 here = path.abspath(path.dirname(__file__))
 root = 'xlmhg'
 description = 'XL-mHG: A Semiparametric Test for Enrichment'
-version = '2.5.3'
+version = '2.5.4'
 
 long_description = ''
 with io.open(path.join(here, 'README.rst'), encoding='UTF-8') as fh:
@@ -33,8 +33,8 @@ install_requires = [
 if 'READTHEDOCS' not in os.environ or \
         os.environ['READTHEDOCS'] != 'True':
     install_requires.extend([
-        'cython>=0.25.0, <1',
-        'numpy>=1.8, <2',
+        'cython>=0.25, <1',
+        'numpy>=1.15, <2',
     ])
 else:
     pass
@@ -165,9 +165,9 @@ setup(
              #'mock>=2.0.0, <3',
          ],
         'tests': [
-            'pytest>=2.8.5, <3',
+            'pytest>=2.8.5, <6',
             'pytest-cov>=2.2.1, <3',
-            'scipy>=1.4.1, <2',
+            'scipy>=1.1, <2',
         ],
     },
 

@@ -6,8 +6,6 @@ notifications:
   on_build_failure: false
   on_build_status_changed: false
 
-build: Script
-
 branches:
  only:
    - master
@@ -22,15 +20,15 @@ environment:
 
   matrix:
 
-    - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "32"
+    #- PYTHON: "C:\\Python35"
+    #  PYTHON_VERSION: "3.5"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "32"
 
-    - PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "64"
+    #- PYTHON: "C:\\Python35-x64"
+    #  PYTHON_VERSION: "3.5"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "64"
 
     - PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
@@ -52,30 +50,18 @@ environment:
       PYTHON_MAJOR_VERSION: "3"
       ARCH: "64"
 
-    - PYTHON: "C:\\Python38"
-      PYTHON_VERSION: "3.8"
-      PYTHON_MAJOR_VERSION: "3"
-      ARCH: "32"
+    #- PYTHON: "C:\\Python38"
+    #  PYTHON_VERSION: "3.8"
+    #  PYTHON_MAJOR_VERSION: "3"
+    #  ARCH: "32"
 
     - PYTHON: "C:\\Python38-x64"
       PYTHON_VERSION: "3.8"
       PYTHON_MAJOR_VERSION: "3"
       ARCH: "64"
 
-
-    #- PYTHON: "C:\\Python36"
-    #  PYTHON_VERSION: "3.6"
-    #  PYTHON_MAJOR_VERSION: "3"
-    #  ARCH: "32"
-
-    #- PYTHON: "C:\\Python36-x64"
-    #  PYTHON_VERSION: "3.6"
-    #  PYTHON_MAJOR_VERSION: "3"
-    #  ARCH: "64"
-
-install:
+build_script:
   # install numpy and cython for the Python environment
-  # provided by Appveyor
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install --upgrade --ignore-installed setuptools"
   - "%PYTHON%\\python.exe -m pip install wheel"
@@ -118,14 +104,11 @@ install:
 
   # activate conda environment
   - "%ACTIVATE% testenv"
-  - pip install --upgrade pip
+  - python -m pip install --upgrade pip
+  #- pip install --upgrade pip
   - pip install --upgrade --ignore-installed setuptools
   - pip install --upgrade pytest twine
   - pip install -e .
-
-  # install xlmhg
-
-build: off
 
 test_script:
   # Put your test command here.
@@ -135,6 +118,8 @@ test_script:
   # Note that you must use the environment variable %PYTHON% to refer to
   # the interpreter you're using - Appveyor does not do anything special
   # to put the Python evrsion you want to use on PATH.
+  - set "ACTIVATE=%cd%\\Miniconda\\Scripts\\activate.bat"
+  - "%ACTIVATE% testenv"
   - py.test tests/02_api/test_result.py
       tests/01_algorithms/test_correct_bound.py
       tests/01_algorithms/test_correct_stat.py

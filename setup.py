@@ -76,6 +76,7 @@ else:
         # ImportError if cython is not yet installed
         pass
 
+    macros.append(('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'))
     ext_modules.append(
         Extension(root + '.' + 'mhg_cython', [root + '/mhg_cython.pyx'],
                   include_dirs=[np.get_include()],

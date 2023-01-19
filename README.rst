@@ -22,7 +22,8 @@ Installation
 
 .. code-block:: bash
 
-    $ pip install xlmhg
+    $ setup.py build
+    $ setup.py install [--user]
 
 Getting started
 ---------------
